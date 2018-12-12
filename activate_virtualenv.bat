@@ -12,6 +12,7 @@ call pip install -r requirements.txt
 
 cmd /k 
 
+:: This part only work if running from powershell
 call pip freeze > requirements.txt
 call deactivate
 endlocal
