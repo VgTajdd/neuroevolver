@@ -13,6 +13,6 @@ call python demo.py
 call pip freeze > requirements.txt
 call deactivate
 
-cmd /k 
+::cmd /k 
 
 endlocal
