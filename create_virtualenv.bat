@@ -12,6 +12,7 @@ set pythonExe="%PYTHONHOME%\python.exe"
 set PYTHONPATH=%PYTHONHOME%;%PYTHONHOME%\Lib;%PYTHONHOME%\DLLs;%PYTHONHOME%\Lib\site-packages;%PYTHONHOME%\Scripts
 set PATH=%PYTHONPATH%;%PATH%;
 
+:: cd /d changes directly from C to without double command : "cd d:/some/route + d:"
 cd /d %CURRENT_DIR%../../
 
 echo "python Version:" 
@@ -23,5 +24,3 @@ echo "python Version:"
 endlocal
 
 echo End
-
-cmd /K 

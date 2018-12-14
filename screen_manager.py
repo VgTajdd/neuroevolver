@@ -17,4 +17,8 @@ class ScreenManager(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def updateTime(self, dt):
-        print(dt)
+        #print(dt)
+        pass #necessary because methods needs to be at least one line length
+
+    def onKeyPress(self, key):
+        print(key)
