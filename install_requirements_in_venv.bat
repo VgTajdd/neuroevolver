@@ -7,7 +7,10 @@ set CURRENT_DIR=%~dp0
 
 :: This make the same than the line above.
 call "%CURRENT_DIR%/../../venv/Scripts/activate.bat"
+::call pip list
+call pip install -r requirements.txt
+call deactivate
 
-cmd /k 
+::cmd /k 
 
 endlocal
