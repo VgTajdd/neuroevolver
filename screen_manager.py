@@ -1,24 +1,49 @@
+from enum import IntEnum
 import pygame
+import main_screen
+import simulation_screen
 
-class ScreenManager(pygame.sprite.Sprite):
-    """moves a monkey critter across the screen. it can spin the
-       monkey when it is punched."""
-    def __init__(self, width, height, color):
-        pygame.sprite.Sprite.__init__(self) #call Sprite intializer
-        #self.image, self.rect = load_image('chimp.bmp', -1)
+class ScreenType(IntEnum):
+    DEFAULT = 0
+    MAIN_MENU = 1
+    SIMULATION = 2
 
-        # Create an image of the block, and fill it with a color.
-        # This could also be an image loaded from the disk.
-        self.image = pygame.Surface([width, height])
-        self.image.fill(color)
+class ScreenManager():
+    def __init__(self, width, height):
 
-        # Fetch the rectangle object that has the dimensions of the image
-        # Update the position of this object by setting the values of rect.x and rect.y
-        self.rect = self.image.get_rect()
+        self.w = width
+        self.h = height
+        self.m_currentScreen = None
+        self.m_currentScreenType = ScreenType.DEFAULT;
+
+    def draw(self, screen):
+        pass
+
+    def gotoScreen(self, type):
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.free()
+        if type == ScreenType.GUI_MAIN_MENU:
+            self.m_currentScreen = main_screen.MainMenu(self)
+        elif type == ScreenType.GUI_SIMULATION:
+            self.m_currentScreen = simulation_screen.SimulationScreen(self)
+        self.m_currentScreenType = type
 
     def updateTime(self, dt):
-        #print(dt)
-        pass #necessary because methods needs to be at least one line length
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.updateTime(dt)
 
     def onKeyPress(self, key):
-        print(key)
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.onMouseDown(key)
+
+    def onMouseMove(self, event):
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.onMouseMove(event)
+
+    def onMouseDown(self, event):
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.onMouseDown(event)
+
+    def onMouseRelease(self, event):
+        if ( self.m_currentScreen != None ):
+            self.m_currentScreen.onMouseMove(event)
