@@ -1,5 +1,6 @@
 import pygame
 import screen_manager
+from enums import ScreenType
 
 APP_WIDTH = 800
 APP_HEIGHT = 600
@@ -16,8 +17,7 @@ clock = pygame.time.Clock()
 last_tick = pygame.time.get_ticks()
 
 m_screenManager = screen_manager.ScreenManager(APP_WIDTH, APP_HEIGHT)
-m_screenManager.gotoScreen( screen_manager.ScreenManagerType.GUI_MAIN_MENU )
-
+m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
 
 while not done:
         # limits updates to 30 frames per second (FPS)

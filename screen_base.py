@@ -1,5 +1,5 @@
 import pygame
-import screen_manager
+from enums import ScreenType
 
 class ScreenBase(pygame.sprite.LayeredDirty):
     def __init__(self, width, height, color):
@@ -17,7 +17,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         # Update the position of this object by setting the values of rect.x and rect.y
         self.rect = self.image.get_rect()'''
 
-        self.m_type = screen_manager.ScreenType.DEFAULT;
+        self.m_type = ScreenType.DEFAULT;
 
     def updateTime(self, dt):
         #print(dt)

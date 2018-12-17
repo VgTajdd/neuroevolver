@@ -1,10 +1,8 @@
 import pygame
-from screen_base import ScreenBase 
-from screen_manager import ScreenType
-import screen_manager
+from screen_base import ScreenBase
+from enums import ScreenType
 
 class MainMenu(ScreenBase):
     def __init__(self, width, height, color):
-        SreenBase.__init__(self)
-
-    self.m_type = screen_manager.ScreenType.MAIN_MENU
+        ScreenBase.__init__(self, width, height, color)
+        self.m_type = ScreenType.MAIN_MENU
