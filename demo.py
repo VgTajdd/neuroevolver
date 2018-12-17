@@ -10,10 +10,6 @@ screen = pygame.display.set_mode((APP_WIDTH, APP_HEIGHT))
 done = False
 
 clock = pygame.time.Clock()
-
-#timer_resolution = pygame.TIMER_RESOLUTION
-#print(timer_resolution)
-
 last_tick = pygame.time.get_ticks()
 
 m_screenManager = screen_manager.ScreenManager(APP_WIDTH, APP_HEIGHT)
@@ -37,6 +33,5 @@ while not done:
         m_screenManager.updateTime(pygame.time.get_ticks() - last_tick)
         last_tick = pygame.time.get_ticks()
 
-        m_screenManager.draw(screen)
-
-        pygame.display.flip()
+        dirtyRects = m_screenManager.draw(screen)
+        pygame.display.update(dirtyRects) #pygame.display.flip()

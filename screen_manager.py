@@ -11,7 +11,7 @@ class ScreenManager():
         self.m_currentScreenType = ScreenType.DEFAULT
 
     def draw(self, screen):
-        pass
+        return self.m_currentScreen.draw(screen);
 
     def gotoScreen(self, type):
         if self.m_currentScreen != None:

@@ -25,7 +25,7 @@ class Box(pygame.sprite.DirtySprite):
 
         # Necessary vars.
         self.rect.midtop = pos
-        self.dirty = 2
+        self.dirty = 2 #always updates
         self.visible = 1
         self._layer = layer
 
@@ -38,11 +38,9 @@ screen = pygame.display.set_mode((APP_WIDTH, APP_HEIGHT))
 done = False
 
 clock = pygame.time.Clock()
-
-#timer_resolution = pygame.TIMER_RESOLUTION
-#print(timer_resolution)
-
 last_tick = pygame.time.get_ticks()
+timer_resolution = pygame.TIMER_RESOLUTION
+print(timer_resolution)
 
 allsprites = pygame.sprite.LayeredDirty()
 
@@ -59,7 +57,7 @@ while not done:
         print(pygame.time.get_ticks() - last_tick)
         last_tick = pygame.time.get_ticks()
         
-        dirty=allsprites.draw(screen)
+        dirtyRects = allsprites.draw(screen)
         pygame.display.update(dirty)
         #allsprites.draw(screen)
         #pygame.display.flip()

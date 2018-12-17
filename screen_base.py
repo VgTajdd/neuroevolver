@@ -1,5 +1,6 @@
 import pygame
 from enums import ScreenType
+from actor import Actor
 
 class ScreenBase(pygame.sprite.LayeredDirty):
     def __init__(self, width, height, color):
@@ -18,6 +19,13 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         self.rect = self.image.get_rect()'''
 
         self.m_type = ScreenType.DEFAULT;
+        self.init();
+
+    def init(self):
+        self.add(Actor((100,100)))
+
+    def draw(self, screen):
+        return pygame.sprite.LayeredDirty.draw(self, screen);
 
     def updateTime(self, dt):
         #print(dt)
