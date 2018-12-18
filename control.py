@@ -3,8 +3,8 @@ from pygame.font import Font
 import colors
 
 class Control(Actor):
-    def __init__(self, pos, layer = 1):
-        Actor.__init__(self, pos, layer)
+    def __init__(self, pos, size, color = colors.WHITE, layer = 1):
+        Actor.__init__(self, pos, size, color, layer)
         self.m_mouseEventsEnabled = False
 
     def mouseEventsEnabled(self):
@@ -29,25 +29,23 @@ class Control(Actor):
         pass
 
 class Button(Control):
-    def __init__(self, pos, layer = 1):
-        Control.__init__(self, pos, layer)
+    def __init__(self, pos, size, color = colors.WHITE, layer = 1):
+        Control.__init__(self, pos, size, color, layer)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
         self.m_text = ''
 
     def setPressed(self, pressed):
         self.m_isPressed = pressed
-        if pressed: 
-            self.image.fill(colors.RED)
-        else:
-            self.image.fill(colors.RED_BROWN)
+        if pressed: self.m_color = colors.WHITE
+        else:       self.m_color = colors.RED
+        self._updateImage()
         self._updateText()
-        self.dirty = 1
 
     def setText(self, text):
         self.m_text = text
+        self._updateImage() #self.dirty = 1
         self._updateText()
-        self.dirty = 1
 
     def _updateText(self):
         if self.m_text:
@@ -76,3 +74,9 @@ class Button(Control):
 
     def onClicked(self):
         pass
+
+    def resize(self, w, h):
+        super().resize(w, h)
+        self._updateText()
+
+#Create Label

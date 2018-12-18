@@ -18,15 +18,11 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         self.m_controls.append(control)
 
     def init(self):
-        demoButton = Button((400,300))
-        demoButton.setText('Button')
-        demoButton.resize(200, 50)
-        demoButton.setPosition(100, 25)
-        self.addControl(demoButton)
+        pass
 
     def draw(self, screen):
         screen.fill(self.m_color)
-        return super().draw(screen); #same as down but it doesn't need 'self'
+        return super().draw(screen) #same as down but it doesn't need 'self'
         #return pygame.sprite.LayeredDirty.draw(self, screen);
 
     def updateTime(self, dt):
