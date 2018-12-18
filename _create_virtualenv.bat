@@ -6,7 +6,7 @@ setlocal
 
 set CURRENT_DIR=%~dp0
 
-set PYTHONHOME=D:\Compiled_libs\python\Installer\Python-3.7.1
+set PYTHONHOME=C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python36_64
 set pythonExe="%PYTHONHOME%\python.exe"
 ::set PYTHONPATH=%CURRENT_DIR%;%PYTHONHOME%;%PYTHONHOME%\Lib;%PYTHONHOME%\DLLs;%PYTHONHOME%\Lib\site-packages;%PYTHONHOME%\Scripts
 set PYTHONPATH=%PYTHONHOME%;%PYTHONHOME%\Lib;%PYTHONHOME%\DLLs;%PYTHONHOME%\Lib\site-packages;%PYTHONHOME%\Scripts
