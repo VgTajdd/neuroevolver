@@ -1,24 +1,17 @@
 import pygame
 from screen_manager import ScreenManager
 from enums import ScreenType
+import constants
 
-APP_WIDTH = 800
-APP_HEIGHT = 600
-
-pygame.init()
-screen = pygame.display.set_mode((APP_WIDTH, APP_HEIGHT))
+pygame.init() #pygame.font.init() is called here
+screen = pygame.display.set_mode((constants.APP_WIDTH, constants.APP_HEIGHT))
 done = False
 
 clock = pygame.time.Clock()
 last_tick = pygame.time.get_ticks()
 
-m_screenManager = ScreenManager(APP_WIDTH, APP_HEIGHT)
+m_screenManager = ScreenManager(constants.APP_WIDTH, constants.APP_HEIGHT)
 m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
-
-pygame.font.init() # you have to call this at the start, 
-                   # if you want to use this module.
-myfont = pygame.font.SysFont('Comic Sans MS', 20)
-textsurface = myfont.render('Demo', False, (0, 0, 0))
 
 while not done:
         # limits updates to 30 frames per second (FPS)
@@ -39,7 +32,4 @@ while not done:
         last_tick = pygame.time.get_ticks()
 
         dirtyRects = m_screenManager.draw(screen)
-        
-        screen.blit(textsurface,(0,0))
-
         pygame.display.update(dirtyRects) #pygame.display.flip()

@@ -1,4 +1,6 @@
 from actor import Actor
+from pygame.font import Font
+import colors
 
 class Control(Actor):
     def __init__(self, pos, layer = 1):
@@ -31,13 +33,32 @@ class Button(Control):
         Control.__init__(self, pos, layer)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
+        self.m_text = ''
 
     def setPressed(self, pressed):
         self.m_isPressed = pressed
         if pressed: 
-            self.image.fill((255,255,0))
+            self.image.fill(colors.RED)
         else:
-            self.image.fill((255,0,0))
+            self.image.fill(colors.RED_BROWN)
+        self._updateText()
+        self.dirty = 1
+
+    def setText(self, text):
+        self.m_text = text
+        self._updateText()
+        self.dirty = 1
+
+    def _updateText(self):
+        if self.m_text:
+            font = Font("assets/OpenSans-Regular.ttf", 16)
+            textsurface = font.render(self.m_text, False, colors.BLACK) #screen.blit(textsurface,(0,0))
+            self.image.blit(textsurface, 
+                ((self.image.get_rect().width - textsurface.get_rect().width)/2,
+                    (self.image.get_rect().height - textsurface.get_rect().height)/2))
+
+    def setImage(self, imagePath):
+        self._updateText()
         self.dirty = 1
 
     def isPressed(self):

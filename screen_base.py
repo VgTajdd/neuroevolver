@@ -18,7 +18,11 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         self.m_controls.append(control)
 
     def init(self):
-        self.addControl(Button((100,100)))
+        demoButton = Button((400,300))
+        demoButton.setText('Button')
+        demoButton.resize(200, 50)
+        demoButton.setPosition(100, 25)
+        self.addControl(demoButton)
 
     def draw(self, screen):
         screen.fill(self.m_color)
