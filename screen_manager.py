@@ -40,4 +40,4 @@ class ScreenManager():
 
     def onMouseRelease(self, event):
         if self.m_currentScreen != None:
-            self.m_currentScreen.onMouseMove(event)
+            self.m_currentScreen.onMouseRelease(event)
