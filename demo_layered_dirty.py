@@ -9,13 +9,10 @@ class Box(pygame.sprite.DirtySprite):
         # This could also be an image loaded from the disk.
         self.image = pygame.Surface([50, 50])
 
-        color = (255,0,255)
-        if layer == 1:
-                color = (255,0,0)
-        elif layer == 2:
-                color = (0,255,0)
-        elif layer == 3 :
-                color = (0,0,255)
+        color = (255, 255, 255)
+        if layer == 1:      color = (255, 0, 0) # back
+        elif layer == 2:    color = (0, 255, 0) # mid
+        elif layer == 3:    color = (0, 0, 255) # top
 
         self.image.fill(color)
 
@@ -58,6 +55,6 @@ while not done:
         last_tick = pygame.time.get_ticks()
         
         dirtyRects = allsprites.draw(screen)
-        pygame.display.update(dirty)
+        pygame.display.update(dirtyRects)
         #allsprites.draw(screen)
         #pygame.display.flip()
