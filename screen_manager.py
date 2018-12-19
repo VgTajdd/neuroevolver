@@ -6,8 +6,8 @@ import colors
 
 class ScreenManager():
     def __init__(self, width, height):
-        self.w = width
-        self.h = height
+        self.m_width = width
+        self.m_height = height
         self.m_currentScreen = None
         self.m_currentScreenType = ScreenType.DEFAULT
 
@@ -18,9 +18,9 @@ class ScreenManager():
         if self.m_currentScreen != None:
             self.m_currentScreen.free()
         if typeScreen == ScreenType.MAIN_MENU:
-            self.m_currentScreen = main_menu.MainMenu(0,0,colors.PEACH)
+            self.m_currentScreen = main_menu.MainMenu(self.m_width, self.m_height, colors.PEACH)
         elif typeScreen == ScreenType.SIMULATION:
-            self.m_currentScreen = simulation_screen.SimulationScreen(0,0,colors.PINK)
+            self.m_currentScreen = simulation_screen.SimulationScreen(self.m_width, self.m_height, colors.PINK)
         self.m_currentScreenType = typeScreen
         self.m_currentScreen.setManager(self)
 
