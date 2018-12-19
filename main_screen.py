@@ -2,6 +2,7 @@ import pygame
 from screen_base import ScreenBase
 from enums import ScreenType
 from control import Button
+from control import Label
 
 class MainMenu(ScreenBase):
     def __init__(self, width, height, color):
@@ -12,5 +13,10 @@ class MainMenu(ScreenBase):
         demoButton = Button((400,300), (100, 50))
         demoButton.setText('DemoButton')
         demoButton.resize(200, 50)
-        demoButton.setPosition(100, 25)
+        demoButton.setPosition(600, 500)
+
+        label = Label((400,300), (100, 50), 'MainMenu')
+        label.setMouseEventsEnabled(True)
+
         self.addControl(demoButton)
+        self.addControl(label)

@@ -6,6 +6,8 @@ class Control(Actor):
     def __init__(self, pos, size, color = colors.WHITE, layer = 1):
         Actor.__init__(self, pos, size, color, layer)
         self.m_mouseEventsEnabled = False
+        self.m_text = ''
+        self.m_textColor = colors.BLACK
 
     def mouseEventsEnabled(self):
         return self.m_mouseEventsEnabled
@@ -28,36 +30,41 @@ class Control(Actor):
     def onMouseRelease(self, event):
         pass
 
+    def setText(self, text):
+        self.m_text = text
+        self.repaint()
+
+    def setTextColor(self, color):
+        self.m_textColor = color
+        self.repaint()
+
+    def _updateText(self):
+        if self.m_text:
+            font = Font("assets/OpenSans-Regular.ttf", 16)
+            textsurface = font.render(self.m_text, True, self.m_textColor) 
+            self.image.blit(textsurface, #screen.blit(textsurface,(0,0))
+                ((self.image.get_rect().width - textsurface.get_rect().width)/2,
+                    (self.image.get_rect().height - textsurface.get_rect().height)/2))
+
+    def repaint(self):
+        super().repaint()   # updates surface and make self dirty = 1.
+        self._updateText()  # draws text in current surface.
+
+    def setImage(self, imagePath):
+        pass
+
+
 class Button(Control):
     def __init__(self, pos, size, color = colors.WHITE, layer = 1):
         Control.__init__(self, pos, size, color, layer)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
-        self.m_text = ''
 
     def setPressed(self, pressed):
         self.m_isPressed = pressed
-        if pressed: self.m_color = colors.WHITE
-        else:       self.m_color = colors.RED
-        self._updateImage()
-        self._updateText()
-
-    def setText(self, text):
-        self.m_text = text
-        self._updateImage() #self.dirty = 1
-        self._updateText()
-
-    def _updateText(self):
-        if self.m_text:
-            font = Font("assets/OpenSans-Regular.ttf", 16)
-            textsurface = font.render(self.m_text, False, colors.BLACK) #screen.blit(textsurface,(0,0))
-            self.image.blit(textsurface, 
-                ((self.image.get_rect().width - textsurface.get_rect().width)/2,
-                    (self.image.get_rect().height - textsurface.get_rect().height)/2))
-
-    def setImage(self, imagePath):
-        self._updateText()
-        self.dirty = 1
+        if pressed: self.m_color = colors.GREY_BLUE
+        else:       self.m_color = colors.WHITE
+        self.repaint()
 
     def isPressed(self):
         return self.m_isPressed
@@ -75,8 +82,12 @@ class Button(Control):
     def onClicked(self):
         pass
 
-    def resize(self, w, h):
-        super().resize(w, h)
-        self._updateText()
 
-#Create Label
+class Label(Control):
+    def __init__(self, pos, size, text = '', color = colors.WHITE, layer = 1):
+        Control.__init__(self, pos, size, color, layer)
+        Control.setMouseEventsEnabled(self, True)
+        Control.setText(self, text)
+
+    def updateTime(self, dt):
+        self.setPosition(self.m_position[0] + 1, self.m_position[1])

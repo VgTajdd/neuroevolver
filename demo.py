@@ -27,7 +27,9 @@ while not done:
                         m_screenManager.onMouseDown(event)
                 if event.type == pygame.MOUSEBUTTONUP:
                         m_screenManager.onMouseRelease(event)
-        
+                if event.type == pygame.VIDEOEXPOSE:
+                        m_screenManager.forceRedraw()
+
         m_screenManager.updateTime(pygame.time.get_ticks() - last_tick)
         last_tick = pygame.time.get_ticks()
 

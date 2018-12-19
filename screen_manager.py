@@ -42,3 +42,7 @@ class ScreenManager():
     def onMouseRelease(self, event):
         if self.m_currentScreen != None:
             self.m_currentScreen.onMouseRelease(event)
+
+    def forceRedraw(self):
+        if self.m_currentScreen:
+            self.m_currentScreen.forceRedraw()

@@ -3,19 +3,12 @@ import colors
 
 class Actor(pygame.sprite.DirtySprite):
     def __init__(self, pos, size, color = colors.WHITE, layer = 1):
+        pygame.sprite.DirtySprite.__init__(self)
         self.m_hasImage = False
         self.m_size = size
         self.m_position = pos
         self.m_color = color
-
-        pygame.sprite.DirtySprite.__init__(self)
         self._updateImage()
-        #self.image = pygame.Surface([50, 50])
-        #self.image.fill(colors.RED_BROWN)
-        #self.rect = self.image.get_rect()
-        #self.rect.center = pos
-
-        #self.dirty = 1
         self.visible = 1
         self._layer = layer
 
@@ -28,7 +21,6 @@ class Actor(pygame.sprite.DirtySprite):
             self.image.fill(self.m_color)
             self.rect = self.image.get_rect()
             self.rect.center = self.m_position
-        self.dirty = 1
 
     def setPosition(self, x, y):
         self.m_position = x, y
@@ -37,8 +29,13 @@ class Actor(pygame.sprite.DirtySprite):
 
     def resize(self, w, h):
         self.m_size = w, h
-        if self.image:
+        '''if self.image: #use this with loaded images
             self.image = pygame.transform.scale(self.image, (w, h))
             self.rect.w = w
-            self.rect.h = h
-        self.dirty = 1
+            self.rect.h = h'''
+        self.repaint()
+
+    def repaint(self):
+        self._updateImage() # this only updates the surface.
+        self.dirty = 1      # this only makes the screen get drawn the 
+                            # current surface in the next update.

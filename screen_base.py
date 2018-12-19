@@ -46,3 +46,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         for control in self.m_controls:
             if control.mouseEventsEnabled():
                 control.onMouseRelease(event)
+
+    def forceRedraw(self):
+        for control in self.m_controls:
+            control.dirty = 1
