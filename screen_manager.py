@@ -22,6 +22,7 @@ class ScreenManager():
         elif typeScreen == ScreenType.SIMULATION:
             self.m_currentScreen = simulation_screen.SimulationScreen(0,0,colors.PINK)
         self.m_currentScreenType = typeScreen
+        self.m_currentScreen.setManager(self)
 
     def updateTime(self, dt):
         if self.m_currentScreen != None:

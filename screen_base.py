@@ -11,7 +11,11 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         self.m_height = height
         self.m_width = width
         self.m_color = color
+        self.m_manager = None
         self.init()
+
+    def setManager(self, manager):
+        self.m_manager = manager
 
     def addControl(self, control):
         self.add(control)
@@ -19,6 +23,11 @@ class ScreenBase(pygame.sprite.LayeredDirty):
 
     def init(self):
         pass
+
+    def free(self):
+        self.m_controls.clear()
+        self.m_controls = None
+        self.m_manager = None
 
     def draw(self, screen):
         screen.fill(self.m_color)

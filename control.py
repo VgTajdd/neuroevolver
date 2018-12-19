@@ -59,6 +59,7 @@ class Button(Control):
         Control.__init__(self, pos, size, color, layer)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
+        self.m_callback = None
 
     def setPressed(self, pressed):
         self.m_isPressed = pressed
@@ -80,8 +81,11 @@ class Button(Control):
             self.onClicked()
 
     def onClicked(self):
-        pass
+        if self.m_callback != None:
+            self.m_callback()
 
+    def setCallback(self, callback):
+        self.m_callback = callback
 
 class Label(Control):
     def __init__(self, pos, size, text = '', color = colors.WHITE, layer = 1):

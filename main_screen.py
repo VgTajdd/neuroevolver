@@ -14,9 +14,13 @@ class MainMenu(ScreenBase):
         demoButton.setText('DemoButton')
         demoButton.resize(200, 50)
         demoButton.setPosition(600, 500)
+        demoButton.setCallback(self.gotoSimulation)
 
         label = Label((400,300), (100, 50), 'MainMenu')
         label.setMouseEventsEnabled(True)
 
         self.addControl(demoButton)
         self.addControl(label)
+
+    def gotoSimulation(self):
+        self.m_manager.gotoScreen(ScreenType.SIMULATION)
