@@ -1,6 +1,6 @@
 import pygame
 from enums import ScreenType
-import main_screen
+import main_menu
 import simulation_screen
 import colors
 
@@ -18,7 +18,7 @@ class ScreenManager():
         if self.m_currentScreen != None:
             self.m_currentScreen.free()
         if typeScreen == ScreenType.MAIN_MENU:
-            self.m_currentScreen = main_screen.MainMenu(0,0,colors.PEACH)
+            self.m_currentScreen = main_menu.MainMenu(0,0,colors.PEACH)
         elif typeScreen == ScreenType.SIMULATION:
             self.m_currentScreen = simulation_screen.SimulationScreen(0,0,colors.PINK)
         self.m_currentScreenType = typeScreen
