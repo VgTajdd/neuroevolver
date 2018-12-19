@@ -7,3 +7,6 @@ class SimulationBase():
         self.m_width = width
         self.m_height = height
         self.m_container = container
+
+    def draw(self, screen):
+        return []

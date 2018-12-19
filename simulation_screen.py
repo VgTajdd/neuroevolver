@@ -20,3 +20,9 @@ class SimulationScreen(ScreenBase):
 
     def createHud(self):
         self.m_hud = HudBase(self.m_width, self.m_height)
+
+    def draw(self, screen):
+        screen.fill(self.m_color)
+        dirtyRectsA = pygame.sprite.LayeredDirty.draw(self.m_hud, screen)
+        dirtyRectsB = self.m_simulation.draw(screen)
+        return dirtyRectsA + dirtyRectsB
