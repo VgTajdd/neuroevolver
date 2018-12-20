@@ -8,6 +8,7 @@ class Actor(pygame.sprite.DirtySprite):
         self.m_size = size
         self.m_position = pos
         self.m_color = color
+        self.m_alpha = 255
         self._updateImage()
         self.visible = 1
         self._layer = layer
@@ -17,8 +18,11 @@ class Actor(pygame.sprite.DirtySprite):
             pass
             #TODO
         else:
-            self.image = pygame.Surface(self.m_size)
-            self.image.fill(self.m_color)
+            #self.image = pygame.Surface(self.m_size)
+            #self.image.fill(self.m_color)
+            self.image = pygame.Surface(self.m_size, pygame.SRCALPHA) # per-pixel alpha
+            #self.image.fill((self.m_color[0], self.m_color[1], self.m_color[2], 128))
+            self.image.fill(self.m_color + (self.m_alpha,))
             self.rect = self.image.get_rect()
             self.rect.center = self.m_position
 

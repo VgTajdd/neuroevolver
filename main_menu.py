@@ -16,8 +16,7 @@ class MainMenu(ScreenBase):
         demoButton.setPosition(600, 500)
         demoButton.setCallback(self.gotoSimulation)
 
-        label = Label((400,300), (100, 50), 'MainMenu')
-        label.setMouseEventsEnabled(True)
+        label = Label((400,300), (100, 50), 'MainMenu', alpha = 128)
 
         self.addControl(demoButton)
         self.addControl(label)

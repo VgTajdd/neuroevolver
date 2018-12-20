@@ -11,6 +11,9 @@ class SimulationScreen(ScreenBase):
         ScreenBase.__init__(self, width, height, color)
         self.m_type = ScreenType.SIMULATION
 
+    def setManager(self, manager):
+        self.m_hud.setManager(manager)
+
     def init(self):
         self.createSimulation()
         self.createHud()
@@ -26,3 +29,20 @@ class SimulationScreen(ScreenBase):
         dirtyRectsA = pygame.sprite.LayeredDirty.draw(self.m_hud, screen)
         dirtyRectsB = self.m_simulation.draw(screen)
         return dirtyRectsA + dirtyRectsB
+
+    def onMouseMove(self, event):
+        self.m_hud.onMouseMove(event)
+
+    def onMouseDown(self, event):
+        self.m_hud.onMouseDown(event)
+
+    def onMouseRelease(self, event):
+        self.m_hud.onMouseRelease(event)
+
+    def forceRedraw(self):
+        self.m_hud.forceRedraw()
+        self.m_simulation.forceRedraw()
+
+    def free(self):
+        self.m_simulation.free()
+        self.m_hud.free()

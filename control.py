@@ -88,9 +88,9 @@ class Button(Control):
         self.m_callback = callback
 
 class Label(Control):
-    def __init__(self, pos, size, text = '', color = colors.WHITE, layer = 1):
+    def __init__(self, pos, size, text, color = colors.WHITE, alpha = 0, layer = 1):
         Control.__init__(self, pos, size, color, layer)
-        Control.setMouseEventsEnabled(self, True)
+        self.m_alpha = alpha
         Control.setText(self, text)
 
     def updateTime(self, dt):

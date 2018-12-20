@@ -7,6 +7,13 @@ class SimulationBase():
         self.m_width = width
         self.m_height = height
         self.m_container = container
+        print(self.m_container)
 
     def draw(self, screen):
-        return []
+        return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
+   
+    def forceRedraw(self):
+        pass
+
+    def free(self):
+        self.m_container = None
