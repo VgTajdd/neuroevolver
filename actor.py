@@ -4,27 +4,36 @@ import colors
 class Actor(pygame.sprite.DirtySprite):
     def __init__(self, pos, size, color = colors.WHITE, layer = 1):
         pygame.sprite.DirtySprite.__init__(self)
-        self.m_hasImage = False
+        self.m_imagePath = ''
         self.m_size = size
         self.m_position = pos
         self.m_color = color
         self.m_alpha = 255
+        self.m_supportAlpha = True
         self._updateImage()
         self.visible = 1
         self._layer = layer
 
     def _updateImage(self):
-        if self.m_hasImage:
-            pass
-            #TODO
+        if self.m_imagePath:
+            if self.m_supportAlpha:
+                self.image = pygame.image.load(self.m_imagePath).convert_alpha()
+            else:
+                self.image = pygame.image.load(self.m_imagePath).convert()
+            self.image = pygame.transform.smoothscale(self.image, self.m_size)
         else:
-            #self.image = pygame.Surface(self.m_size)
-            #self.image.fill(self.m_color)
-            self.image = pygame.Surface(self.m_size, pygame.SRCALPHA) # per-pixel alpha
-            #self.image.fill((self.m_color[0], self.m_color[1], self.m_color[2], 128))
-            self.image.fill(self.m_color + (self.m_alpha,))
+            if self.m_supportAlpha:
+                self.image = pygame.Surface(self.m_size, pygame.SRCALPHA) # per-pixel alpha
+                self.image.fill(self.m_color + (self.m_alpha,))
+            else:
+                self.image = pygame.Surface(self.m_size)
+                self.image.fill(self.m_color)
             self.rect = self.image.get_rect()
             self.rect.center = self.m_position
+
+    def setImage(self, imagePath):
+        self.m_imagePath = imagePath
+        self.repaint()
 
     def setPosition(self, x, y):
         self.m_position = x, y
@@ -33,10 +42,6 @@ class Actor(pygame.sprite.DirtySprite):
 
     def resize(self, w, h):
         self.m_size = w, h
-        '''if self.image: #use this with loaded images
-            self.image = pygame.transform.scale(self.image, (w, h))
-            self.rect.w = w
-            self.rect.h = h'''
         self.repaint()
 
     def repaint(self):

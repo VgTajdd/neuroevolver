@@ -9,6 +9,7 @@ class Hud(HudBase):
     def init(self):
         self.addText((75,50), (100, 50), 'HudText')
         self.addButton((725,50), (100, 50), 'BackButton', self.gotoMainMenu)
+        self.addImage((400,300), (100, 100), "assets/imageqt.png")
 
     def gotoMainMenu(self):
         self.m_manager.gotoScreen(ScreenType.MAIN_MENU)

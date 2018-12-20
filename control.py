@@ -50,10 +50,6 @@ class Control(Actor):
         super().repaint()   # updates surface and make self dirty = 1.
         self._updateText()  # draws text in current surface.
 
-    def setImage(self, imagePath):
-        pass
-
-
 class Button(Control):
     def __init__(self, pos, size, color = colors.WHITE, layer = 1):
         Control.__init__(self, pos, size, color, layer)
@@ -95,3 +91,11 @@ class Label(Control):
 
     def updateTime(self, dt):
         self.setPosition(self.m_position[0] + 1, self.m_position[1])
+
+class Image(Control):
+    def __init__(self, pos, size, imagePath, color = colors.WHITE, alpha = 255, layer = 1):
+        Control.__init__(self, pos, size, color, layer)
+        Control.setImage(self, imagePath)
+
+    def updateTime(self, dt):
+        self.setPosition(self.m_position[0], self.m_position[1] + 1)
