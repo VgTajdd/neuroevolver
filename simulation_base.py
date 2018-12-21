@@ -24,5 +24,7 @@ class SimulationBase():
 
     def free(self):
         self.m_container = None
+        for actor in self.m_actors:
+            actor.free()
         self.m_actors.clear()
         self.m_actors = None

@@ -7,4 +7,4 @@ class SimulationSteering(SimulationBase):
         self.init()
 
     def init(self):
-        self.addActor(ActorSteering((100,100), (50, 50)));
+        self.addActor(ActorSteering((100,100), (50, 50), imagePath = "assets/actor0.png"));

@@ -3,8 +3,8 @@ from pygame.font import Font
 import colors
 
 class Control(Actor):
-    def __init__(self, pos, size, color = colors.WHITE, layer = 1):
-        Actor.__init__(self, pos, size, color, layer)
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+        Actor.__init__(self, pos, size, color, imagePath, alpha, layer)
         self.m_mouseEventsEnabled = False
         self.m_text = ''
         self.m_textColor = colors.BLACK
@@ -16,7 +16,7 @@ class Control(Actor):
         self.m_mouseEventsEnabled = value
 
     def updateTime(self, dt):
-        pass #necessary because methods needs to be at least one line length
+        pass # necessary because methods needs to be at least one line length
 
     def onKeyPress(self, key):
         pass
@@ -51,8 +51,8 @@ class Control(Actor):
         self._updateText()  # draws text in current surface.
 
 class Button(Control):
-    def __init__(self, pos, size, color = colors.WHITE, layer = 1):
-        Control.__init__(self, pos, size, color, layer)
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+        Control.__init__(self, pos, size, color, imagePath, alpha, layer)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
         self.m_callback = None
@@ -85,17 +85,15 @@ class Button(Control):
 
 class Label(Control):
     def __init__(self, pos, size, text, color = colors.WHITE, alpha = 0, layer = 1):
-        Control.__init__(self, pos, size, color, layer)
-        self.m_alpha = alpha
+        Control.__init__(self, pos, size, color = color, alpha = alpha, layer = layer)
         Control.setText(self, text)
 
-    #def updateTime(self, dt):
-    #    self.setPosition(self.m_position[0] + 1, self.m_position[1])
+    def updateTime(self, dt):
+        self.setPosition(self.m_position[0] + 1, self.m_position[1])
 
 class Image(Control):
     def __init__(self, pos, size, imagePath, color = colors.WHITE, alpha = 255, layer = 1):
-        Control.__init__(self, pos, size, color, layer)
-        Control.setImage(self, imagePath)
+        Control.__init__(self, pos, size, color, imagePath, alpha, layer)
 
-    #def updateTime(self, dt):
-    #    self.setPosition(self.m_position[0], self.m_position[1] + 1)
+    def updateTime(self, dt):
+        self.setPosition(self.m_position[0], self.m_position[1] + 1)

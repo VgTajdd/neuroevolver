@@ -27,6 +27,8 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         pass
 
     def free(self):
+        for control in self.m_controls:
+            control.free()
         self.m_controls.clear()
         self.m_controls = None
         self.m_manager = None
@@ -62,19 +64,19 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         for control in self.m_controls:
             control.dirty = 1
 
-    def addButton(self, pos, size, text, callback, color = colors.WHITE):
-        btn = Button(pos, size, color = color, layer = 100)
+    def addButton(self, pos, size, text, callback, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+        btn = Button(pos, size, color = color, imagePath = imagePath, alpha = alpha, layer = layer)
         btn.setText(text)
         btn.setCallback(callback)
         self.addControl(btn)
         return btn
 
-    def addLabel(self, pos, size, text, alpha = 0):
-        label = Label(pos, size, text, layer = 100)
+    def addLabel(self, pos, size, text, alpha = 0, layer = 1):
+        label = Label(pos, size, text, alpha = alpha, layer = layer)
         self.addControl(label)
         return label
 
-    def addImage(self, pos, size, imagePath, color = colors.WHITE, alpha = 0):
-        image = Image(pos, size, imagePath, color, alpha, layer = 100)
+    def addImage(self, pos, size, imagePath, color = colors.WHITE, alpha = 255, layer = 1):
+        image = Image(pos, size, imagePath, color, alpha, layer = layer)
         self.addControl(image)
         return image
