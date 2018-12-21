@@ -7,7 +7,7 @@ class Hud(HudBase):
         HudBase.__init__(self, width, height)
 
     def init(self):
-        self.addText((75,50), (100, 50), 'HudText')
+        self.addLabel((75,50), (100, 50), 'HudText')
         self.addButton((725,50), (100, 50), 'BackButton', self.gotoMainMenu)
         self.addImage((400,300), (100, 100), "assets/imageqt.png")
 

@@ -1,7 +1,9 @@
 import pygame
 from enums import ScreenType
-from control import Control
+from control import Label
 from control import Button
+from control import Image
+import colors
 
 class ScreenBase(pygame.sprite.LayeredDirty):
     def __init__(self, width, height, color):
@@ -59,3 +61,20 @@ class ScreenBase(pygame.sprite.LayeredDirty):
     def forceRedraw(self):
         for control in self.m_controls:
             control.dirty = 1
+
+    def addButton(self, pos, size, text, callback, color = colors.WHITE):
+        btn = Button(pos, size, color = color, layer = 100)
+        btn.setText(text)
+        btn.setCallback(callback)
+        self.addControl(btn)
+        return btn
+
+    def addLabel(self, pos, size, text, alpha = 0):
+        label = Label(pos, size, text, layer = 100)
+        self.addControl(label)
+        return label
+
+    def addImage(self, pos, size, imagePath, color = colors.WHITE, alpha = 0):
+        image = Image(pos, size, imagePath, color, alpha, layer = 100)
+        self.addControl(image)
+        return image

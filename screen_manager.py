@@ -30,7 +30,7 @@ class ScreenManager():
 
     def onKeyPress(self, key):
         if self.m_currentScreen != None:
-            self.m_currentScreen.onMouseDown(key)
+            self.m_currentScreen.onKeyPress(key)
 
     def onMouseMove(self, event):
         if self.m_currentScreen != None:
@@ -45,5 +45,5 @@ class ScreenManager():
             self.m_currentScreen.onMouseRelease(event)
 
     def forceRedraw(self):
-        if self.m_currentScreen:
+        if self.m_currentScreen != None:
             self.m_currentScreen.forceRedraw()
