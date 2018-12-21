@@ -19,7 +19,7 @@ class Control(Actor):
         pass #necessary because methods needs to be at least one line length
 
     def onKeyPress(self, key):
-        pass #necessary because methods needs to be at least one line length
+        pass
 
     def onMouseMove(self, event):
         pass
@@ -41,7 +41,7 @@ class Control(Actor):
     def _updateText(self):
         if self.m_text:
             font = Font("assets/OpenSans-Regular.ttf", 16)
-            textsurface = font.render(self.m_text, True, self.m_textColor) 
+            textsurface = font.render(self.m_text, True, self.m_textColor)
             self.image.blit(textsurface, #screen.blit(textsurface,(0,0))
                 ((self.image.get_rect().width - textsurface.get_rect().width)/2,
                     (self.image.get_rect().height - textsurface.get_rect().height)/2))
@@ -89,13 +89,13 @@ class Label(Control):
         self.m_alpha = alpha
         Control.setText(self, text)
 
-    def updateTime(self, dt):
-        self.setPosition(self.m_position[0] + 1, self.m_position[1])
+    #def updateTime(self, dt):
+    #    self.setPosition(self.m_position[0] + 1, self.m_position[1])
 
 class Image(Control):
     def __init__(self, pos, size, imagePath, color = colors.WHITE, alpha = 255, layer = 1):
         Control.__init__(self, pos, size, color, layer)
         Control.setImage(self, imagePath)
 
-    def updateTime(self, dt):
-        self.setPosition(self.m_position[0], self.m_position[1] + 1)
+    #def updateTime(self, dt):
+    #    self.setPosition(self.m_position[0], self.m_position[1] + 1)

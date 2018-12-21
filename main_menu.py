@@ -1,4 +1,3 @@
-import pygame
 from screen_base import ScreenBase
 from enums import ScreenType
 

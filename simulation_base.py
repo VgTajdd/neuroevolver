@@ -9,17 +9,18 @@ class SimulationBase():
 
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
-    
+
     def updateTime(self, dt):
-        pass
+        for actor in self.m_actors:
+            actor.update(dt)
 
     def forceRedraw(self):
         for actor in self.m_actors:
             actor.dirty = 1
 
     def addActor(self, actor):
-        self.add(actor)
-        self.m_controls.append(actor)
+        self.m_container.add(actor)
+        self.m_actors.append(actor)
 
     def free(self):
         self.m_container = None

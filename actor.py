@@ -46,5 +46,8 @@ class Actor(pygame.sprite.DirtySprite):
 
     def repaint(self):
         self._updateImage() # this only updates the surface.
-        self.dirty = 1      # this only makes the screen get drawn the 
+        self.dirty = 1      # this only makes the screen get drawn the
                             # current surface in the next update.
+
+    def update(self, dt):
+        pass
