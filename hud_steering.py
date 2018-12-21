@@ -2,7 +2,7 @@ import pygame
 from hud_base import HudBase
 from enums import ScreenType
 
-class Hud(HudBase):
+class HudSteering(HudBase):
     def __init__(self, width, height):
         HudBase.__init__(self, width, height)
 
