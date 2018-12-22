@@ -15,7 +15,7 @@ m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
 
 while not done:
         # limits updates to 30 frames per second (FPS)
-        clock.tick(30)
+        clock.tick(60)
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         done = True

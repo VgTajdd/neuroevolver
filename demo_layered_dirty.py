@@ -22,7 +22,8 @@ class Box(pygame.sprite.DirtySprite):
 
         # Necessary vars.
         self.rect.midtop = pos
-        self.dirty = 2 #always updates
+        #self.dirty = 2 #always updates
+        self.dirty = 1
         self.visible = 1
         self._layer = layer
 
@@ -50,10 +51,10 @@ while not done:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                         box = Box(event.pos, event.button)
                         allsprites.add(box)
-        
-        print(pygame.time.get_ticks() - last_tick)
+
+        #print('dt=' + pygame.time.get_ticks() - last_tick)
         last_tick = pygame.time.get_ticks()
-        
+
         dirtyRects = allsprites.draw(screen)
         pygame.display.update(dirtyRects)
         #allsprites.draw(screen)

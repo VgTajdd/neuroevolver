@@ -88,12 +88,12 @@ class Label(Control):
         Control.__init__(self, pos, size, color = color, alpha = alpha, layer = layer)
         Control.setText(self, text)
 
-    def updateTime(self, dt):
-        self.setPosition(self.m_position[0] + 1, self.m_position[1])
+    #def updateTime(self, dt):
+    #    self.setPosition(self.m_position[0] + 1, self.m_position[1])
 
 class Image(Control):
     def __init__(self, pos, size, imagePath, color = colors.WHITE, alpha = 255, layer = 1):
         Control.__init__(self, pos, size, color, imagePath, alpha, layer)
 
-    def updateTime(self, dt):
-        self.setPosition(self.m_position[0], self.m_position[1] + 1)
+    #def updateTime(self, dt):
+    #    self.setPosition(self.m_position[0], self.m_position[1] + 1)

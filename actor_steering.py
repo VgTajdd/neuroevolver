@@ -3,8 +3,8 @@ from pygame.math import Vector2
 import colors
 
 class ActorSteering(Actor):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', layer = 1):
-        Actor.__init__(self, pos, size, color, imagePath, layer)
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+        Actor.__init__(self, pos, size, color, imagePath, alpha, layer)
 
         # Movement vars
         self.m_maxSpeed = 4.0
@@ -12,6 +12,8 @@ class ActorSteering(Actor):
         self.m_velocity = Vector2(-1,-10)
         self.m_acceleration = Vector2()
         self.m_target = Vector2(200, 200)
+
+        self.m_imageDirection = Vector2(0,-1)
 
     def updateMovement(self, dt):
         # Update velocity
@@ -27,8 +29,8 @@ class ActorSteering(Actor):
             self.m_acceleration.scale_to_length(0);
 
     def seek(self):
-        desired = self.m_target - Vector2(self.m_position)
-        desired.scale_to_length(self.m_maxSpeed)
+        desired = self.m_target - self.m_position
+        #desired.scale_to_length(self.m_maxSpeed)
         steer = desired - self.m_velocity
         if steer.length() > self.m_maxForce:
             steer.scale_to_length(self.m_maxForce)
@@ -37,7 +39,7 @@ class ActorSteering(Actor):
     def update(self, dt):
         self.seek()
         self.updateMovement(dt)
-        self.setAngle(self.m_velocity.angle_to(Vector2()) - 90)
+        self.setAngle(self.m_velocity.angle_to(self.m_imageDirection))
 
     def applyForce(self, force):
         self.m_acceleration = self.m_acceleration + force
