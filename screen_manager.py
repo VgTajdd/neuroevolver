@@ -20,7 +20,7 @@ class ScreenManager():
         if typeScreen == ScreenType.MAIN_MENU:
             self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.PEACH)
         elif typeScreen == ScreenType.SIMULATION:
-            self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.PINK)
+            self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.WHITE)
         self.m_currentScreenType = typeScreen
         self.m_currentScreen.setManager(self)
 

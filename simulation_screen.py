@@ -26,8 +26,10 @@ class SimulationScreen(ScreenBase):
 
     def draw(self, screen):
         screen.fill(self.m_color)
-        dirtyRectsA = pygame.sprite.LayeredDirty.draw(self.m_hud, screen)
+        # It's very important to respect this order of drawing because of those are differents
+        # LayeredDirty classes and the only way to control that Hud is always on is this way.
         dirtyRectsB = self.m_simulation.draw(screen)
+        dirtyRectsA = pygame.sprite.LayeredDirty.draw(self.m_hud, screen)
         return dirtyRectsA + dirtyRectsB
 
     def updateTime(self, dt):
