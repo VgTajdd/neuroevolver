@@ -13,6 +13,7 @@ class Actor(pygame.sprite.DirtySprite):
         self._updateImage()
         self.visible = 1
         self._layer = layer
+        self.dirty = 2
         # Rotation vars.
         self._imageCache = None
         self.m_angle = 0
@@ -41,7 +42,7 @@ class Actor(pygame.sprite.DirtySprite):
     def setPosition(self, x, y):
         self.m_position = x, y
         self.rect.center = x, y
-        self.dirty = 2
+        #self.dirty = 1
 
     def resize(self, w, h):
         self.m_size = w, h
@@ -49,7 +50,7 @@ class Actor(pygame.sprite.DirtySprite):
 
     def repaint(self):
         self._updateImage() # this only updates the surface.
-        self.dirty = 2      # this only makes the screen get drawn the
+        #self.dirty = 1      # this only makes the screen get drawn the
                             # current surface in the next update.
 
     def update(self, dt):
@@ -62,7 +63,7 @@ class Actor(pygame.sprite.DirtySprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.m_position
         self.m_angle = angle
-        self.dirty = 2
+        #self.dirty = 1
 
     def free(self):
         self._imageCache = None

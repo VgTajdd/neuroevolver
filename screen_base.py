@@ -62,7 +62,8 @@ class ScreenBase(pygame.sprite.LayeredDirty):
 
     def forceRedraw(self):
         for control in self.m_controls:
-            control.dirty = 1
+            #control.dirty = 1
+            pass
 
     def addButton(self, pos, size, text, callback, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         btn = Button(pos, size, color = color, imagePath = imagePath, alpha = alpha, layer = layer)

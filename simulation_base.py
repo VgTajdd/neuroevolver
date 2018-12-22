@@ -16,7 +16,8 @@ class SimulationBase():
 
     def forceRedraw(self):
         for actor in self.m_actors:
-            actor.dirty = 1
+            #actor.dirty = 1
+            pass
 
     def addActor(self, actor):
         self.m_container.add(actor)
