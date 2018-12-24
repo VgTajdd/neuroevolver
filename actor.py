@@ -39,9 +39,17 @@ class Actor(pygame.sprite.DirtySprite):
         self.m_imagePath = imagePath
         self.repaint()
 
-    def setPosition(self, x, y):
-        self.m_position = x, y
-        self.rect.center = x, y
+    def setPosition(self, x_or_pair, y = None):
+        x_input = 0
+        y_input = 0
+        if y == None:
+            x_input = x_or_pair[0]
+            y_input = x_or_pair[1]
+        else:
+            x_input = x_or_pair
+            y_input = y
+        self.m_position = x_input, y_input
+        self.rect.center = x_input, y_input
         #self.dirty = 1
 
     def resize(self, w, h):
