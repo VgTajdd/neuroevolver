@@ -32,6 +32,12 @@ class SteeringBehaviour():
             print("Not valid behaviour component added.")
             return
 
+        isNecessaryTargetActor = type is SteeringBehaviourType.PURSUIT or type is SteeringBehaviourType.EVADE
+
+        if targetActor is None and isNecessaryTargetActor:
+            print("Not valid behaviour component added.")
+            return
+
         component = BehaviourComponent(type)
         component.m_targetActor = targetActor
         component.m_targetPosition = targetPosition
@@ -52,8 +58,8 @@ class BehaviourComponent():
         self.m_type = type
 
         # Constants.
-        self.m_steeringConstant = 0.001
-        self.m_steeringRadious = 500
+        self.m_steeringConstant = 0.01
+        self.m_steeringRadious = 0 #500
 
         # Temporal vars.
         self.m_actualDistanceToTarget = 0
@@ -77,10 +83,11 @@ class BehaviourComponent():
             self.m_targetPosition = self.m_targetActor.m_position
 
     def update(self, dt):
+        #if self.m_type is SteeringBehaviourType.SEEK or self.m_type is SteeringBehaviourType.FLEE:
         self.updateTargetPosition()
 
+        self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
         if self.m_steeringRadious > 0:
-            self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
             if self.m_actualDistanceToTarget > self.m_steeringRadious:
                 return
 
@@ -91,9 +98,9 @@ class BehaviourComponent():
             elif self.m_type == SteeringBehaviourType.FLEE:
                 Steering.flee(self.m_actor, self.m_targetPosition, self.m_steeringConstant)
             elif self.m_type == SteeringBehaviourType.PURSUIT:
-                Steering.pursuit(self.m_actor, self.m_targetPosition, self.m_steeringConstant)
+                Steering.pursuit(self.m_actor, self.m_targetActor, self.m_steeringConstant)
             elif self.m_type == SteeringBehaviourType.EVADE:
-                Steering.evade(self.m_actor, self.m_targetPosition, self.m_steeringConstant)
+                Steering.evade(self.m_actor, self.m_targetActor, self.m_steeringConstant)
 
     def free(self):
         self.m_targetActor = None
