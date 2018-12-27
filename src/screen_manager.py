@@ -1,8 +1,8 @@
 import pygame
-from enums import ScreenType
+from constants.enums import ScreenType
 from main_menu import MainMenu
 from simulation_screen_steering import SimulationScreenSteering
-import colors
+import constants.colors as colors
 
 class ScreenManager():
     def __init__(self, width, height):

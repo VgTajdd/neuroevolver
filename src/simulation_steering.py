@@ -1,8 +1,8 @@
 from simulation_base import SimulationBase
 from actor_steering import ActorSteering
-from enums import SteeringBehaviourType
+from constants.enums import SteeringBehaviourType
 from actor import Actor
-import colors
+import constants.colors as colors
 
 class SimulationSteering(SimulationBase):
     def __init__(self, container, width, height):

@@ -1,5 +1,5 @@
 import pygame
-import colors
+import constants.colors as colors
 
 class Actor(pygame.sprite.DirtySprite):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):

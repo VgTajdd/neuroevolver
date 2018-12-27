@@ -1,5 +1,5 @@
 from pygame.math import Vector2
-from enums import SteeringBehaviourType
+from constants.enums import SteeringBehaviourType
 from steering import Steering
 
 class SteeringBehaviour():

@@ -1,9 +1,9 @@
 import pygame
-from enums import ScreenType
+from constants.enums import ScreenType
 from control import Label
 from control import Button
 from control import Image
-import colors
+import constants.colors as colors
 
 class ScreenBase(pygame.sprite.LayeredDirty):
     def __init__(self, width, height, color):

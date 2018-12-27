@@ -1,6 +1,6 @@
 import pygame
 from screen_base import ScreenBase
-from enums import ScreenType
+from constants.enums import ScreenType
 from simulation_base import SimulationBase
 from hud_base import HudBase
 

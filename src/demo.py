@@ -1,7 +1,7 @@
 import pygame
 from screen_manager import ScreenManager
-from enums import ScreenType
-import constants
+from constants.enums import ScreenType
+import constants.constants as constants
 
 pygame.init() #pygame.font.init() is called here
 screen = pygame.display.set_mode((constants.APP_WIDTH, constants.APP_HEIGHT))
