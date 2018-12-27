@@ -1,8 +1,8 @@
 import pygame
-from simulation_screen import SimulationScreen
-from constants.enums import ScreenType
-from simulation_steering import SimulationSteering
-from hud_steering import HudSteering
+from core.simulation_screen import SimulationScreen
+from enums import ScreenType
+from steering.simulation_steering import SimulationSteering
+from steering.hud_steering import HudSteering
 
 class SimulationScreenSteering(SimulationScreen):
     def __init__(self, width, height, color):

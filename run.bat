@@ -9,6 +9,6 @@ call "%CURRENT_DIR%/../../venv/Scripts/activate.bat"
 :: Python use this path as reference for relative paths. e.g. "assets/x.png"
 cd /d "%CURRENT_DIR%/src"
 
-call python demo.py
+call python main.py
 call deactivate
 endlocal

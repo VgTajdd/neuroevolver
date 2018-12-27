@@ -1,6 +1,6 @@
-from actor import Actor
+from core.actor import Actor
 from pygame.font import Font
-import constants.colors as colors
+import core.colors as colors
 
 class Control(Actor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):

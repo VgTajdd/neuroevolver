@@ -1,6 +1,6 @@
 from pygame.math import Vector2
-from constants.enums import SteeringBehaviourType
-from steering import Steering
+from enums import SteeringBehaviourType
+from steering.steering import Steering
 
 class SteeringBehaviour():
     def __init__(self, actor):
@@ -57,7 +57,7 @@ class BehaviourComponent():
         self.m_actor = None
         self.m_type = type
 
-        # Constants.
+        # 
         self.m_steeringConstant = 0.01
         self.m_steeringRadious = 0 #500
 

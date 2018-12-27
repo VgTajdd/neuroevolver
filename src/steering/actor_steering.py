@@ -1,8 +1,8 @@
-from actor import Actor
+from core.actor import Actor
 from pygame.math import Vector2
-from constants.enums import SteeringBehaviourType
-from steering_behaviour import SteeringBehaviour
-import constants.colors as colors
+from enums import SteeringBehaviourType
+from steering.steering_behaviour import SteeringBehaviour
+import core.colors as colors
 
 class ActorSteering(Actor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):

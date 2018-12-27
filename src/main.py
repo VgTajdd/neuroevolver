@@ -1,7 +1,9 @@
 import pygame
-from screen_manager import ScreenManager
-from constants.enums import ScreenType
-import constants.constants as constants
+from gui.screen_manager import ScreenManager
+from enums import ScreenType
+import constants
+#import demo.demohello as dh
+#from demo.demohello import ClaseHola as ch
 
 pygame.init() #pygame.font.init() is called here
 screen = pygame.display.set_mode((constants.APP_WIDTH, constants.APP_HEIGHT))
@@ -12,6 +14,9 @@ last_tick = pygame.time.get_ticks()
 
 m_screenManager = ScreenManager(constants.APP_WIDTH, constants.APP_HEIGHT)
 m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
+
+#dh.sayHello()
+#a = ch()
 
 while not done:
         # limits updates to 30 frames per second (FPS)

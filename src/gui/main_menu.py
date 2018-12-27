@@ -1,5 +1,5 @@
-from screen_base import ScreenBase
-from constants.enums import ScreenType
+from core.screen_base import ScreenBase
+from enums import ScreenType
 
 class MainMenu(ScreenBase):
     def __init__(self, width, height, color):

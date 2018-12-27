@@ -1,8 +1,8 @@
 import pygame
-from screen_base import ScreenBase
-from constants.enums import ScreenType
-from simulation_base import SimulationBase
-from hud_base import HudBase
+from core.screen_base import ScreenBase
+from enums import ScreenType
+from core.simulation_base import SimulationBase
+from core.hud_base import HudBase
 
 class SimulationScreen(ScreenBase):
     def __init__(self, width, height, color):
