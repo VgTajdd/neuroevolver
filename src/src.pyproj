@@ -29,11 +29,20 @@
     <Compile Include="core\simulation_screen.py" />
     <Compile Include="core\__init__.py" />
     <Compile Include="enums.py" />
-    <Compile Include="fpworld\fp_world.py">
+    <Compile Include="fpga\hud_fpga.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="fpworld\__init__.py" />
+    <Compile Include="fpga\simulation_fpga.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fpga\simulation_screen_fpga.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fpga\__init__.py" />
     <Compile Include="gui\main_menu.py" />
+    <Compile Include="gui\metamap.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="gui\screen_manager.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
@@ -53,7 +62,7 @@
     <Folder Include="assets" />
     <Folder Include="core" />
     <Folder Include="gui" />
-    <Folder Include="fpworld\" />
+    <Folder Include="fpga\" />
     <Folder Include="steering" />
   </ItemGroup>
   <ItemGroup>

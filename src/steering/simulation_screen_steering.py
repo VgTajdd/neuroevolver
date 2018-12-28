@@ -1,4 +1,3 @@
-import pygame
 from core.simulation_screen import SimulationScreen
 from enums import ScreenType
 from steering.simulation_steering import SimulationSteering
