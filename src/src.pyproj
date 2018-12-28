@@ -29,6 +29,10 @@
     <Compile Include="core\simulation_screen.py" />
     <Compile Include="core\__init__.py" />
     <Compile Include="enums.py" />
+    <Compile Include="fpworld\fp_world.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="fpworld\__init__.py" />
     <Compile Include="gui\main_menu.py" />
     <Compile Include="gui\screen_manager.py" />
     <Compile Include="gui\__init__.py" />
@@ -37,7 +41,6 @@
     <Compile Include="steering\hud_steering.py" />
     <Compile Include="steering\simulation_screen_steering.py" />
     <Compile Include="steering\simulation_steering.py" />
-    <Compile Include="steering\steering.py" />
     <Compile Include="steering\steering_behaviour.py" />
     <Compile Include="steering\__init__.py" />
   </ItemGroup>
@@ -50,6 +53,7 @@
     <Folder Include="assets" />
     <Folder Include="core" />
     <Folder Include="gui" />
+    <Folder Include="fpworld\" />
     <Folder Include="steering" />
   </ItemGroup>
   <ItemGroup>

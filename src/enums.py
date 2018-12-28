@@ -5,6 +5,11 @@ class ScreenType(IntEnum):
     MAIN_MENU = 1
     SIMULATION = 2
 
+class SimulationType(IntEnum):
+    NONE = 0
+    SIMPLE_STEERING = 1
+    FP_STEERING = 2
+
 class SteeringBehaviourType(IntEnum):
     STATIC = 0
     SEEK = 1,

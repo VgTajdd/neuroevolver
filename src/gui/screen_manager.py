@@ -1,6 +1,8 @@
 import pygame
 from enums import ScreenType
+from enums import SimulationType
 from gui.main_menu import MainMenu
+from core.simulation_screen import SimulationScreen
 from steering.simulation_screen_steering import SimulationScreenSteering
 import core.colors as colors
 
@@ -14,15 +16,27 @@ class ScreenManager():
     def draw(self, screen):
         return self.m_currentScreen.draw(screen);
 
-    def gotoScreen(self, typeScreen):
+    def gotoScreen(self, screenType, params = None):
         if self.m_currentScreen != None:
             self.m_currentScreen.free()
-        if typeScreen == ScreenType.MAIN_MENU:
+            self.m_currentScreen = None
+        if screenType == ScreenType.MAIN_MENU:
             self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.PEACH)
-        elif typeScreen == ScreenType.SIMULATION:
-            self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.BEIGE)
-        self.m_currentScreenType = typeScreen
+        elif screenType == ScreenType.SIMULATION:
+            self.createSimulationScreen(params)
+        else: return
+        self.m_currentScreenType = screenType
         self.m_currentScreen.setManager(self)
+
+    def createSimulationScreen(self, params):
+        if params and params['simulationType']:
+            simulationType = params['simulationType']
+            if simulationType is SimulationType.SIMPLE_STEERING:
+                self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.BEIGE)
+            elif simulationType is SimulationType.FP_STEERING:
+                self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.BEIGE)
+        else:
+            self.m_currentScreen = SimulationScreen(self.m_width, self.m_height, colors.BEIGE)
 
     def updateTime(self, dt):
         if self.m_currentScreen != None:

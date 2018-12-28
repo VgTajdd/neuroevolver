@@ -1,5 +1,6 @@
 from core.screen_base import ScreenBase
 from enums import ScreenType
+from enums import SimulationType
 
 class MainMenu(ScreenBase):
     def __init__(self, width, height, color):
@@ -17,4 +18,4 @@ class MainMenu(ScreenBase):
         self.addLabel((400,300), (100, 50), 'MainMenu', alpha = 128)
 
     def gotoSimulation(self):
-        self.m_manager.gotoScreen(ScreenType.SIMULATION)
+        self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.SIMPLE_STEERING})
