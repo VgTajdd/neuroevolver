@@ -57,7 +57,7 @@ class BehaviourComponent():
         self.m_actor = None
         self.m_type = type
 
-        # 
+        # Constants.
         self.m_steeringConstant = 0.01
         self.m_steeringRadious = 0 #500
 

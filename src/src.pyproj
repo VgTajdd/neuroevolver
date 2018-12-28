@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{87a71500-9797-4444-8407-4685e6d781df}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>main.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>MSBuild|venv|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="constants.py" />
+    <Compile Include="core\actor.py" />
+    <Compile Include="core\colors.py" />
+    <Compile Include="core\control.py" />
+    <Compile Include="core\hud_base.py" />
+    <Compile Include="core\screen_base.py" />
+    <Compile Include="core\simulation_base.py" />
+    <Compile Include="core\simulation_screen.py" />
+    <Compile Include="core\__init__.py" />
+    <Compile Include="enums.py" />
+    <Compile Include="gui\main_menu.py" />
+    <Compile Include="gui\screen_manager.py" />
+    <Compile Include="gui\__init__.py" />
+    <Compile Include="main.py" />
+    <Compile Include="steering\actor_steering.py" />
+    <Compile Include="steering\hud_steering.py" />
+    <Compile Include="steering\simulation_screen_steering.py" />
+    <Compile Include="steering\simulation_steering.py" />
+    <Compile Include="steering\steering.py" />
+    <Compile Include="steering\steering_behaviour.py" />
+    <Compile Include="steering\__init__.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\actor0.png" />
+    <Content Include="assets\actor1.png" />
+    <Content Include="assets\imageqt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="assets" />
+    <Folder Include="core" />
+    <Folder Include="gui" />
+    <Folder Include="steering" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="..\..\..\venv\">
+      <Id>venv</Id>
+      <Version>3.7</Version>
+      <Description>venv (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
