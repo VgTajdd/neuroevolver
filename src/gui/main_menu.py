@@ -14,8 +14,8 @@ class MainMenu(ScreenBase):
         #demoButton.setPosition(650, 550)
         #demoButton.setCallback(self.gotoSimulation)
         #self.addControl(demoButton)
-        self.addButton((650, 550), (200, 50), 'DemoButton', self.gotoMetamap)
-        self.addLabel((400,300), (100, 50), 'MainMenu', alpha = 128)
+        self.addButton((650, 550), (200, 50), 'Selector', self.gotoMetamap)
+        self.addLabel((400,300), (100, 50), 'Simulations', alpha = 128)
 
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)

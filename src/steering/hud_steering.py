@@ -6,9 +6,9 @@ class HudSteering(HudBase):
         HudBase.__init__(self, width, height)
 
     def init(self):
-        self.addLabel((50,25), (80, 30), 'HudText')
-        self.addButton((725,50), (100, 50), 'BackButton', self.gotoMainMenu)
-        self.addImage((725,550), (50, 50), "assets/imageqt.png")
+        self.addLabel((80, 30), (150, 30), 'Simple Steering')
+        self.addButton((725, 40), (100, 50), 'Back', self.gotoMetamap)
+        self.addImage((725, 550), (50, 50), "assets/imageqt.png")
 
-    def gotoMainMenu(self):
+    def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)
