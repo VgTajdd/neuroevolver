@@ -10,18 +10,22 @@ class Actor(pygame.sprite.DirtySprite):
         self.m_color = color
         self.m_alpha = alpha
         self.m_supportAlpha = True
+        # Rotation vars.
+        self._imageCache = None
+        self.m_angle = 0
         self._updateImage()
         self.visible = 1
         self._layer = layer
         self.dirty = 2
-        # Rotation vars.
-        self._imageCache = None
-        self.m_angle = 0
+
+        # For default circle collision.
+        self.radius = 5
 
     def _updateImage(self):
         if self.m_imagePath:
             if self.m_supportAlpha:
                 self.image = pygame.image.load(self.m_imagePath).convert_alpha()
+                self.image.fill((255, 255, 255, self.m_alpha), None, pygame.BLEND_RGBA_MULT)
             else:
                 self.image = pygame.image.load(self.m_imagePath).convert()
             self.image = pygame.transform.smoothscale(self.image, self.m_size)
@@ -34,6 +38,9 @@ class Actor(pygame.sprite.DirtySprite):
                 self.image.fill(self.m_color)
         self.rect = self.image.get_rect()
         self.rect.center = self.m_position
+        #
+        self._imageCache = None
+        self.setAngle(self.m_angle)
 
     def setImage(self, imagePath):
         self.m_imagePath = imagePath
@@ -73,5 +80,13 @@ class Actor(pygame.sprite.DirtySprite):
         self.m_angle = angle
         #self.dirty = 1
 
+    def hasCircleCollisionWith(self, actor):
+        return pygame.sprite.collide_circle(self, actor)
+
+    def hasRectCollisionWith(self, actor):
+        return pygame.sprite.collide_rect(self, actor)
+
     def free(self):
         self._imageCache = None
+        if self.image:
+            self.image.set_alpha(0) # forcing to hide.

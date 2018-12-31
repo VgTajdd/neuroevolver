@@ -13,7 +13,12 @@ class SimulationType(IntEnum):
 
 class SteeringBehaviourType(IntEnum):
     STATIC = 0
-    SEEK = 1,
-    FLEE = 2,
-    PURSUIT = 3,
+    SEEK = 1
+    FLEE = 2
+    PURSUIT = 3
     EVADE = 4
+
+class NPCType(IntEnum):
+    NONE = 0
+    FOOD = 1
+    POISON = 2

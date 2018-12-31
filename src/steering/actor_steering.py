@@ -1,12 +1,12 @@
-from core.actor import Actor
+from core.simulation_base import SimulationActor
 from pygame.math import Vector2
 from enums import SteeringBehaviourType
 from steering.steering_behaviour import SteeringBehaviour
 import core.colors as colors
 
-class ActorSteering(Actor):
+class ActorSteering(SimulationActor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
-        Actor.__init__(self, pos, size, color, imagePath, alpha, layer)
+        SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer)
 
         self.m_maxSpeed = 0.2
         self.m_behaviour = SteeringBehaviour(self)
@@ -20,7 +20,7 @@ class ActorSteering(Actor):
         self.m_imageDirection = Vector2(0, -1)
 
     def addSteeringComponent(self, type, targetActor = None, targetPosition = None):
-        self.m_behaviour.addComponent(type, targetActor, targetPosition)
+        return self.m_behaviour.addComponent(type, targetActor, targetPosition)
 
     def updateMotion(self, dt):
         # Updating velocity.
@@ -54,4 +54,6 @@ class ActorSteering(Actor):
         self.m_velocity = None
         self.m_acceleration = None
         self.m_imageDirection = None
+        self.m_behaviour.free()
+        self.m_behaviour = None
         super().free();

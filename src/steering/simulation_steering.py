@@ -1,7 +1,7 @@
 from core.simulation_base import SimulationBase
 from steering.actor_steering import ActorSteering
 from enums import SteeringBehaviourType
-from core.actor import Actor
+from core.simulation_base import SimulationActor
 import core.colors as colors
 
 class SimulationSteering(SimulationBase):
@@ -10,7 +10,7 @@ class SimulationSteering(SimulationBase):
         self.init()
 
     def init(self):
-        targetActor = Actor((400, 300), (20, 20), color = colors.BLUE)
+        targetActor = SimulationActor((400, 300), (20, 20), color = colors.BLUE)
         self.addActor(targetActor)
 
         #self.addActor(Actor((400, 300), (40, 40), imagePath = "assets/imageqt.png"))

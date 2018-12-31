@@ -5,6 +5,7 @@ class SteeringBehaviour():
     def __init__(self, actor):
         self.m_actor = actor
         self.m_components = []
+        self.m_useOneActorPerCompType = False # TODO
 
         self.m_arriveEnabled = False
         self.m_arriveDistance = 100
@@ -14,6 +15,9 @@ class SteeringBehaviour():
         self.m_arriveEnabled = False
 
         for component in self.m_components:
+            if component.m_targetActor and component.m_targetActor.m_isAwaitingToDelete:
+                self.m_components.remove(component)
+                continue
             component.update(dt)
 
         # Hack to implement arrive.
@@ -29,23 +33,26 @@ class SteeringBehaviour():
 
         if targetActor is None and targetPosition is None:
             print("Not valid behaviour component added.")
-            return
+            return None
 
         isNecessaryTargetActor = type is SteeringBehaviourType.PURSUIT or type is SteeringBehaviourType.EVADE
 
         if targetActor is None and isNecessaryTargetActor:
             print("Not valid behaviour component added.")
-            return
+            return None
 
         component = BehaviourComponent(type)
         component.m_targetActor = targetActor
         component.m_targetPosition = targetPosition
         component.m_actor = self.m_actor
         self.m_components.append(component)
+        return component
 
     def free(self):
         for component in self.m_components:
             component.free()
+
+        self.m_components.clear()
         self.m_components = None
         self.m_actor = None
 
