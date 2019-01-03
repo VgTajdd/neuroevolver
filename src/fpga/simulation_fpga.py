@@ -139,10 +139,13 @@ class FPVehicle(ActorSteering):
         self.m_health = 100
         self.m_totalHealth = self.m_health
         self.m_wasteHealthSpeed = 0.01 #hp/ms -> 10 hp/s
+        self.m_behaviour.m_useOneActorPerCompType = True
+        self.m_timeAlive = 0
 
     def update(self, dt):
         super().update(dt)
         self.m_health -= self.m_wasteHealthSpeed * dt
+        self.m_timeAlive += dt
 
         ##
         self.m_alpha = 255 * (self.m_health / self.m_totalHealth)

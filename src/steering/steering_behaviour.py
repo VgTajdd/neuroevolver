@@ -5,7 +5,7 @@ class SteeringBehaviour():
     def __init__(self, actor):
         self.m_actor = actor
         self.m_components = []
-        self.m_useOneActorPerCompType = False # TODO
+        self.m_useOneActorPerCompType = False
 
         self.m_arriveEnabled = False
         self.m_arriveDistance = 100
@@ -18,7 +18,11 @@ class SteeringBehaviour():
             if component.m_targetActor and component.m_targetActor.m_isAwaitingToDelete:
                 self.m_components.remove(component)
                 continue
-            component.update(dt)
+            if not self.m_useOneActorPerCompType:
+                component.update(dt)
+
+        if self.m_useOneActorPerCompType:
+            self.updateOneActorPerCompType(dt)
 
         # Hack to implement arrive.
         if len(self.m_components) is 1:
@@ -28,6 +32,19 @@ class SteeringBehaviour():
         if self.m_arriveEnabled:
             if 0.001 < self.m_components[0].m_actualDistanceToTarget < self.m_arriveDistance:
                 self.m_arriveFactor = self.m_components[0].m_actualDistanceToTarget / self.m_arriveDistance
+
+    def updateOneActorPerCompType(self, dt):
+        componentsByType = {}
+        for component in self.m_components:
+            component.calculateDistanceToTarget()
+            if component.m_type in componentsByType:
+                if componentsByType[component.m_type].m_actualDistanceToTarget > component.m_actualDistanceToTarget:
+                    componentsByType[component.m_type] = component
+            else:
+                componentsByType[component.m_type] = component
+
+        for type in componentsByType:
+            componentsByType[type].update(dt)
 
     def addComponent(self, type, targetActor = None, targetPosition = None):
 
@@ -88,11 +105,17 @@ class BehaviourComponent():
         if self.m_targetActor:
             self.m_targetPosition = self.m_targetActor.m_position
 
+    def calculateDistanceToTarget(self):
+        self.updateTargetPosition()
+        self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
+
     def update(self, dt):
         #if self.m_type is SteeringBehaviourType.SEEK or self.m_type is SteeringBehaviourType.FLEE:
-        self.updateTargetPosition()
-
-        self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
+        #   self.updateTargetPosition()
+        #self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
+        
+        self.calculateDistanceToTarget()
+        
         if self.m_steeringRadious > 0:
             if self.m_actualDistanceToTarget > self.m_steeringRadious:
                 return
