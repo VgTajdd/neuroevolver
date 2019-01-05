@@ -12,8 +12,8 @@ class SimulationFPGA(SimulationBase):
         self.m_foodActors = []
         self.m_poisonActors = []
         self.m_fpVehicles = []
-        self.m_totalFood = 30
-        self.m_totalPoison = 30
+        self.m_totalFood = 20
+        self.m_totalPoison = 20
         self.m_initialNumVehicles = 10
         self.init()
 
@@ -113,6 +113,12 @@ class SimulationFPGA(SimulationBase):
                 fpVehicle.m_steeringConstantPoison = parent.m_steeringConstantPoison
                 fpVehicle.m_steeringRadiusFood = parent.m_steeringRadiusFood
                 fpVehicle.m_steeringRadiusPoison = parent.m_steeringRadiusPoison
+
+                # Adding little mutation.
+                fpVehicle.m_steeringConstantFood += random.uniform(-0.001, 0.001)
+                fpVehicle.m_steeringConstantPoison += random.uniform(-0.001, 0.001)
+                fpVehicle.m_steeringRadiusFood += random.uniform(-5, 5)
+                fpVehicle.m_steeringRadiusPoison += random.uniform(-5, 5)
             
             # Add existent poison component.
             for pActor in self.m_poisonActors:
@@ -129,13 +135,21 @@ class SimulationFPGA(SimulationBase):
                     component.m_steeringRadius = fpVehicle.m_steeringRadiusFood
 
     def getBestVehicle(self, possibleParents):
-        # TOFIX: use wheel.
         best = None
-        maxTimeAlive = -1
+        sumOfFitness = 0
+        cum = 0
+
         for pparent in possibleParents:
-            if pparent.m_timeAlive > maxTimeAlive:
+            sumOfFitness += pparent.m_timeAlive
+
+        f = random.randint(0, sumOfFitness)
+
+        for pparent in possibleParents:
+            cum += pparent.m_timeAlive
+            if cum > f:
                 best = pparent
-                maxTimeAlive = pparent.m_timeAlive
+                break
+
         return best
 
     def free(self):
@@ -170,7 +184,7 @@ class NPC(SimulationActor):
             self.m_healthBonus = 10
         elif self.m_type == NPCType.POISON:
             self.setImage('assets/poison.png')
-            self.m_healthBonus = -10
+            self.m_healthBonus = -50
 
 class FPVehicle(ActorSteering):
     ''' This only will seek 1 food and flee 1 poison, even if all of them are added.
