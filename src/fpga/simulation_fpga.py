@@ -12,8 +12,8 @@ class SimulationFPGA(SimulationBase):
         self.m_foodActors = []
         self.m_poisonActors = []
         self.m_fpVehicles = []
-        self.m_totalFood = 40
-        self.m_totalPoison = 40
+        self.m_totalFood = 30
+        self.m_totalPoison = 30
         self.m_initialNumVehicles = 10
         self.init()
 
@@ -74,8 +74,8 @@ class SimulationFPGA(SimulationBase):
             for fpVehicle in self.m_fpVehicles:
                 component = fpVehicle.addSteeringComponent(SteeringBehaviourType.SEEK, foodActor)
                 if component:
-                    component.m_steeringConstant = random.uniform(-0.01, 0.01)
-                    component.m_steeringRadious = random.uniform(50, 100)
+                    component.m_steeringConstant = fpVehicle.m_steeringConstantFood
+                    component.m_steeringRadius = fpVehicle.m_steeringRadiusFood
 
     def createPoison(self, total):
         for i in range(0, total):
@@ -86,18 +86,57 @@ class SimulationFPGA(SimulationBase):
             self.m_poisonActors.append(poisonActor)
 
             for fpVehicle in self.m_fpVehicles:
-                component = fpVehicle.addSteeringComponent(SteeringBehaviourType.SEEK, poisonActor)
+                component = fpVehicle.addSteeringComponent(SteeringBehaviourType.FLEE, poisonActor)
                 if component:
-                    component.m_steeringConstant = random.uniform(-0.01, 0.01)
-                    component.m_steeringRadious = random.uniform(50, 100)
+                    component.m_steeringConstant = fpVehicle.m_steeringConstantPoison
+                    component.m_steeringRadius = fpVehicle.m_steeringRadiusPoison
 
     def createVehicles(self, total):
+        chooseParent = False
+        possibleParents = []
+        if len(self.m_fpVehicles) != 0:
+            chooseParent = True
+            possibleParents = self.m_fpVehicles.copy()
+
         for i in range(0, total):
             randomX = random.randint(10, self.m_width - 10)
             randomY = random.randint(10, self.m_height - 10)
             fpVehicle = FPVehicle((randomX, randomY), (10, 20), imagePath = 'assets/actor0.png')
             self.addActor(fpVehicle)
             self.m_fpVehicles.append(fpVehicle)
+
+            if chooseParent:
+                parent = self.getBestVehicle(possibleParents)
+
+                # Copying from vehicle chosen as parent.
+                fpVehicle.m_steeringConstantFood = parent.m_steeringConstantFood
+                fpVehicle.m_steeringConstantPoison = parent.m_steeringConstantPoison
+                fpVehicle.m_steeringRadiusFood = parent.m_steeringRadiusFood
+                fpVehicle.m_steeringRadiusPoison = parent.m_steeringRadiusPoison
+            
+            # Add existent poison component.
+            for pActor in self.m_poisonActors:
+                component = fpVehicle.addSteeringComponent(SteeringBehaviourType.FLEE, pActor)
+                if component:
+                    component.m_steeringConstant = fpVehicle.m_steeringConstantPoison
+                    component.m_steeringRadius = fpVehicle.m_steeringRadiusPoison
+
+            # Add existent food component.
+            for fActor in self.m_foodActors:
+                component = fpVehicle.addSteeringComponent(SteeringBehaviourType.SEEK, fActor)
+                if component:
+                    component.m_steeringConstant = fpVehicle.m_steeringConstantFood
+                    component.m_steeringRadius = fpVehicle.m_steeringRadiusFood
+
+    def getBestVehicle(self, possibleParents):
+        # TOFIX: use wheel.
+        best = None
+        maxTimeAlive = -1
+        for pparent in possibleParents:
+            if pparent.m_timeAlive > maxTimeAlive:
+                best = pparent
+                maxTimeAlive = pparent.m_timeAlive
+        return best
 
     def free(self):
         for actor in self.m_foodActors:
@@ -134,6 +173,9 @@ class NPC(SimulationActor):
             self.m_healthBonus = -10
 
 class FPVehicle(ActorSteering):
+    ''' This only will seek 1 food and flee 1 poison, even if all of them are added.
+    Also m_timeAlive will be used as fitness to produce new vehicles in the evolutive 
+    process. '''
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         ActorSteering.__init__(self, pos, size, color, imagePath, alpha, layer)
         self.m_health = 100
@@ -141,6 +183,12 @@ class FPVehicle(ActorSteering):
         self.m_wasteHealthSpeed = 0.01 #hp/ms -> 10 hp/s
         self.m_behaviour.m_useOneActorPerCompType = True
         self.m_timeAlive = 0
+
+        # Parameters to evolve.
+        self.m_steeringConstantFood = random.uniform(-0.01, 0.01)
+        self.m_steeringConstantPoison = random.uniform(-0.01, 0.01)
+        self.m_steeringRadiusFood = random.uniform(50, 100)
+        self.m_steeringRadiusPoison = random.uniform(50, 100)
 
     def update(self, dt):
         super().update(dt)

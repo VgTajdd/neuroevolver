@@ -82,7 +82,7 @@ class BehaviourComponent():
 
         # Constants.
         self.m_steeringConstant = 0.01
-        self.m_steeringRadious = 0 #500
+        self.m_steeringRadius = 0 #500
 
         # Temporal vars.
         self.m_actualDistanceToTarget = 0
@@ -116,8 +116,8 @@ class BehaviourComponent():
         
         self.calculateDistanceToTarget()
         
-        if self.m_steeringRadious > 0:
-            if self.m_actualDistanceToTarget > self.m_steeringRadious:
+        if self.m_steeringRadius > 0:
+            if self.m_actualDistanceToTarget > self.m_steeringRadius:
                 return
 
         # If there is a valid target use steering behaviour.
