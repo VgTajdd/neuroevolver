@@ -19,10 +19,12 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="constants.py" />
     <Compile Include="core\actor.py" />
     <Compile Include="core\colors.py" />
     <Compile Include="core\control.py" />
+    <Compile Include="core\debug_drawing.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="core\hud_base.py" />
     <Compile Include="core\screen_base.py" />
     <Compile Include="core\simulation_base.py" />
@@ -46,6 +48,7 @@
     <Compile Include="gui\screen_manager.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="settings.py" />
     <Compile Include="steering\actor_steering.py" />
     <Compile Include="steering\hud_steering.py" />
     <Compile Include="steering\simulation_screen_steering.py" />

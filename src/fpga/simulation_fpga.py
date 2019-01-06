@@ -62,6 +62,10 @@ class SimulationFPGA(SimulationBase):
                     actor.addHealth(pActor.m_healthBonus)
                     pActor.setAwaitingToDelete(True)
 
+            if len(actor.m_debugShapes) != 0:
+                self.m_debugContainer += actor.m_debugShapes
+                actor.m_debugShapes.clear()
+
         # Creating new actors.
         self.createVehicles(self.m_initialNumVehicles - len(self.m_fpVehicles))
         self.createFood(self.m_totalFood - len(self.m_foodActors))

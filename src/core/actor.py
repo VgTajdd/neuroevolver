@@ -1,5 +1,6 @@
 import pygame
 import core.colors as colors
+import settings
 
 class Actor(pygame.sprite.DirtySprite):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
@@ -21,6 +22,8 @@ class Actor(pygame.sprite.DirtySprite):
         # For default circle collision.
         self.radius = 5
 
+        self.m_debugShapes = []
+
     def _updateImage(self):
         if self.m_imagePath:
             if self.m_supportAlpha:
@@ -39,13 +42,15 @@ class Actor(pygame.sprite.DirtySprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.m_position
 
-        pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1) 
+        if settings.SHOW_ACTOR_RECT:
+            pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1) 
 
         # Rotation.
         self._imageCache = None
         self.setAngle(self.m_angle)
 
-        pygame.draw.rect(self.image, colors.BLUE, [0,0,self.rect.w, self.rect.h], 1) 
+        if settings.SHOW_ACTOR_RECT:
+            pygame.draw.rect(self.image, colors.BLUE, [0,0,self.rect.w, self.rect.h], 1) 
 
     def setImage(self, imagePath):
         self.m_imagePath = imagePath
@@ -95,3 +100,10 @@ class Actor(pygame.sprite.DirtySprite):
         self._imageCache = None
         if self.image:
             self.image.set_alpha(0) # forcing to hide.
+
+        self.m_debugShapes.clear()
+        self.m_debugShapes = None
+
+    def addDebugShape(self, obj):
+        if settings.SHOW_DEBUG_SHAPES:
+            self.m_debugShapes.append(obj)

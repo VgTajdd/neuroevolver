@@ -136,6 +136,9 @@ class BehaviourComponent():
         self.m_targetPosition = None
         self.m_actor = None
 
+from core.simulation_screen import DebugDrawing
+import core.colors as colors
+
 class Steering():
 
     def pursuit(actor, targetActor, steeringConstant, T = 200): # T : ms
@@ -148,9 +151,11 @@ class Steering():
 
     def seek(actor, target, steeringConstant):
         Steering.steer(actor, target, steeringConstant)
+        actor.addDebugShape(DebugDrawing.line(colors.BLUE, actor.m_position, target))
 
     def flee(actor, target, steeringConstant):
         Steering.steer(actor, target, -steeringConstant)
+        actor.addDebugShape(DebugDrawing.line(colors.RED, actor.m_position, target))
 
     def steer(actor, target, steeringConstant):
         # Desired.

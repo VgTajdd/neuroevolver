@@ -1,16 +1,16 @@
 import pygame
 from gui.screen_manager import ScreenManager
 from enums import ScreenType
-import constants
+import settings
 
 pygame.init() #pygame.font.init() is called here
-screen = pygame.display.set_mode((constants.APP_WIDTH, constants.APP_HEIGHT))
+screen = pygame.display.set_mode((settings.APP_WIDTH, settings.APP_HEIGHT))
 done = False
 
 clock = pygame.time.Clock()
 last_tick = pygame.time.get_ticks()
 
-m_screenManager = ScreenManager(constants.APP_WIDTH, constants.APP_HEIGHT)
+m_screenManager = ScreenManager(settings.APP_WIDTH, settings.APP_HEIGHT)
 m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
 
 while not done:
@@ -33,4 +33,7 @@ while not done:
         m_screenManager.updateTime(pygame.time.get_ticks() - last_tick)
         last_tick = pygame.time.get_ticks()
         dirtyRects = m_screenManager.draw(screen)
-        pygame.display.update(dirtyRects) #pygame.display.flip()
+        if settings.SHOW_DEBUG_SHAPES:
+            pygame.display.flip()
+        else:
+            pygame.display.update(dirtyRects)
