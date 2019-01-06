@@ -6,6 +6,7 @@ class SimulationBase():
         self.m_height = height
         self.m_actorManager = SimulationActorManager(self, container)
         self.m_container = container
+        self.m_debugContainer = []
 
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
@@ -26,6 +27,8 @@ class SimulationBase():
         self.m_container = None
         self.m_actorManager.free()
         self.m_actorManager = None
+        self.m_debugContainer.clear()
+        self.m_debugContainer = None
 
 from core.actor import Actor
 import core.colors as colors

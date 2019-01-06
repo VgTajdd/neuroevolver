@@ -25,6 +25,10 @@ class SimulationFPGA(SimulationBase):
     def updateTime(self, dt):
         super().updateTime(dt)
 
+        self.m_debugContainer.clear()
+        # Code for adding debug shapes...
+        # this can be passed to actors to see connections between player and food or poison.
+
         # Removing dead actors.
         for actor in self.m_foodActors:
             if actor.m_isAwaitingToDelete:

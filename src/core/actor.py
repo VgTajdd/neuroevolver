@@ -38,9 +38,14 @@ class Actor(pygame.sprite.DirtySprite):
                 self.image.fill(self.m_color)
         self.rect = self.image.get_rect()
         self.rect.center = self.m_position
-        #
+
+        pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1) 
+
+        # Rotation.
         self._imageCache = None
         self.setAngle(self.m_angle)
+
+        pygame.draw.rect(self.image, colors.BLUE, [0,0,self.rect.w, self.rect.h], 1) 
 
     def setImage(self, imagePath):
         self.m_imagePath = imagePath

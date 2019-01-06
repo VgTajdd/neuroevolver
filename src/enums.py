@@ -22,3 +22,8 @@ class NPCType(IntEnum):
     NONE = 0
     FOOD = 1
     POISON = 2
+
+class DebugShape(IntEnum):
+    LINE = 0
+    RECT = 1
+    ELLIPSE = 2
