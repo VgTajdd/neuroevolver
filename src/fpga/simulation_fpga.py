@@ -14,7 +14,7 @@ class SimulationFPGA(SimulationBase):
         self.m_fpVehicles = []
         self.m_totalFood = 20
         self.m_totalPoison = 20
-        self.m_initialNumVehicles = 10
+        self.m_initialNumVehicles = 15
         self.init()
 
     def init(self):
