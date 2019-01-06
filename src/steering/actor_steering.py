@@ -2,6 +2,7 @@ from core.simulation_base import SimulationActor
 from pygame.math import Vector2
 from enums import SteeringBehaviourType
 from steering.steering_behaviour import SteeringBehaviour
+from core.debug_drawing import DebugDrawing
 import core.colors as colors
 
 class ActorSteering(SimulationActor):
@@ -38,10 +39,19 @@ class ActorSteering(SimulationActor):
         self.setPosition(self.m_position + self.m_velocity * dt)
 
         # Reseting acceleration to 0 each cycle.
-        if self.m_acceleration.length() > 0.001:
+        if self.m_acceleration.length() > 0.00001:
+
+            # Debug ###########################################################
+            self.m_acceleration.scale_to_length(100)
+            vec = self.m_position + self.m_acceleration;
+            self.addDebugShape(DebugDrawing.line(colors.GREEN, self.m_position, vec))
+            ###################################################################
+
+            # Reseting acceleration to 0 each cycle.
             self.m_acceleration.scale_to_length(0)
 
     def update(self, dt):
+        super().update(dt)
         self.m_behaviour.update(dt)
         self.updateMotion(dt)
         # Update image direction.

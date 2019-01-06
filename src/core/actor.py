@@ -79,7 +79,8 @@ class Actor(pygame.sprite.DirtySprite):
                             # current surface in the next update.
 
     def update(self, dt):
-        pass
+        if settings.SHOW_DEBUG_SHAPES:
+            self.m_debugShapes.clear()
 
     def setAngle(self, angle):
         if self._imageCache is None:

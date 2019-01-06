@@ -1,3 +1,4 @@
+import pygame
 from enums import DebugShape
 
 class DebugDrawing():

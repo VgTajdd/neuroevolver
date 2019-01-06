@@ -11,7 +11,8 @@ class SimulationBase():
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
 
-    def updateTime(self, dt):
+    def update(self, dt):
+        self.m_debugContainer.clear()
         self.m_actorManager.update(dt)
 
     def forceRedraw(self):

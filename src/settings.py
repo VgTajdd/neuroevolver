@@ -1,5 +1,5 @@
 # Debug
-SHOW_DEBUG_SHAPES = False
+SHOW_DEBUG_SHAPES = True
 SHOW_ACTOR_RECT = False
 
 # Application size

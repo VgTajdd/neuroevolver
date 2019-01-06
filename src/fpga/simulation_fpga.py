@@ -22,12 +22,8 @@ class SimulationFPGA(SimulationBase):
         self.createPoison(self.m_totalPoison)
         self.createVehicles(self.m_initialNumVehicles)
 
-    def updateTime(self, dt):
-        super().updateTime(dt)
-
-        self.m_debugContainer.clear()
-        # Code for adding debug shapes...
-        # this can be passed to actors to see connections between player and food or poison.
+    def update(self, dt):
+        super().update(dt)
 
         # Removing dead actors.
         for actor in self.m_foodActors:
@@ -64,7 +60,6 @@ class SimulationFPGA(SimulationBase):
 
             if len(actor.m_debugShapes) != 0:
                 self.m_debugContainer += actor.m_debugShapes
-                actor.m_debugShapes.clear()
 
         # Creating new actors.
         self.createVehicles(self.m_initialNumVehicles - len(self.m_fpVehicles))

@@ -42,7 +42,7 @@ class SimulationScreen(ScreenBase):
 
     def updateTime(self, dt):
         self.m_hud.updateTime(dt)
-        self.m_simulation.updateTime(dt)
+        self.m_simulation.update(dt)
 
     def onMouseMove(self, event):
         self.m_hud.onMouseMove(event)
