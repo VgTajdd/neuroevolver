@@ -4,7 +4,8 @@ class ScreenType(IntEnum):
     DEFAULT = 0
     MAIN_MENU = 1
     META_MAP = 2
-    SIMULATION = 3
+    SETTINGS = 3
+    SIMULATION = 4
 
 class SimulationType(IntEnum):
     NONE = 0

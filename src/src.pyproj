@@ -46,6 +46,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="gui\screen_manager.py" />
+    <Compile Include="gui\settings.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
     <Compile Include="settings.py" />

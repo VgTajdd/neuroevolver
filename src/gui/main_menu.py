@@ -15,7 +15,11 @@ class MainMenu(ScreenBase):
         #demoButton.setCallback(self.gotoSimulation)
         #self.addControl(demoButton)
         self.addButton((650, 550), (200, 50), 'Selector', self.gotoMetamap)
+        self.addButton((150, 550), (200, 50), 'Settings', self.gotoSettings)
         self.addLabel((400,300), (100, 50), 'Simulations', alpha = 128)
 
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)
+
+    def gotoSettings(self):
+        self.m_manager.gotoScreen(ScreenType.SETTINGS)

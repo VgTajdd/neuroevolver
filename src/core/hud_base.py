@@ -12,7 +12,7 @@ class HudBase(ScreenBase):
     def showFPS(self):
         if self.m_showFPS: 
             return
-        self.m_fpsLabel = self.addLabel((400, 30), (150, 30), 'FPS: 60')
+        self.m_fpsLabel = self.addLabel((400, 15), (150, 30), 'FPS: 60')
         self.m_showFPS = True
 
     def hideFPS(self):

@@ -2,6 +2,7 @@ from enums import ScreenType
 from enums import SimulationType
 from gui.main_menu import MainMenu
 from gui.metamap import Metamap
+from gui.settings import Settings
 from core.simulation_screen import SimulationScreen
 from steering.simulation_screen_steering import SimulationScreenSteering
 from fpga.simulation_screen_fpga import SimulationScreenFPGA
@@ -24,7 +25,9 @@ class ScreenManager():
         if screenType == ScreenType.MAIN_MENU:
             self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.GREY_BLUE)
         elif screenType == ScreenType.META_MAP:
-            self.m_currentScreen = Metamap(self.m_width, self.m_height, colors.ORANGE)
+            self.m_currentScreen = Metamap(self.m_width, self.m_height, colors.LIGHT_GRAY)
+        elif screenType == ScreenType.SETTINGS:
+            self.m_currentScreen = Settings(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.SIMULATION:
             self.createSimulationScreen(params)
         else: return
@@ -37,7 +40,7 @@ class ScreenManager():
             if simulationType is SimulationType.SIMPLE_STEERING:
                 self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.BEIGE)
             elif simulationType is SimulationType.FP_STEERING:
-                self.m_currentScreen = SimulationScreenFPGA(self.m_width, self.m_height, colors.BEIGE)
+                self.m_currentScreen = SimulationScreenFPGA(self.m_width, self.m_height, colors.GREY_BLUE)
         else:
             self.m_currentScreen = SimulationScreen(self.m_width, self.m_height, colors.BEIGE)
 
