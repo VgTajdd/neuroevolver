@@ -5,6 +5,7 @@ from enums import NPCType
 from enums import SteeringBehaviourType
 import core.colors as colors
 import random
+import settings
 
 class SimulationFPGA(SimulationBase):
     def __init__(self, container, width, height):
@@ -12,9 +13,9 @@ class SimulationFPGA(SimulationBase):
         self.m_foodActors = []
         self.m_poisonActors = []
         self.m_fpVehicles = []
-        self.m_totalFood = 20
-        self.m_totalPoison = 20
-        self.m_initialNumVehicles = 15
+        self.m_totalFood = settings.FPGA_TOTAL_FOOD
+        self.m_totalPoison = settings.FPGA_TOTAL_POISON
+        self.m_initialNumVehicles = settings.FPGA_TOTAL_VEHICLES
         self.init()
 
     def init(self):
@@ -184,10 +185,10 @@ class NPC(SimulationActor):
     def init(self):
         if self.m_type == NPCType.FOOD:
             self.setImage('assets/food.png')
-            self.m_healthBonus = 10
+            self.m_healthBonus = settings.FPGA_FOOD_HP_BONUS
         elif self.m_type == NPCType.POISON:
             self.setImage('assets/poison.png')
-            self.m_healthBonus = -50
+            self.m_healthBonus = settings.FPGA_POISON_HP_BONUS
 
 class FPVehicle(ActorSteering):
     ''' This only will seek 1 food and flee 1 poison, even if all of them are added.
@@ -195,9 +196,9 @@ class FPVehicle(ActorSteering):
     process. '''
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         ActorSteering.__init__(self, pos, size, color, imagePath, alpha, layer)
-        self.m_health = 100
+        self.m_health = settings.FPGA_VEHICLE_INIT_HEALTH
         self.m_totalHealth = self.m_health
-        self.m_wasteHealthSpeed = 0.01 #hp/ms -> 10 hp/s
+        self.m_wasteHealthSpeed = settings.FPGA_SPEED_VEHICLE_BURN_HP
         self.m_behaviour.m_useOneActorPerCompType = True
         self.m_timeAlive = 0
 

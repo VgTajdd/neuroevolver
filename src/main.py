@@ -14,8 +14,8 @@ m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
 
 is_running = True
 while is_running:
-    # limits updates to 60 frames per second (FPS)
-    clock.tick(60)
+    # limits updates to settings.APP_FPS(=60) frames per second (FPS)
+    clock.tick(settings.APP_FPS)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
