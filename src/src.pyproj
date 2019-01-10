@@ -49,6 +49,7 @@
     <Compile Include="gui\settings.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="physics\inverted_pendulum.py" />
     <Compile Include="physics\__init__.py">
       <SubType>Code</SubType>
     </Compile>
