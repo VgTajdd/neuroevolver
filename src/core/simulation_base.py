@@ -19,7 +19,7 @@ class SimulationBase():
         self.m_actorManager.forceRedraw()
 
     def addActor(self, actor):
-        self.m_actorManager.addActor(actor)
+        return self.m_actorManager.addActor(actor)
 
     def removeActor(self, actor):
         self.m_actorManager.removeActor(actor)
@@ -35,8 +35,8 @@ from core.actor import Actor
 import core.colors as colors
 
 class SimulationActor(Actor):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
-        Actor.__init__(self, pos, size, color, imagePath, alpha, layer)
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
+        Actor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
         self.m_health = 0
         self.m_state = 0
         self.m_isAwaitingToDelete = False
@@ -70,6 +70,7 @@ class SimulationActorManager():
     def addActor(self, actor):
         self.m_container.add(actor)
         self.m_actors.append(actor)
+        return actor
 
     def removeActor(self, actor):
         self.m_container.remove(actor)

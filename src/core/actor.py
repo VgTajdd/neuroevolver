@@ -1,13 +1,24 @@
 import pygame
 import core.colors as colors
+from pygame.math import Vector2
 import settings
 
 class Actor(pygame.sprite.DirtySprite):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
         pygame.sprite.DirtySprite.__init__(self)
         self.m_imagePath = imagePath
         self.m_size = size
-        self.m_position = pos
+        self.m_rotationCenter = None # relative
+        if rc is None:
+            self.m_rotationCenter = (self.m_size[0]*0.5, self.m_size[1]*0.5)
+        elif type(rc) is tuple:
+            self.m_rotationCenter = rc
+        self.m_position = Vector2(pos)
+        self.m_origin = self.m_position - Vector2(self.m_rotationCenter)
+        relCenter = Vector2(self.m_size[0]*0.5, self.m_size[1]*0.5)
+        #absCenter = self.m_origin + relCenter
+        self.m_offsetCenter = relCenter - self.m_rotationCenter
+
         self.m_color = color
         self.m_alpha = alpha
         self.m_supportAlpha = True
@@ -39,8 +50,8 @@ class Actor(pygame.sprite.DirtySprite):
             else:
                 self.image = pygame.Surface(self.m_size)
                 self.image.fill(self.m_color)
-        self.rect = self.image.get_rect()
-        self.rect.center = self.m_position
+        #self.rect = self.image.get_rect()
+        #self.rect.center = self.m_position + self.m_offsetCenter
 
         if settings.SHOW_ACTOR_RECT:
             pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1) 
@@ -66,11 +77,14 @@ class Actor(pygame.sprite.DirtySprite):
             x_input = x_or_pair
             y_input = y
         self.m_position = x_input, y_input
-        self.rect.center = x_input, y_input
+        self.repaint()
         #self.dirty = 1
 
     def resize(self, w, h):
         self.m_size = w, h
+        self.m_origin = self.m_position - Vector2(self.m_rotationCenter)
+        relCenter = Vector2(self.m_size[0]*0.5, self.m_size[1]*0.5)
+        self.m_offsetCenter = relCenter - self.m_rotationCenter
         self.repaint()
 
     def repaint(self):
@@ -84,10 +98,13 @@ class Actor(pygame.sprite.DirtySprite):
 
     def setAngle(self, angle):
         if self._imageCache is None:
-            self._imageCache = self.image
+            self._imageCache = self.image.copy()
+
         self.image = pygame.transform.rotate(self._imageCache, angle)
         self.rect = self.image.get_rect()
-        self.rect.center = self.m_position
+        t = self.m_offsetCenter.rotate(-angle)
+        self.rect.center = self.m_position + t
+
         self.m_angle = angle
         #self.dirty = 1
 
