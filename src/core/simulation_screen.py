@@ -41,8 +41,11 @@ class SimulationScreen(ScreenBase):
         return dirtyRectsSim + dirtyRectsHud + dirtyRectsDebug
 
     def updateTime(self, dt):
-        self.m_hud.updateTime(dt)
-        self.m_simulation.update(dt)
+        limited_dt = dt
+        if dt > 100:
+            limited_dt = 100
+        self.m_hud.updateTime(limited_dt)
+        self.m_simulation.update(limited_dt)
 
     def onMouseMove(self, event):
         self.m_hud.onMouseMove(event)

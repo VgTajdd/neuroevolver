@@ -49,6 +49,12 @@
     <Compile Include="gui\settings.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="physics\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="physics\simple_pendulum.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="settings.py" />
     <Compile Include="steering\actor_steering.py" />
     <Compile Include="steering\hud_steering.py" />
@@ -67,6 +73,7 @@
     <Folder Include="core" />
     <Folder Include="gui" />
     <Folder Include="fpga\" />
+    <Folder Include="physics\" />
     <Folder Include="steering" />
   </ItemGroup>
   <ItemGroup>
