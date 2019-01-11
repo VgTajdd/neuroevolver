@@ -8,6 +8,12 @@ class SimulationBase():
         self.m_container = container
         self.m_debugContainer = []
 
+    def onKeyPress(self, event):
+        pass
+
+    def onKeyRelease(self, event):
+        pass
+
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
 

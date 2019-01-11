@@ -47,10 +47,14 @@ class ScreenManager():
     def updateTime(self, dt):
         if self.m_currentScreen != None:
             self.m_currentScreen.updateTime(dt)
-
+            
     def onKeyPress(self, key):
         if self.m_currentScreen != None:
             self.m_currentScreen.onKeyPress(key)
+
+    def onKeyRelease(self, key):
+        if self.m_currentScreen != None:
+            self.m_currentScreen.onKeyRelease(key)
 
     def onMouseMove(self, event):
         if self.m_currentScreen != None:

@@ -21,6 +21,8 @@ while is_running:
             is_running = False
         if event.type == pygame.KEYDOWN:
             m_screenManager.onKeyPress(event.key)
+        if event.type == pygame.KEYUP:
+            m_screenManager.onKeyRelease(event.key)
         if event.type == pygame.MOUSEMOTION:
             m_screenManager.onMouseMove(event)
         if event.type == pygame.MOUSEBUTTONDOWN:

@@ -49,6 +49,9 @@ class ScreenBase(pygame.sprite.LayeredDirty):
     def onKeyPress(self, key):
         pass
 
+    def onKeyRelease(self, key):
+        pass
+
     def onMouseMove(self, event):
         for control in self.m_controls:
             if control.mouseEventsEnabled():

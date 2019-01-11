@@ -2,6 +2,7 @@ from core.simulation_base import SimulationActor
 import core.colors as colors
 import math
 import numpy as np
+import pygame
 
 class InvertedPendulum(SimulationActor):
     """Pendulum simple actor class"""
@@ -61,6 +62,18 @@ class InvertedPendulum(SimulationActor):
 
         # Transfrom to sexagesimals. Updating angle.
         self.setAngle(-self.m_angleInRadians/self.pi_180)
+
+    def onKeyPress(self, event):
+        if event == pygame.K_LEFT:
+            self.u = -5
+        elif event == pygame.K_RIGHT:
+            self.u = 5
+    
+    def onKeyRelease(self, event):
+        if event == pygame.K_LEFT:
+            self.u = 0
+        elif event == pygame.K_RIGHT:
+            self.u = 0
 
 class InvertedPendulumSystem():
     def create(pos):

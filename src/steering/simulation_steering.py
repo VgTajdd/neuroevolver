@@ -7,6 +7,7 @@ import core.colors as colors
 
 class SimulationSteering(SimulationBase):
     def __init__(self, container, width, height):
+        self.m_invertedPendulum = None
         SimulationBase.__init__(self, container, width, height)
         self.init()
 
@@ -27,7 +28,12 @@ class SimulationSteering(SimulationBase):
         self.addActor(SimplePendulum((100, 100), (10, 100), rc = (5, 0)))
 
         # Added inverted pendulum.
-        bar, car = InvertedPendulumSystem.create((500, 100))
+        self.m_invertedPendulum, car = InvertedPendulumSystem.create((500, 100))
+        self.addActor(self.m_invertedPendulum)
         self.addActor(car)
-        self.addActor(bar)
 
+    def onKeyPress(self, event):
+        self.m_invertedPendulum.onKeyPress(event)
+
+    def onKeyRelease(self, event):
+        self.m_invertedPendulum.onKeyRelease(event)
