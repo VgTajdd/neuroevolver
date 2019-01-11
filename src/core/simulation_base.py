@@ -13,6 +13,15 @@ class SimulationBase():
 
     def onKeyRelease(self, event):
         pass
+    
+    def onMouseMove(self, event):
+        pass
+
+    def onMouseDown(self, event):
+        pass
+
+    def onMouseRelease(self, event):
+        pass
 
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
@@ -88,3 +97,19 @@ class SimulationActorManager():
             actor.free()
         self.m_actors.clear()
         self.m_actors = None
+
+class DraggableActor(SimulationActor):
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
+        SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
+        self.m_isDraggable = True
+        self.m_isInDrag = False
+
+    def onMouseMove(self, event):
+        pass
+
+    def onMouseDown(self, event):
+        pass
+
+    def onMouseRelease(self, event):
+        pass
+
