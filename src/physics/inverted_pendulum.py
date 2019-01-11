@@ -9,50 +9,61 @@ class InvertedPendulum(SimulationActor):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
 
         # Constants.
-        self.m_l = 1
-        self.m_g = 9.8
-        self.m_pi_180 = math.pi/180.0
-        self.m_m = 1
-        self.m_M = 5
+        self.l = 1
+        self.g = 9.8
+        self.pi_180 = math.pi/180.0
+        self.m = 0.1
+        self.M = 0.5
 
         # Initial position.
-        self.m_angle = -60
-        self.m_pi_180 = math.pi/180.0
+        self.m_angle = -20
         self.m_xM = self.m_position.x
 
         # Rotation vars in radians.
-        self.m_angleInRadians = self.m_angle * self.m_pi_180
+        self.m_angleInRadians = self.m_angle * self.pi_180
         self.m_angularVelocity = 0
         self.m_angularAcceleration = 0
 
         # Traslation vars in meters.
         self.m_speedM = 0
-        self.m_accelerationM = 0
+        self.m_horizontalAcceleration = 0
+
+        # Car actor.
+        self.m_carActor = SimulationActor(pos, (50, 20), color = colors.BLUE, rc = (25, 0))
+
+        # Input.
+        self.u = 0
 
     def update(self, dt):
         super().update(dt)
         dt_secs = dt/1000
 
-        u = 0
-        ml = self.m_m*self.m_l
+        # Calculating accelerations.
+        ml = self.m * self.l
         _cos = math.cos(self.m_angleInRadians)
         _sin = math.sin(self.m_angleInRadians)
-        _as_sq = self.m_angularVelocity*self.m_angularVelocity
-        a = [[ml,self.m_m*_cos],[ml*_cos,self.m_m+self.m_M]]
-        b = [[self.m_m*self.m_g],[u+(ml*_as_sq*_sin)]]
-
+        _as_sq = self.m_angularVelocity * self.m_angularVelocity
+        a = [[ml, self.m * _cos], [ml * _cos, self.m + self.M]]
+        b = [[self.m * self.g * _sin], [self.u + (ml * _as_sq * _sin)]]
         t = np.linalg.inv(np.array(a)).dot(np.array(b))
-
         self.m_angularAcceleration = t[0][0]
-        self.m_accelerationM = t[1][0]
+        self.m_horizontalAcceleration = t[1][0]
 
-        self.m_speedM += self.m_accelerationM * dt_secs
-        self.m_xM += self.m_speedM * dt_secs
-
+        # Updating motion vars.
+        self.m_speedM += self.m_horizontalAcceleration * dt_secs
+        self.m_xM += self.m_speedM * dt_secs * 100 # pixeles = cm
         self.m_angularVelocity += self.m_angularAcceleration * dt_secs
         self.m_angleInRadians += self.m_angularVelocity * dt_secs
 
-        print(self.m_xM)
+        # Updating position.
+        self.m_position.x = self.m_xM
+        self.m_carActor.setPosition(self.m_position)
 
-        # Transfrom to sexagesimals.
-        self.setAngle(self.m_angleInRadians/self.m_pi_180) #print(self.m_angle)
+        # Transfrom to sexagesimals. Updating angle.
+        self.setAngle(-self.m_angleInRadians/self.pi_180)
+
+class InvertedPendulumSystem():
+    def create(pos):
+        bar = InvertedPendulum(pos, (10, 100), rc = (5, 100), layer = 2)
+        car = bar.m_carActor
+        return bar, car

@@ -80,7 +80,7 @@ class Actor(pygame.sprite.DirtySprite):
         else:
             x_input = x_or_pair
             y_input = y
-        self.m_position = x_input, y_input
+        self.m_position = Vector2(x_input, y_input)
         self.rect.center = self.m_position + self.m_offsetCenter.rotate(-self.m_angle)
         #self.dirty = 1
 

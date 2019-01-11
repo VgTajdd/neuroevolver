@@ -1,8 +1,8 @@
 from core.simulation_base import SimulationBase, SimulationActor
 from steering.actor_steering import ActorSteering
-from enums import SteeringBehaviourType
 from physics.simple_pendulum import SimplePendulum
-from physics.inverted_pendulum import InvertedPendulum
+from physics.inverted_pendulum import InvertedPendulumSystem
+from enums import SteeringBehaviourType
 import core.colors as colors
 
 class SimulationSteering(SimulationBase):
@@ -24,5 +24,10 @@ class SimulationSteering(SimulationBase):
         self.addActor(actor2)
 
         # Added simple pendulum.
-        self.addActor(SimplePendulum((100, 100), (10, 100), rc = (5,0)))
-        self.addActor(InvertedPendulum((500, 100), (10, 100), rc = (5,100)))
+        self.addActor(SimplePendulum((100, 100), (10, 100), rc = (5, 0)))
+
+        # Added inverted pendulum.
+        bar, car = InvertedPendulumSystem.create((500, 100))
+        self.addActor(car)
+        self.addActor(bar)
+
