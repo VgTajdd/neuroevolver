@@ -1,4 +1,4 @@
-from core.simulation_base import SimulationActor
+from core.actor import SimulationActor
 import core.colors as colors
 import math
 import numpy as np

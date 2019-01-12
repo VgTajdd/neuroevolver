@@ -1,4 +1,4 @@
-from core.simulation_base import SimulationActor
+from core.actor import SimulationActor
 from pygame.math import Vector2
 from enums import SteeringBehaviourType
 from steering.steering_behaviour import SteeringBehaviour

@@ -1,4 +1,5 @@
 import pygame
+from pygame.math import Vector2
 
 class SimulationBase():
     def __init__(self, container, width, height):
@@ -46,22 +47,6 @@ class SimulationBase():
         self.m_debugContainer.clear()
         self.m_debugContainer = None
 
-from core.actor import Actor
-import core.colors as colors
-
-class SimulationActor(Actor):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
-        Actor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
-        self.m_health = 0
-        self.m_state = 0
-        self.m_isAwaitingToDelete = False
-
-    def setAwaitingToDelete(self, value):
-        self.m_isAwaitingToDelete = value
-
-    def addHealth(self, hp):
-        self.m_health += hp
-
 class SimulationActorManager():
     def __init__(self, simulation, container):
         self.m_simulationReference = simulation
@@ -97,19 +82,3 @@ class SimulationActorManager():
             actor.free()
         self.m_actors.clear()
         self.m_actors = None
-
-class DraggableActor(SimulationActor):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
-        SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
-        self.m_isDraggable = True
-        self.m_isInDrag = False
-
-    def onMouseMove(self, event):
-        pass
-
-    def onMouseDown(self, event):
-        pass
-
-    def onMouseRelease(self, event):
-        pass
-

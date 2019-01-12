@@ -49,21 +49,26 @@ class SimulationScreen(ScreenBase):
 
     def onMouseMove(self, event):
         self.m_hud.onMouseMove(event)
-        self.m_simulation.onMouseMove(event)
+        if self.m_simulation:
+            self.m_simulation.onMouseMove(event)
 
     def onMouseDown(self, event):
         self.m_hud.onMouseDown(event)
-        self.m_simulation.onMouseDown(event)
+        if self.m_simulation:
+            self.m_simulation.onMouseDown(event)
 
     def onMouseRelease(self, event):
         self.m_hud.onMouseRelease(event)
-        self.m_simulation.onMouseRelease(event)
+        if self.m_simulation:
+            self.m_simulation.onMouseRelease(event)
 
     def onKeyPress(self, event):
-        self.m_simulation.onKeyPress(event)
+        if self.m_simulation:
+            self.m_simulation.onKeyPress(event)
 
     def onKeyRelease(self, event):
-        self.m_simulation.onKeyRelease(event)
+        if self.m_simulation:
+            self.m_simulation.onKeyRelease(event)
 
     def forceRedraw(self):
         self.m_hud.forceRedraw()

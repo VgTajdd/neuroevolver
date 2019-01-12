@@ -129,3 +129,46 @@ class Actor(pygame.sprite.DirtySprite):
     def addDebugShape(self, obj):
         if settings.SHOW_DEBUG_SHAPES:
             self.m_debugShapes.append(obj)
+
+class SimulationActor(Actor):
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
+        Actor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
+        self.m_health = 0
+        self.m_state = 0
+        self.m_isAwaitingToDelete = False
+
+    def setAwaitingToDelete(self, value):
+        self.m_isAwaitingToDelete = value
+
+    def addHealth(self, hp):
+        self.m_health += hp
+
+class DraggableActor(SimulationActor):
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
+        SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
+        self.m_isDraggable = True
+        self.m_isInDrag = False
+        self.m_lastMousePosition = None
+
+    def onMouseMove(self, event):
+        if not self.m_isDraggable: 
+            return
+        if self.m_isInDrag:
+            actualPos = event.pos
+            delta = Vector2(actualPos) - self.m_lastMousePosition
+            self.setPosition(self.m_position + delta)
+            self.m_lastMousePosition = actualPos
+
+    def onMouseDown(self, event):
+        if not self.m_isDraggable: 
+            return
+        if not self.m_isInDrag:
+            if self.rect.collidepoint(event.pos):
+                self.m_lastMousePosition = event.pos
+                self.m_isInDrag = True
+
+    def onMouseRelease(self, event):
+        if not self.m_isDraggable: 
+            return
+        self.m_isInDrag = False
+        self.m_lastMousePosition = None

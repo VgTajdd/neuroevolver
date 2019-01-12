@@ -1,6 +1,6 @@
 from core.simulation_base import SimulationBase
 from steering.actor_steering import ActorSteering
-from core.simulation_base import SimulationActor
+from core.actor import SimulationActor
 from enums import NPCType
 from enums import SteeringBehaviourType
 import core.colors as colors
