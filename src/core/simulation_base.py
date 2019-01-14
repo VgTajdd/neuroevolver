@@ -14,7 +14,7 @@ class SimulationBase():
 
     def onKeyRelease(self, event):
         pass
-    
+
     def onMouseMove(self, event):
         pass
 

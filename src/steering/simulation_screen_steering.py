@@ -1,5 +1,4 @@
 from core.simulation_screen import SimulationScreen
-from enums import ScreenType
 from steering.simulation_steering import SimulationSteering
 from steering.hud_steering import HudSteering
 

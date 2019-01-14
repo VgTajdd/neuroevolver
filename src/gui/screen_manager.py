@@ -1,11 +1,11 @@
-from enums import ScreenType
-from enums import SimulationType
+from enums import ScreenType, SimulationType
 from gui.main_menu import MainMenu
 from gui.metamap import Metamap
 from gui.settings import Settings
 from core.simulation_screen import SimulationScreen
 from steering.simulation_screen_steering import SimulationScreenSteering
 from fpga.simulation_screen_fpga import SimulationScreenFPGA
+from neat_ip.simulation_screen_neat_ip import SimulationScreenNeatIP
 import core.colors as colors
 
 class ScreenManager():
@@ -41,13 +41,15 @@ class ScreenManager():
                 self.m_currentScreen = SimulationScreenSteering(self.m_width, self.m_height, colors.BEIGE)
             elif simulationType is SimulationType.FP_STEERING:
                 self.m_currentScreen = SimulationScreenFPGA(self.m_width, self.m_height, colors.GREY_BLUE)
+            elif simulationType is SimulationType.NEAT_INVERTED_PENDULUM:
+                self.m_currentScreen = SimulationScreenNeatIP(self.m_width, self.m_height, colors.WHITE, params)
         else:
             self.m_currentScreen = SimulationScreen(self.m_width, self.m_height, colors.BEIGE)
 
     def updateTime(self, dt):
         if self.m_currentScreen != None:
             self.m_currentScreen.updateTime(dt)
-            
+
     def onKeyPress(self, key):
         if self.m_currentScreen != None:
             self.m_currentScreen.onKeyPress(key)

@@ -123,7 +123,7 @@ class SimulationFPGA(SimulationBase):
                 fpVehicle.m_steeringConstantPoison += random.uniform(-0.001, 0.001)
                 fpVehicle.m_steeringRadiusFood += random.uniform(-5, 5)
                 fpVehicle.m_steeringRadiusPoison += random.uniform(-5, 5)
-            
+
             # Add existent poison component.
             for pActor in self.m_poisonActors:
                 component = fpVehicle.addSteeringComponent(SteeringBehaviourType.FLEE, pActor)
@@ -192,7 +192,7 @@ class NPC(SimulationActor):
 
 class FPVehicle(ActorSteering):
     ''' This only will seek 1 food and flee 1 poison, even if all of them are added.
-    Also m_timeAlive will be used as fitness to produce new vehicles in the evolutive 
+    Also m_timeAlive will be used as fitness to produce new vehicles in the evolutive
     process. '''
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         ActorSteering.__init__(self, pos, size, color, imagePath, alpha, layer)

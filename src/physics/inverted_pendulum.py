@@ -6,7 +6,7 @@ import pygame
 
 class InvertedPendulum(SimulationActor):
     """Pendulum simple actor class"""
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, rc = None):
+    def __init__(self, pos, size, color = colors.RED, imagePath = '', alpha = 255, layer = 1, rc = None):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
 
         # Constants.
@@ -68,15 +68,13 @@ class InvertedPendulum(SimulationActor):
             self.u = -5
         elif event == pygame.K_RIGHT:
             self.u = 5
-    
+
     def onKeyRelease(self, event):
         if event == pygame.K_LEFT:
             self.u = 0
         elif event == pygame.K_RIGHT:
             self.u = 0
 
-class InvertedPendulumSystem():
-    def create(pos):
-        bar = InvertedPendulum(pos, (10, 100), rc = (5, 100), layer = 2)
-        car = bar.m_carActor
-        return bar, car
+    def addToSimulation(self, simulation):
+        simulation.addActor(self)
+        simulation.addActor(self.m_carActor)

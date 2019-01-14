@@ -26,6 +26,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="core\hud_base.py" />
+    <Compile Include="core\application.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="core\screen_base.py" />
     <Compile Include="core\simulation_base.py" />
     <Compile Include="core\simulation_screen.py" />
@@ -49,6 +52,10 @@
     <Compile Include="gui\settings.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="neat_ip\hud_neat_ip.py" />
+    <Compile Include="neat_ip\simulation_neat_ip.py" />
+    <Compile Include="neat_ip\simulation_screen_neat_ip.py" />
+    <Compile Include="neat_ip\__init__.py" />
     <Compile Include="physics\inverted_pendulum.py" />
     <Compile Include="physics\__init__.py">
       <SubType>Code</SubType>
@@ -68,12 +75,14 @@
     <Content Include="assets\actor0.png" />
     <Content Include="assets\actor1.png" />
     <Content Include="assets\imageqt.png" />
+    <Content Include="config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets" />
     <Folder Include="core" />
     <Folder Include="gui" />
     <Folder Include="fpga\" />
+    <Folder Include="neat_ip\" />
     <Folder Include="physics\" />
     <Folder Include="steering" />
   </ItemGroup>

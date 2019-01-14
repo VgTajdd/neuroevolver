@@ -1,3 +1,4 @@
 box2d-py==2.3.8
+neat-python==0.92
 numpy==1.15.4
 pygame==1.9.4

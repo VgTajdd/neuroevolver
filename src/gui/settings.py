@@ -1,6 +1,5 @@
 from core.screen_base import ScreenBase
-from enums import ScreenType
-from enums import SimulationType
+from enums import ScreenType, SimulationType
 import settings
 
 class Settings(ScreenBase):

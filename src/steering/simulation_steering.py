@@ -1,16 +1,16 @@
 from core.simulation_base import SimulationBase
-from core.actor import SimulationActor, DraggableActor
+from core.actor import DraggableActor
 from steering.actor_steering import ActorSteering
 from physics.simple_pendulum import SimplePendulum
-from physics.inverted_pendulum import InvertedPendulumSystem
+from physics.inverted_pendulum import InvertedPendulum
 from enums import SteeringBehaviourType
 import core.colors as colors
 
 class SimulationSteering(SimulationBase):
     def __init__(self, container, width, height):
+        SimulationBase.__init__(self, container, width, height)
         self.m_invertedPendulum = None
         self.m_target = None
-        SimulationBase.__init__(self, container, width, height)
         self.init()
 
     def init(self):
@@ -29,9 +29,8 @@ class SimulationSteering(SimulationBase):
         self.addActor(SimplePendulum((100, 100), (10, 100), rc = (5, 0)))
 
         # Added inverted pendulum.
-        self.m_invertedPendulum, car = InvertedPendulumSystem.create((500, 100))
-        self.addActor(self.m_invertedPendulum)
-        self.addActor(car)
+        self.m_invertedPendulum = InvertedPendulum((500, 100), (10, 100), rc = (5, 100), layer = 2)
+        self.m_invertedPendulum.addToSimulation(self)
 
     def onKeyPress(self, event):
         self.m_invertedPendulum.onKeyPress(event)
