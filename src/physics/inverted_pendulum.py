@@ -78,3 +78,7 @@ class InvertedPendulum(SimulationActor):
     def addToSimulation(self, simulation):
         simulation.addActor(self)
         simulation.addActor(self.m_carActor)
+
+    def removeFromSimulation(self, simulation):
+        simulation.removeActor(self)
+        simulation.removeActor(self.m_carActor)

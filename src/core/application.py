@@ -27,7 +27,7 @@ class Application(object):
             # limits updates to settings.APP_FPS(=60) frames per second (FPS)
             self.clock.tick(settings.APP_FPS)
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or event.type == settings.EVENT_END_TRAINING_STEP:
                     is_running = False
                 if event.type == pygame.KEYDOWN:
                     self.m_screenManager.onKeyPress(event.key)
@@ -60,8 +60,8 @@ class Application(object):
             else:
                 pygame.display.update(dirtyRects)
 
-        pygame.quit()
-        sys.exit()
+        #pygame.quit()
+        #sys.exit()
 
     def trainNeatIP(self, genomes, config):
         params = {}
