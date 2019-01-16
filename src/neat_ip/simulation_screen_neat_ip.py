@@ -11,4 +11,4 @@ class SimulationScreenNeatIP(SimulationScreen):
         self.m_simulation = SimulationNeatIP(self, self.m_width, self.m_height, self.params)
 
     def createHud(self):
-        self.m_hud = HudNeatIP(self.m_width, self.m_height)
+        self.m_hud = HudNeatIP(self.m_width, self.m_height, self.params)

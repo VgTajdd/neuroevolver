@@ -2,6 +2,9 @@ from core.application import Application
 import argparse
 import neat
 import pickle
+import settings
+
+trainingCurrentStep = 0
 
 def main():
 
@@ -12,6 +15,9 @@ def main():
 
     if args.trainMode and args.trainMode.upper() == "NEATIP":
     #if True:
+        global trainingCurrentStep
+        trainingCurrentStep = 0
+
         config = neat.Config(
             neat.DefaultGenome,
             neat.DefaultReproduction,
@@ -20,7 +26,7 @@ def main():
             'config')
         p = neat.Population(config)
         p.add_reporter(neat.StdOutReporter(True))
-        winner = p.run(eval_genomes, n=50)
+        winner = p.run(eval_genomes, n = settings.NEATIP_TRAINING_STEPS)
         pickle.dump(winner, open('winner.pkl', 'wb'))
     #else:
     app = Application()
@@ -29,7 +35,9 @@ def main():
 def eval_genomes(genomes, config):
     idx, genomes = zip(*genomes)
     app = Application()
-    app.trainNeatIP(genomes, config)
+    global trainingCurrentStep
+    trainingCurrentStep += 1
+    app.trainNeatIP(genomes, config, trainingCurrentStep)
 
 if __name__ == "__main__":
     main()

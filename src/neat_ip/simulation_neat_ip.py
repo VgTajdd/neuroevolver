@@ -38,7 +38,7 @@ class SimulationNeatIP(SimulationBase):
             system.update(dt)
 
         if len(self.m_systems) == 0:
-            my_event = pygame.event.Event(settings.EVENT_END_TRAINING_STEP, message="Bad cat!")
+            my_event = pygame.event.Event(settings.NEATIP_EVENT_END_TRAINING_STEP, message="Bad cat!")
             pygame.event.post(my_event)
 
         super().update(dt)
@@ -52,9 +52,10 @@ class NNIPSystem(object):
         # Added inverted pendulum.
         self.m_invertedPendulum = InvertedPendulum((settings.APP_WIDTH/2, 400), (10, 100), rc = (5, 100), layer = 2)
         self.m_invertedPendulum.addToSimulation(simulation)
+        self.m_invertedPendulum.m_angle = settings.NEATIP_INITIAL_ANGLE
 
-        self.neural_network = neat.nn.FeedForwardNetwork.create(genome, config)
-        self.genome = genome
+        self.m_neuralNetwork = neat.nn.FeedForwardNetwork.create(genome, config)
+        self.m_genome = genome
 
         self.m_timeAlive = 0
 
@@ -63,12 +64,15 @@ class NNIPSystem(object):
         if not self.m_isAlive:
             return
 
-        validAngle = -30 < self.m_invertedPendulum.m_angle < 30
+        validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEATIP_LIMIT_ANGLE
         validPosition = 0 < self.m_invertedPendulum.m_position.x < settings.APP_WIDTH
-        validTime = self.m_timeAlive < 5000
+        validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
+
+        # Improve fitness: final speed, total distance traveled.
+        # Improve input: angle [-180,180]
 
         if not (validAngle and validPosition and validTime) and self.m_simulationRef.m_isTraining:
-            self.genome.fitness = self.m_timeAlive - 2 * math.fabs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
+            self.m_genome.fitness = self.m_timeAlive - 2 * math.fabs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
             self.m_isAlive = False
             return
 
@@ -79,7 +83,7 @@ class NNIPSystem(object):
                  self.m_invertedPendulum.m_speedM)
 
         # Feed the neural network information
-        output = self.neural_network.activate(input)
+        output = self.m_neuralNetwork.activate(input)
 
         # Obtain Prediction
         self.m_invertedPendulum.u = output[0]

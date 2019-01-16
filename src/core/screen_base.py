@@ -22,7 +22,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
     def addControl(self, control):
         self.add(control)
         self.m_controls.append(control)
-    
+
     def removeControl(self, control):
         self.remove(control)
         self.m_controls.remove(control)
