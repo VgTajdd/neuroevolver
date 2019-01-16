@@ -58,26 +58,32 @@ class NNIPSystem(object):
         self.m_genome = genome
 
         self.m_timeAlive = 0
+        self.m_traveledDistance = 0
 
     def update(self, dt):
 
         if not self.m_isAlive:
             return
 
-        validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEATIP_LIMIT_ANGLE
-        validPosition = 0 < self.m_invertedPendulum.m_position.x < settings.APP_WIDTH
-        validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
-
         # Improve fitness: final speed, total distance traveled.
-        # Improve input: angle [-180,180]
 
-        if not (validAngle and validPosition and validTime) and self.m_simulationRef.m_isTraining:
-            self.m_genome.fitness = self.m_timeAlive - 2 * math.fabs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
-            self.m_isAlive = False
-            return
+        if self.m_simulationRef.m_isTraining:
+            self.m_traveledDistance += abs(self.m_invertedPendulum.m_speedM) * dt
+
+            validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEATIP_LIMIT_ANGLE
+            validPosition = 0 < self.m_invertedPendulum.m_position.x < settings.APP_WIDTH
+            validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
+
+            if not (validAngle and validPosition and validTime):
+                self.m_genome.fitness = self.m_timeAlive - 2 * abs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x) - self.m_traveledDistance/2
+                #print(self.m_traveledDistance)
+                self.m_isAlive = False
+                return
+
+        inputAngle = ((self.m_invertedPendulum.m_angle + 180) % 360) - 180 # [-180,180]
 
          # Setup the input layer
-        input = (self.m_invertedPendulum.m_angle,
+        input = (inputAngle,
                  self.m_invertedPendulum.m_angularVelocity,
                  settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x,
                  self.m_invertedPendulum.m_speedM)
