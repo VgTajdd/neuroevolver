@@ -49,7 +49,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="gui\screen_manager.py" />
-    <Compile Include="gui\settings.py" />
+    <Compile Include="gui\settings_screen.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
     <Compile Include="neat_ip\hud_neat_ip.py" />
@@ -75,7 +75,6 @@
     <Content Include="assets\actor0.png" />
     <Content Include="assets\actor1.png" />
     <Content Include="assets\imageqt.png" />
-    <Content Include="config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets" />

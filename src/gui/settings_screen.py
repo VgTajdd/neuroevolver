@@ -2,7 +2,7 @@ from core.screen_base import ScreenBase
 from enums import ScreenType, SimulationType
 import settings
 
-class Settings(ScreenBase):
+class SettingsScreen(ScreenBase):
     def __init__(self, width, height, color):
         self.m_debugSimulation = None
         self.m_debugActors = None

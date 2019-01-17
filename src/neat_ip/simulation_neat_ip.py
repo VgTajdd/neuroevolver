@@ -73,7 +73,9 @@ class NNIPSystem(object):
             validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle and validPosition and validTime):
-                self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/2)
+                deltaX = abs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
+                print('fitness: ' + str(self.m_timeAlive) + ' ' + str(-self.m_traveledDistance/5) + ' ' + str(-deltaX*5) + ' ' + str(self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5))
+                self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5)
                 self.m_isAlive = False
                 return
 
