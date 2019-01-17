@@ -19,7 +19,7 @@ FPGA_SPEED_VEHICLE_BURN_HP = 0.01 #hp/ms -> 10 hp/s
 # NEAT-Inverted pendulum Training.
 import pygame
 NEATIP_EVENT_END_TRAINING_STEP = pygame.USEREVENT
-NEATIP_TRAINING_STEPS = 25 # 15
-NEATIP_MAX_TIME_ALIVE = 10 # seconds
+NEATIP_TRAINING_STEPS = 30 # 15
+NEATIP_MAX_TIME_ALIVE = 20 # seconds
 NEATIP_INITIAL_ANGLE = -20 # sexagesimals with the vertical
 NEATIP_LIMIT_ANGLE = 30 # [-x,x]

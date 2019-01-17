@@ -23,11 +23,11 @@ def main():
             neat.DefaultReproduction,
             neat.DefaultSpeciesSet,
             neat.DefaultStagnation,
-            'config')
+            'config_neat_ip')
         p = neat.Population(config)
         p.add_reporter(neat.StdOutReporter(True))
         winner = p.run(eval_genomes, n = settings.NEATIP_TRAINING_STEPS)
-        pickle.dump(winner, open('winner.pkl', 'wb'))
+        pickle.dump(winner, open('winner_neat_ip.pkl', 'wb'))
     #else:
     app = Application()
     app.play()

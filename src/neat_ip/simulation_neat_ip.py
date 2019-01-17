@@ -19,8 +19,8 @@ class SimulationNeatIP(SimulationBase):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config')
-            genome = pickle.load(open('winner.pkl', 'rb'))
+                'config_neat_ip')
+            genome = pickle.load(open('winner_neat_ip.pkl', 'rb'))
             self.init([genome], config)
 
     def init(self, genomes, config):
@@ -65,8 +65,6 @@ class NNIPSystem(object):
         if not self.m_isAlive:
             return
 
-        # Improve fitness: final speed, total distance traveled.
-
         if self.m_simulationRef.m_isTraining:
             self.m_traveledDistance += abs(self.m_invertedPendulum.m_speedM) * dt
 
@@ -75,8 +73,7 @@ class NNIPSystem(object):
             validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle and validPosition and validTime):
-                self.m_genome.fitness = self.m_timeAlive - 2 * abs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x) - self.m_traveledDistance/2
-                #print(self.m_traveledDistance)
+                self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/2)
                 self.m_isAlive = False
                 return
 
