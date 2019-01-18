@@ -8,8 +8,8 @@ class SimplePendulum(SimulationActor):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
 
         # Constants.
-        self.m_l = 1
-        self.m_g = 9.8
+        self.m_l = 1    # m
+        self.m_g = 9.8  # m/s2
         self.m_pi_180 = math.pi/180.0
 
         # Initial position.
@@ -18,8 +18,8 @@ class SimplePendulum(SimulationActor):
 
         # Rotation vars in radians.
         self.m_angleInRadians = self.m_angle * self.m_pi_180
-        self.m_angularVelocity = 0
-        self.m_angularAcceleration = 0
+        self.m_angularVelocity = 0      # rad/s
+        self.m_angularAcceleration = 0  # rad/s2
 
     def update(self, dt):
         super().update(dt)

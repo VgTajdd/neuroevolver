@@ -10,30 +10,30 @@ class InvertedPendulum(SimulationActor):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer, rc)
 
         # Constants.
-        self.l = 1
-        self.g = 9.8
+        self.l = 1      # m
+        self.g = 9.8    # m/s2
         self.pi_180 = math.pi/180.0
-        self.m = 0.1
-        self.M = 0.5
+        self.m = 0.1    # kg
+        self.M = 0.5    # kg
 
         # Initial position.
         self.m_angle = -20
-        self.m_xM = self.m_position.x
+        self.m_xM = self.m_position.x       # pixels
 
         # Rotation vars in radians.
         self.m_angleInRadians = self.m_angle * self.pi_180
-        self.m_angularVelocity = 0
-        self.m_angularAcceleration = 0
+        self.m_angularVelocity = 0          # rad/s
+        self.m_angularAcceleration = 0      # rad/s2
 
         # Traslation vars in meters.
-        self.m_speedM = 0
-        self.m_horizontalAcceleration = 0
+        self.m_speedM = 0                   # m/s
+        self.m_horizontalAcceleration = 0   # m/s2
 
         # Car actor.
         self.m_carActor = SimulationActor(pos, (50, 20), color = colors.BLUE, rc = (25, 0))
 
         # Input.
-        self.u = 0
+        self.u = 0      # N = kg*m/s2
 
     def update(self, dt):
         super().update(dt)
@@ -47,12 +47,13 @@ class InvertedPendulum(SimulationActor):
         a = [[ml, self.m * _cos], [ml * _cos, self.m + self.M]]
         b = [[self.m * self.g * _sin], [self.u + (ml * _as_sq * _sin)]]
         t = np.linalg.inv(np.array(a)).dot(np.array(b))
-        self.m_angularAcceleration = t[0][0]
-        self.m_horizontalAcceleration = t[1][0]
+        self.m_angularAcceleration = t[0][0]        # rad/s2
+        self.m_horizontalAcceleration = t[1][0]     # m/s2
 
         # Updating motion vars.
         self.m_speedM += self.m_horizontalAcceleration * dt_secs
-        self.m_xM += self.m_speedM * dt_secs * 100 # pixeles = cm
+        delta_meters = self.m_speedM * dt_secs      # m
+        self.m_xM += delta_meters * 100             # 1pixel = 1cm = 0.01m
         self.m_angularVelocity += self.m_angularAcceleration * dt_secs
         self.m_angleInRadians += self.m_angularVelocity * dt_secs
 

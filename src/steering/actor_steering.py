@@ -9,12 +9,12 @@ class ActorSteering(SimulationActor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer)
 
-        self.m_maxSpeed = 0.2
+        self.m_maxSpeed = 0.2                       # pixels/ms
         self.m_behaviour = SteeringBehaviour(self)
 
         # Movement vars.
-        self.m_velocity = Vector2(0.1, -0.1)
-        self.m_acceleration = Vector2()
+        self.m_velocity = Vector2(0.1, -0.1)        # pixels/ms
+        self.m_acceleration = Vector2()             # pixels/ms
         self.m_mass = 1
 
         # Auxiliar vars.

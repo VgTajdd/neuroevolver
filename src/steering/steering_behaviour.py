@@ -81,8 +81,8 @@ class BehaviourComponent():
         self.m_type = type
 
         # Constants.
-        self.m_steeringConstant = 0.01
-        self.m_steeringRadius = 0 #500
+        self.m_steeringConstant = 0.01      # [(gr * m)/(pixel * s)]
+        self.m_steeringRadius = 0 #500      # pixels
 
         # Temporal vars.
         self.m_actualDistanceToTarget = 0
@@ -113,9 +113,9 @@ class BehaviourComponent():
         #if self.m_type is SteeringBehaviourType.SEEK or self.m_type is SteeringBehaviourType.FLEE:
         #   self.updateTargetPosition()
         #self.m_actualDistanceToTarget = Vector2(self.m_targetPosition).distance_to(self.m_actor.m_position)
-        
+
         self.calculateDistanceToTarget()
-        
+
         if self.m_steeringRadius > 0:
             if self.m_actualDistanceToTarget > self.m_steeringRadius:
                 return
