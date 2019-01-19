@@ -26,7 +26,7 @@ class DebugDrawing():
         obj['ep'] = endPos
         obj['w'] = width
         return obj
-    
+
     def ellipse(color, rect, width = 1):
         obj = {}
         obj['c'] = color
@@ -34,7 +34,7 @@ class DebugDrawing():
         obj['r'] = rect
         obj['w'] = width
         return obj
-    
+
     def rect(color, rect, width = 1):
         obj = {}
         obj['c'] = color

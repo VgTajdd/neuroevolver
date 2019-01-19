@@ -1,17 +1,20 @@
 from core.simulation_base import SimulationBase
 from core.actor import DraggableActor, SimulationActor
+from core.debug_drawing import DebugDrawing
 from steering.actor_steering import ActorSteering
 from physics.simple_pendulum import SimplePendulum
 from physics.inverted_pendulum import InvertedPendulum
 from enums import SteeringBehaviourType
 import core.colors as colors
 from pygame.math import Vector2
+import math
 
 class SimulationSteering(SimulationBase):
     def __init__(self, container, width, height):
         SimulationBase.__init__(self, container, width, height)
         self.m_invertedPendulum = None
         self.m_target = None
+        self.m_vehicle = None
         self.init()
 
     def init(self):
@@ -33,8 +36,8 @@ class SimulationSteering(SimulationBase):
         self.m_invertedPendulum = InvertedPendulum((500, 100), (10, 100), rc = (5, 100), layer = 2)
         self.m_invertedPendulum.addToSimulation(self)
 
-        vehicle = Vehicle((400, 500), (25, 35), imagePath = "assets/actor0.png", layer = 2)
-        self.addActor(vehicle)
+        self.m_vehicle = Vehicle((400, 500), (20, 20), imagePath = "assets/actor0.png", layer = 2)
+        self.addActor(self.m_vehicle)
 
     def onKeyPress(self, event):
         self.m_invertedPendulum.onKeyPress(event)
@@ -54,20 +57,42 @@ class SimulationSteering(SimulationBase):
         if self.m_target:
             self.m_target.onMouseRelease(event)
 
+    def update(self, dt):
+        super().update(dt)
+        self.m_debugContainer += self.m_vehicle.m_debugShapes
+
 class Vehicle(SimulationActor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer)
 
-        self.m_speedL = 0.15
-        self.m_speedR = 0.2
-        self.m_radius = 0.1 # 10cm = 10 pixeles
+        self.m_speedL = 50 # pixels/s
+        self.m_speedR = 20 # pixels/s
+        self.m_wheelDistance = 20 # pixeles
         self.m_angle = 10
 
+        self.m_antennaLength = 50
+        self.m_antennaRange = 60
+        self.m_antenasQuantity = 5
+        self.m_antennas = [Vector2(0, -self.m_antennaLength) for i in range(self.m_antenasQuantity)]
+        [self.setupAntenna(i) for i in range(self.m_antenasQuantity)]
+
     def update(self, dt):
-        #dt_seconds = dt/1000 # TOFIX, also in steering demo(speeds and dt).
-        angularSpeed = (self.m_speedR - self.m_speedL)/(2*self.m_radius)
-        self.setAngle(self.m_angle + angularSpeed*dt)
-        delta = Vector2(0, -(dt*(self.m_speedL + self.m_speedR)/2))
+        super().update(dt)
+        dt_seconds = dt/1000 # seconds
+        angularSpeed = (self.m_speedR - self.m_speedL)/(self.m_wheelDistance) # rad/s
+        angle_delta = angularSpeed*dt_seconds*180/math.pi
+        self.setAngle(self.m_angle + angle_delta)
+        delta = Vector2(0, -(dt_seconds*(self.m_speedL + self.m_speedR)/2))
         delta = delta.rotate(-self.m_angle)
         self.setPosition(self.m_position + delta)
-        super().update(dt)
+        [self.updateAntenna(i, angle_delta) for i in range(self.m_antenasQuantity)]
+
+    def setupAntenna(self, index):
+        delta = self.m_antennaRange/(self.m_antenasQuantity - 1)
+        angle = self.m_angle + (-self.m_antennaRange/2) + index*delta
+        self.m_antennas[index] = self.m_antennas[index].rotate(-angle)
+
+    def updateAntenna(self, index, angle_delta):
+        self.m_antennas[index] = self.m_antennas[index].rotate(-angle_delta)
+        self.addDebugShape(DebugDrawing.line(colors.GREEN, self.m_position, self.m_position + self.m_antennas[index]))
+

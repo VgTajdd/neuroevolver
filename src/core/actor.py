@@ -58,14 +58,14 @@ class Actor(pygame.sprite.DirtySprite):
         self.rect.center = self.m_position + self.m_offsetCenter.rotate(-self.m_angle)
 
         if settings.SHOW_ACTOR_RECT:
-            pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1) 
+            pygame.draw.rect(self.image, colors.RED, [0,0,self.rect.w, self.rect.h], 1)
 
         # Rotation.
         self._imageCache = None
         self.setAngle(self.m_angle)
 
         if settings.SHOW_ACTOR_RECT:
-            pygame.draw.rect(self.image, colors.BLUE, [0,0,self.rect.w, self.rect.h], 1) 
+            pygame.draw.rect(self.image, colors.BLUE, [0,0,self.rect.w, self.rect.h], 1)
 
     def setImage(self, imagePath):
         self.m_imagePath = imagePath
@@ -151,7 +151,7 @@ class DraggableActor(SimulationActor):
         self.m_lastMousePosition = None
 
     def onMouseMove(self, event):
-        if not self.m_isDraggable: 
+        if not self.m_isDraggable:
             return
         if self.m_isInDrag:
             actualPos = event.pos
@@ -160,7 +160,7 @@ class DraggableActor(SimulationActor):
             self.m_lastMousePosition = actualPos
 
     def onMouseDown(self, event):
-        if not self.m_isDraggable: 
+        if not self.m_isDraggable:
             return
         if not self.m_isInDrag:
             if self.rect.collidepoint(event.pos):
@@ -168,7 +168,7 @@ class DraggableActor(SimulationActor):
                 self.m_isInDrag = True
 
     def onMouseRelease(self, event):
-        if not self.m_isDraggable: 
+        if not self.m_isDraggable:
             return
         self.m_isInDrag = False
         self.m_lastMousePosition = None

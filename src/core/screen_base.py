@@ -31,8 +31,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         pass
 
     def free(self):
-        for control in self.m_controls:
-            control.free()
+        [control.free() for control in self.m_controls]
         self.m_controls.clear()
         self.m_controls = None
         self.m_manager = None
@@ -43,8 +42,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
         #return pygame.sprite.LayeredDirty.draw(self, screen);
 
     def updateTime(self, dt):
-        for control in self.m_controls:
-            control.updateTime(dt)
+        [control.updateTime(dt) for control in self.m_controls]
 
     def onKeyPress(self, key):
         pass
