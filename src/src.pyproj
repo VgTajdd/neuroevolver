@@ -52,6 +52,13 @@
     <Compile Include="gui\settings_screen.py" />
     <Compile Include="gui\__init__.py" />
     <Compile Include="main.py" />
+    <Compile Include="neat_dycicle\dycicle.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="neat_dycicle\hud_neat_dycicle.py" />
+    <Compile Include="neat_dycicle\simulation_neat_dycicle.py" />
+    <Compile Include="neat_dycicle\simulation_screen_neat_dycicle.py" />
+    <Compile Include="neat_dycicle\__init__.py" />
     <Compile Include="neat_ip\hud_neat_ip.py" />
     <Compile Include="neat_ip\simulation_neat_ip.py" />
     <Compile Include="neat_ip\simulation_screen_neat_ip.py" />
@@ -82,6 +89,7 @@
     <Folder Include="gui" />
     <Folder Include="fpga\" />
     <Folder Include="neat_ip\" />
+    <Folder Include="neat_dycicle\" />
     <Folder Include="physics\" />
     <Folder Include="steering" />
   </ItemGroup>
