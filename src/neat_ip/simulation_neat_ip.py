@@ -99,4 +99,3 @@ class NNIPSystem(object):
         self.m_invertedPendulum.removeFromSimulation(self.m_simulationRef)
         self.m_invertedPendulum = None
         self.m_simulationRef = None
-        super().free()

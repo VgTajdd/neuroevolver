@@ -3,6 +3,7 @@ from core.debug_drawing import DebugDrawing
 from pygame.math import Vector2
 import core.colors as colors
 import math
+import random
 
 class Dycicle(SimulationActor):
     """Vehicle with two wheels (left and right) with a number of antennas
@@ -13,7 +14,7 @@ class Dycicle(SimulationActor):
         self.m_speedL = 50 # pixels/s
         self.m_speedR = 20 # pixels/s
         self.m_wheelDistance = 20 # pixeles
-        self.m_angle = 10
+        self.m_angle = random.randint(0, 360)
 
         self.m_antennaLength = 50
         self.m_antennaRange = 60
