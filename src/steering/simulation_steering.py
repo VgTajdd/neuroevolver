@@ -138,6 +138,7 @@ class SimulationSteering(SimulationBase):
                 self.m_debugContainer.append(DebugDrawing.polygon(colors.ORANGE, vertices))
 
         self.m_b2dWorld.Step(dt/1000, 10, 10)
+        self.m_b2dWorld.ClearForces()
 
         self.m_debugContainer += self.m_vehicle.m_debugShapes
 
