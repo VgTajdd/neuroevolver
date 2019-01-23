@@ -30,3 +30,4 @@ class DebugShape(IntEnum):
     LINE = 0
     RECT = 1
     ELLIPSE = 2
+    POLYGON = 3

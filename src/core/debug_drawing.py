@@ -16,6 +16,9 @@ class DebugDrawing():
                 elif shape == DebugShape.ELLIPSE:
                     r = pygame.draw.ellipse(screen, obj['c'], obj['r'], obj['w'])
                     dirtyRects.append(r)
+                elif shape == DebugShape.POLYGON:
+                    r = pygame.draw.polygon(screen, obj['c'], obj['v'], obj['w'])
+                    dirtyRects.append(r)
         return dirtyRects
 
     def line(color, startPos, endPos, width = 1):
@@ -40,5 +43,13 @@ class DebugDrawing():
         obj['c'] = color
         obj['shape'] = DebugShape.RECT
         obj['r'] = rect
+        obj['w'] = width
+        return obj
+
+    def polygon(color, vertices, width = 1):
+        obj = {}
+        obj['c'] = color
+        obj['shape'] = DebugShape.POLYGON
+        obj['v'] = vertices
         obj['w'] = width
         return obj

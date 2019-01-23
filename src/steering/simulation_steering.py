@@ -1,5 +1,6 @@
 from core.simulation_base import SimulationBase
 from core.actor import DraggableActor
+from core.debug_drawing import DebugDrawing
 from steering.actor_steering import ActorSteering
 from physics.simple_pendulum import SimplePendulum
 from physics.inverted_pendulum import InvertedPendulum
@@ -8,7 +9,7 @@ from enums import SteeringBehaviourType
 import core.colors as colors
 
 import Box2D
-from Box2D import b2AABB, b2Vec2, b2QueryCallback
+from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody
 from Box2D.b2 import world, polygonShape, staticBody, dynamicBody
 import settings
 
@@ -66,33 +67,37 @@ class SimulationSteering(SimulationBase):
         if self.m_target:
             self.m_target.onMouseMove(event)
 
-        self.mouseWorld = event.pos
+        p = self.convertScreenToWorld(event.pos)
+
+        self.mouseWorld = p
         if self.mouseJoint:
-            self.mouseJoint.target = event.pos
+            self.mouseJoint.target = p
 
     def onMouseDown(self, event):
         if self.m_target:
             self.m_target.onMouseDown(event)
+
+        p = self.convertScreenToWorld(event.pos)
 
         if self.mouseJoint is not None:
             return
 
         # Create a mouse joint on the selected body (assuming it's dynamic)
         # Make a small box.
-        aabb = b2AABB(lowerBound=b2Vec2(event.pos) - (0.001, 0.001),
-                      upperBound=b2Vec2(event.pos) + (0.001, 0.001))
+        aabb = b2AABB(lowerBound=b2Vec2(p) - (0.001, 0.001),
+                      upperBound=b2Vec2(p) + (0.001, 0.001))
 
         # Query the world for overlapping shapes.
-        query = fwQueryCallback(event.pos)
+        query = fwQueryCallback(p)
         self.m_b2dWorld.QueryAABB(query, aabb)
 
         if query.fixture:
             body = query.fixture.body
             # A body was selected, create the mouse joint
             self.mouseJoint = self.m_b2dWorld.CreateMouseJoint(
-                bodyA=self.groundbody,
+                bodyA=self.ground_body,
                 bodyB=body,
-                target=event.pos,
+                target=p,
                 maxForce=1000.0 * body.mass)
             body.awake = True
 
@@ -103,6 +108,9 @@ class SimulationSteering(SimulationBase):
         if self.mouseJoint:
             self.m_b2dWorld.DestroyJoint(self.mouseJoint)
             self.mouseJoint = None
+
+    def convertScreenToWorld(self, pos):
+        return pos[0]/self.PPM, (settings.APP_HEIGHT - pos[1])/self.PPM
 
     def update(self, dt):
         super().update(dt)
@@ -127,9 +135,9 @@ class SimulationSteering(SimulationBase):
                 # the y components.
                 vertices = [(v[0], settings.APP_HEIGHT - v[1]) for v in vertices]
 
-                #pygame.draw.polygon(screen, colors[body.type], vertices)
+                self.m_debugContainer.append(DebugDrawing.polygon(colors.ORANGE, vertices))
 
-        self.m_b2dWorld.Step(dt, 10, 10)
+        self.m_b2dWorld.Step(dt/1000, 10, 10)
 
         self.m_debugContainer += self.m_vehicle.m_debugShapes
 
