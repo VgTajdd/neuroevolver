@@ -8,8 +8,9 @@ from neat_dycicle.dycicle import Dycicle
 from enums import SteeringBehaviourType
 import core.colors as colors
 
+from b2d.debug_draw_extended import DebugDrawExtended
 import Box2D
-from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody
+from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color
 from Box2D.b2 import world, polygonShape, staticBody, dynamicBody
 import settings
 
@@ -23,6 +24,9 @@ class SimulationSteering(SimulationBase):
         # --- pybox2d world setup ---
         # Create the world
         self.m_b2dWorld = world(gravity=(0, -10), doSleep=True)
+
+        self.debugDraw = DebugDrawExtended(surface=settings.OBJ_SURFACE)
+        #self.m_b2dWorld.SetDebugDraw(self.debugDraw)
         # And a static body to hold the ground shape
         self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(0, 1),shapes=polygonShape(box=(50, 5)))
         # Create a dynamic body
@@ -32,6 +36,16 @@ class SimulationSteering(SimulationBase):
 
         self.PPM = 20.0 # pixels per meter
         self.mouseJoint = None
+
+        self.colours = {
+            'mouse_point': b2Color(0, 1, 0),
+            'bomb_center': b2Color(0, 0, 1.0),
+            'bomb_line': b2Color(0, 1.0, 1.0),
+            'joint_line': b2Color(0.8, 0.8, 0.8),
+            'contact_add': b2Color(0.3, 0.95, 0.3),
+            'contact_persist': b2Color(0.3, 0.3, 0.95),
+            'contact_normal': b2Color(0.4, 0.9, 0.4),
+        }
 
         self.init()
 
@@ -139,6 +153,21 @@ class SimulationSteering(SimulationBase):
 
         self.m_b2dWorld.Step(dt/1000, 10, 10)
         self.m_b2dWorld.ClearForces()
+        self.m_b2dWorld.DrawDebugData()
+
+        self.debugDraw .StartDraw()
+
+        if self.mouseJoint:
+            p1 = self.debugDraw.to_screen(self.mouseJoint.anchorB)
+            p2 = self.debugDraw.to_screen(self.mouseJoint.target)
+
+            self.debugDraw.DrawPoint(p1, 5,
+                                   self.colours['mouse_point'])
+            self.debugDraw.DrawPoint(p2, 5,
+                                   self.colours['mouse_point'])
+            self.debugDraw.DrawSegment(p1, p2, self.colours['joint_line'])
+
+        self.debugDraw .EndDraw()
 
         self.m_debugContainer += self.m_vehicle.m_debugShapes
 

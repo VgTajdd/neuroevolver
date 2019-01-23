@@ -8,6 +8,7 @@ class Application(object):
     def __init__(self):
         pygame.init() #pygame.font.init() is called here
         self.screen = pygame.display.set_mode((settings.APP_WIDTH, settings.APP_HEIGHT))
+        settings.OBJ_SURFACE = self.screen
 
         self.clock = pygame.time.Clock()
         self.last_tick = pygame.time.get_ticks()

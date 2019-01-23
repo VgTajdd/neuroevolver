@@ -19,6 +19,10 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="b2d\debug_draw_extended.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="b2d\__init__.py" />
     <Compile Include="core\actor.py" />
     <Compile Include="core\colors.py" />
     <Compile Include="core\control.py" />
@@ -90,6 +94,7 @@
     <Folder Include="fpga\" />
     <Folder Include="neat_ip\" />
     <Folder Include="neat_dycicle\" />
+    <Folder Include="b2d\" />
     <Folder Include="physics\" />
     <Folder Include="steering" />
   </ItemGroup>
