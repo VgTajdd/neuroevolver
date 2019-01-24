@@ -22,6 +22,9 @@
     <Compile Include="b2d\debug_draw_extended.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="b2d\hud_b2d.py" />
+    <Compile Include="b2d\simulation_screen_b2d.py" />
+    <Compile Include="b2d\simulation_b2d.py" />
     <Compile Include="b2d\__init__.py" />
     <Compile Include="core\actor.py" />
     <Compile Include="core\colors.py" />

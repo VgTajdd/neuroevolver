@@ -7,6 +7,7 @@ from steering.simulation_screen_steering import SimulationScreenSteering
 from fpga.simulation_screen_fpga import SimulationScreenFPGA
 from neat_ip.simulation_screen_neat_ip import SimulationScreenNeatIP
 from neat_dycicle.simulation_screen_neat_dycicle import SimulationScreenNeatDycicle
+from b2d.simulation_screen_b2d import SimulationScreenB2D
 import core.colors as colors
 
 class ScreenManager():
@@ -46,6 +47,8 @@ class ScreenManager():
                 self.m_currentScreen = SimulationScreenNeatIP(self.m_width, self.m_height, colors.WHITE, params)
             elif simulationType is SimulationType.NEAT_DYCICLE:
                 self.m_currentScreen = SimulationScreenNeatDycicle(self.m_width, self.m_height, colors.GRAY, params)
+            elif simulationType is SimulationType.B2D:
+                self.m_currentScreen = SimulationScreenB2D(self.m_width, self.m_height, colors.BLACK)
         else:
             self.m_currentScreen = SimulationScreen(self.m_width, self.m_height, colors.BEIGE)
 

@@ -13,6 +13,7 @@ class SimulationType(IntEnum):
     FP_STEERING = 2
     NEAT_INVERTED_PENDULUM = 3
     NEAT_DYCICLE = 4
+    B2D = 5
 
 class SteeringBehaviourType(IntEnum):
     STATIC = 0
