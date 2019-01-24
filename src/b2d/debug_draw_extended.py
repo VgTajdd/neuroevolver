@@ -13,7 +13,7 @@ class DebugDrawExtended(b2DrawExtended):
 
     surface = None
     axisScale = 10.0
-    PPM = 20
+    PPM = 1.0 #20
 
     def __init__(self, **kwargs):
         b2DrawExtended.__init__(self, **kwargs)
@@ -31,7 +31,7 @@ class DebugDrawExtended(b2DrawExtended):
 
     def StartDraw(self):
         self.zoom = self.PPM
-        self.center = (100, 100)
+        self.center = (400, 300)
         self.offset = (0, 0)
         self.screenSize = (800, 600)
 

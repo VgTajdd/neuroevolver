@@ -35,9 +35,11 @@ class SimulationScreen(ScreenBase):
         dirtyRectsHud = pygame.sprite.LayeredDirty.draw(self.m_hud, screen)
         dirtyRectsDebug = []
         if settings.SHOW_DEBUG_SHAPES:
+            self.m_simulation.debugDraw(screen)
             self.m_debugContainer = self.m_simulation.m_debugContainer.copy()
             dirtyRectsDebug = DebugDrawing.draw(self.m_debugContainer, screen)
             self.m_debugContainer.clear()
+            #self.m_simulation.debugDraw(screen)
         return dirtyRectsSim + dirtyRectsHud + dirtyRectsDebug
 
     def updateTime(self, dt):

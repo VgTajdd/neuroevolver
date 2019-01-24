@@ -27,6 +27,9 @@ class SimulationBase():
     def draw(self, screen):
         return pygame.sprite.LayeredDirty.draw(self.m_container, screen)
 
+    def debugDraw(self, screen):
+        return []
+
     def update(self, dt):
         self.m_debugContainer.clear()
         self.m_actorManager.update(dt)

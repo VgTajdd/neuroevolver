@@ -1,6 +1,7 @@
 from core.simulation_base import SimulationBase
 from core.debug_drawing import DebugDrawing
 from b2d.debug_draw_extended import DebugDrawExtended
+from b2d.actor_b2d import ActorB2D
 import Box2D
 from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color
 from Box2D.b2 import world, polygonShape, staticBody, dynamicBody
@@ -15,26 +16,47 @@ class SimulationB2D(SimulationBase):
         # Create the world
         self.m_b2dWorld = world(gravity=(0, -10), doSleep=True)
         self.m_debugDraw = DebugDrawExtended(surface=settings.OBJ_SURFACE)
-        # And a static body to hold the ground shape
-        self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(0, 1),shapes=polygonShape(box=(50, 5)))
-        # Create a dynamic body
-        self.dynamic_body = self.m_b2dWorld.CreateDynamicBody(position=(10, 15), angle=15)
-        # And add a box fixture onto it (with a nonzero density, so it will move)
-        box = self.dynamic_body.CreatePolygonFixture(box=(2, 1), density=1, friction=0.3)
+        self.m_groundBody = None
+        ## And a static body to hold the ground shape
+        ##self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(20, 2),shapes=polygonShape(box=(20, 1)))
+        #self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(20, 2))
+        #box = self.ground_body.CreatePolygonFixture(box=(20, 1), density=1, friction=0.3)
+        ## Create a dynamic body
+        #self.dynamic_body = self.m_b2dWorld.CreateDynamicBody(position=(10, 15), angle=15)
+        ## And add a box fixture onto it (with a nonzero density, so it will move)
+        #box = self.dynamic_body.CreatePolygonFixture(box=(2, 1), density=1, friction=0.3)
 
-        self.PPM = 20.0 # pixels per meter
+        self.PPM = 1.0 #20.0 # pixels per meter
         self.mouseJoint = None
 
         self.init()
 
+    def addActor(self, actor, static = True):
+        actor = super().addActor(actor)
+        if static:
+            actor.m_body = self.m_b2dWorld.CreateStaticBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
+                                                            shapes=polygonShape(box=(actor.m_size[0]*0.5/self.PPM, actor.m_size[1]*0.5/self.PPM)))
+            #actor.body = self.m_b2dWorld.CreateStaticBody(position=actor.m_position,shapes=polygonShape(box=(20, 1)))
+        else:
+            actor.m_body = self.m_b2dWorld.CreateDynamicBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
+                                                             angle=actor.m_angle)
+            fixture = actor.m_body.CreatePolygonFixture(box=(actor.m_size[0]*0.5/self.PPM, actor.m_size[1]*0.5/self.PPM),
+                                                        density=1, friction=0.3)
+        return actor
+
     def init(self):
-        pass
+        actorGround = self.addActor(ActorB2D((400, 40), (400, 20)))
+        self.addActor(ActorB2D((200, 300), (40, 20)), False)
+        self.m_groundBody = actorGround.m_body
 
     def update(self, dt):
         super().update(dt)
-        for body in (self.ground_body, self.dynamic_body):  # or: world.bodies
-        # The body gives us the position and angle of its shapes
-            for fixture in body.fixtures:
+        self.m_b2dWorld.Step(dt/1000, 10, 10)
+        self.m_b2dWorld.ClearForces()
+
+    def debugDraw(self, screen):
+        for actor in self.m_actorManager.m_actors:
+            for fixture in actor.m_body.fixtures:
                 # The fixture holds information like density and friction,
                 # and also the shape.
                 shape = fixture.shape
@@ -43,7 +65,7 @@ class SimulationB2D(SimulationBase):
                 # We take the body's transform and multiply it with each
                 # vertex, and then convert from meters to pixels with the scale
                 # factor.
-                vertices = [(body.transform * v) * self.PPM for v in shape.vertices]
+                vertices = [(actor.m_body.transform * v) * self.PPM for v in shape.vertices]
 
                 # But wait! It's upside-down! Pygame and Box2D orient their
                 # axes in different ways. Box2D is just like how you learned
@@ -56,21 +78,14 @@ class SimulationB2D(SimulationBase):
                 self.m_debugContainer.append(DebugDrawing.polygon(colors.GRAY, vertices, 0))
                 self.m_debugContainer.append(DebugDrawing.polygon(colors.WHITE, vertices))
 
-        self.m_b2dWorld.Step(dt/1000, 10, 10)
-        self.m_b2dWorld.ClearForces()
-
-    def draw(self, screen):
         self.m_debugDraw.StartDraw()
-
         if self.mouseJoint:
             p1 = self.m_debugDraw.to_screen(self.mouseJoint.anchorB)
             p2 = self.m_debugDraw.to_screen(self.mouseJoint.target)
             self.m_debugDraw.DrawPoint(p1, 5, b2Color(colors.RED))
             self.m_debugDraw.DrawPoint(p2, 5, b2Color(colors.RED))
             self.m_debugDraw.DrawSegment(p1, p2, b2Color(colors.GREY_BLUE))
-
-        self.m_debugDraw .EndDraw()
-        return super().draw(screen)
+        self.m_debugDraw.EndDraw()
 
     def onKeyPress(self, event):
         pass
@@ -104,7 +119,7 @@ class SimulationB2D(SimulationBase):
             body = query.fixture.body
             # A body was selected, create the mouse joint
             self.mouseJoint = self.m_b2dWorld.CreateMouseJoint(
-                bodyA=self.ground_body,
+                bodyA=self.m_groundBody,
                 bodyB=body,
                 target=p,
                 maxForce=1000.0 * body.mass)

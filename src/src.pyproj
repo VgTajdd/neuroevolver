@@ -19,6 +19,9 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="b2d\actor_b2d.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="b2d\debug_draw_extended.py">
       <SubType>Code</SubType>
     </Compile>
