@@ -4,7 +4,7 @@ from b2d.debug_draw_extended import DebugDrawExtended
 from b2d.actor_b2d import ActorB2D
 import Box2D
 from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color
-from Box2D.b2 import world, polygonShape, staticBody, dynamicBody
+from Box2D.b2 import world, polygonShape
 import settings
 import core.colors as colors
 
@@ -17,16 +17,8 @@ class SimulationB2D(SimulationBase):
         self.m_b2dWorld = world(gravity=(0, -10), doSleep=True)
         self.m_debugDraw = DebugDrawExtended(surface=settings.OBJ_SURFACE)
         self.m_groundBody = None
-        ## And a static body to hold the ground shape
-        ##self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(20, 2),shapes=polygonShape(box=(20, 1)))
-        #self.ground_body = self.m_b2dWorld.CreateStaticBody(position=(20, 2))
-        #box = self.ground_body.CreatePolygonFixture(box=(20, 1), density=1, friction=0.3)
-        ## Create a dynamic body
-        #self.dynamic_body = self.m_b2dWorld.CreateDynamicBody(position=(10, 15), angle=15)
-        ## And add a box fixture onto it (with a nonzero density, so it will move)
-        #box = self.dynamic_body.CreatePolygonFixture(box=(2, 1), density=1, friction=0.3)
 
-        self.PPM = 1.0 #20.0 # pixels per meter
+        self.PPM = 20.0 # pixels per meter
         self.mouseJoint = None
 
         self.init()
@@ -34,9 +26,10 @@ class SimulationB2D(SimulationBase):
     def addActor(self, actor, static = True):
         actor = super().addActor(actor)
         if static:
+            # box is defined by a vector from it's center to a corner, this way,
+            # we use actor.m_size[0] * 0.5
             actor.m_body = self.m_b2dWorld.CreateStaticBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
                                                             shapes=polygonShape(box=(actor.m_size[0]*0.5/self.PPM, actor.m_size[1]*0.5/self.PPM)))
-            #actor.body = self.m_b2dWorld.CreateStaticBody(position=actor.m_position,shapes=polygonShape(box=(20, 1)))
         else:
             actor.m_body = self.m_b2dWorld.CreateDynamicBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
                                                              angle=actor.m_angle)
@@ -50,11 +43,12 @@ class SimulationB2D(SimulationBase):
         self.m_groundBody = actorGround.m_body
 
     def update(self, dt):
-        super().update(dt)
         self.m_b2dWorld.Step(dt/1000, 10, 10)
         self.m_b2dWorld.ClearForces()
+        super().update(dt)
 
     def debugDraw(self, screen):
+        self.m_debugDraw.StartDraw()
         for actor in self.m_actorManager.m_actors:
             for fixture in actor.m_body.fixtures:
                 # The fixture holds information like density and friction,
@@ -75,10 +69,12 @@ class SimulationB2D(SimulationBase):
                 # the y components.
                 vertices = [(v[0], settings.APP_HEIGHT - v[1]) for v in vertices]
 
-                self.m_debugContainer.append(DebugDrawing.polygon(colors.GRAY, vertices, 0))
-                self.m_debugContainer.append(DebugDrawing.polygon(colors.WHITE, vertices))
+                self.m_debugDraw.DrawSolidPolygon(vertices, b2Color(colors.GREEN))
 
-        self.m_debugDraw.StartDraw()
+                #vertices = [self.m_debugDraw.to_screen(actor.m_body.transform * v) for v in shape.vertices]
+                #self.m_debugDraw.DrawSolidPolygon(vertices, b2Color(colors.GREEN))
+
+        #self.m_debugDraw.StartDraw()
         if self.mouseJoint:
             p1 = self.m_debugDraw.to_screen(self.mouseJoint.anchorB)
             p2 = self.m_debugDraw.to_screen(self.mouseJoint.target)
@@ -133,8 +129,15 @@ class SimulationB2D(SimulationBase):
     def convertScreenToWorld(self, pos):
         return pos[0]/self.PPM, (settings.APP_HEIGHT - pos[1])/self.PPM
 
-class fwQueryCallback(b2QueryCallback):
+    def free(self):
+        for actor in self.m_actorManager.m_actors:
+            self.m_b2dWorld.DestroyBody(actor.m_body)
 
+        self.m_b2dWorld = None
+        self.m_debugDraw = None
+        return super().free()
+
+class fwQueryCallback(b2QueryCallback):
     def __init__(self, p):
         super(fwQueryCallback, self).__init__()
         self.point = p

@@ -13,21 +13,13 @@ class DebugDrawExtended(b2DrawExtended):
 
     surface = None
     axisScale = 10.0
-    PPM = 1.0 #20
+    PPM = 20.0
 
     def __init__(self, **kwargs):
         b2DrawExtended.__init__(self, **kwargs)
         self.flipX = False
         self.flipY = True
         self.convertVertices = True
-
-    #def convertScreenToWorld(self, pos):
-    #    return pos[0]*self.PPM, pos[1]*self.PPM
-
-    #def to_screen(self, point):
-    #    """to_screen(b2DrawExtended self, b2Vec2 point) -> PyObject *"""
-    #    #point = self.convertScreenToWorld(point)
-    #    return super().to_screen(point)
 
     def StartDraw(self):
         self.zoom = self.PPM
@@ -129,5 +121,5 @@ class DebugDrawExtended(b2DrawExtended):
                                vertices[0], vertices[1])
         else:
             pygame.draw.polygon(
-                self.surface, (color / 2) + [127], vertices, 0)
+                self.surface, (color / 2) + (127,127,127), vertices, 0)
             pygame.draw.polygon(self.surface, color, vertices, 1)
