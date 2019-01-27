@@ -19,7 +19,21 @@ class DebugDrawExtended(b2DrawExtended):
         b2DrawExtended.__init__(self, **kwargs)
         self.flipX = False
         self.flipY = True
-        self.convertVertices = True
+
+        #self.convertVertices = True
+        #self.drawShapes=True
+        #self.drawJoints=True
+        #self.drawAABBs=True
+        #self.drawPairs=True
+        #self.drawCOMs=True
+
+        is_extended = isinstance(self, b2DrawExtended)
+        self.flags = dict(drawShapes=True,
+                          drawJoints=True,
+                          drawAABBs=False,
+                          drawPairs=True,
+                          drawCOMs=False,
+                          convertVertices=is_extended)
 
     def StartDraw(self):
         self.zoom = self.PPM
@@ -51,7 +65,7 @@ class DebugDrawExtended(b2DrawExtended):
         """
         Draw the line segment from p1-p2 with the specified color.
         """
-        pygame.draw.aaline(self.surface, color, p1, p2)
+        pygame.draw.aaline(self.surface, color.bytes, p1, p2)
 
     def DrawTransform(self, xf):
         """
@@ -75,7 +89,7 @@ class DebugDrawExtended(b2DrawExtended):
         else:
             radius = int(radius)
 
-        pygame.draw.circle(self.surface, color,
+        pygame.draw.circle(self.surface, color.bytes,
                            center, radius, drawwidth)
 
     def DrawSolidCircle(self, center, radius, axis, color):
@@ -89,9 +103,9 @@ class DebugDrawExtended(b2DrawExtended):
         else:
             radius = int(radius)
 
-        pygame.draw.circle(self.surface, (color / 2) + [127],
+        pygame.draw.circle(self.surface, (color / 2).bytes + [127],
                            center, radius, 0)
-        pygame.draw.circle(self.surface, color, center, radius, 1)
+        pygame.draw.circle(self.surface, color.bytes, center, radius, 1)
         pygame.draw.aaline(self.surface, (255, 0, 0), center,
                            (center[0] - radius * axis[0],
                             center[1] + radius * axis[1]))
@@ -104,10 +118,10 @@ class DebugDrawExtended(b2DrawExtended):
             return
 
         if len(vertices) == 2:
-            pygame.draw.aaline(self.surface, color,
+            pygame.draw.aaline(self.surface, color.bytes,
                                vertices[0], vertices)
         else:
-            pygame.draw.polygon(self.surface, color, vertices, 1)
+            pygame.draw.polygon(self.surface, color.bytes, vertices, 1)
 
     def DrawSolidPolygon(self, vertices, color):
         """
@@ -117,9 +131,10 @@ class DebugDrawExtended(b2DrawExtended):
             return
 
         if len(vertices) == 2:
-            pygame.draw.aaline(self.surface, color,
+            pygame.draw.aaline(self.surface, color.bytes,
                                vertices[0], vertices[1])
         else:
             pygame.draw.polygon(
-                self.surface, (color / 2) + (127,127,127), vertices, 0)
-            pygame.draw.polygon(self.surface, color, vertices, 1)
+                self.surface, (color / 2).bytes + [127], vertices, 0)
+            pygame.draw.polygon(self.surface, color.bytes, vertices, 1)
+
