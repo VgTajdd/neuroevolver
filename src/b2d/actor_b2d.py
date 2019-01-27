@@ -8,11 +8,10 @@ class ActorB2D(SimulationActor):
     def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
         SimulationActor.__init__(self, pos, size, color, imagePath, alpha, layer)
         self.m_body = None
-        self.PPM = 20 # pixels per meter
 
     def update(self, dt):
-        self.setPosition(self.m_body.position[0] * self.PPM,
-                         settings.APP_HEIGHT - self.m_body.position[1] * self.PPM)
+        self.setPosition(self.m_body.position[0] * settings.B2D_PPM,
+                         settings.APP_HEIGHT - self.m_body.position[1] * settings.B2D_PPM)
         self.setAngle(self.m_body.transform.angle * 180.00 / b2_pi)
         return super().update(dt)
 

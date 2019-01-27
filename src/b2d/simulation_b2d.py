@@ -24,7 +24,6 @@ class SimulationB2D(SimulationBase):
 
         self.m_groundBody = None
 
-        self.PPM = 20.0 # pixels per meter
         self.mouseJoint = None
 
         self.colours = {
@@ -32,7 +31,10 @@ class SimulationB2D(SimulationBase):
             'joint_line': b2Color(0.8, 0.8, 0.8)
         }
 
+        self.m_joints = []
+
         self.init()
+        self.setupWorld()
 
     def addActor(self, actor, static = True, bodyDef = None, fixture = None):
         actor = super().addActor(actor)
@@ -43,19 +45,22 @@ class SimulationB2D(SimulationBase):
             if static:
                 # box is defined by a vector from it's center to a corner, this way,
                 # we use actor.m_size[0] * 0.5
-                actor.m_body = self.m_b2dWorld.CreateStaticBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
-                                                                shapes=polygonShape(box=(actor.m_size[0]*0.5/self.PPM, actor.m_size[1]*0.5/self.PPM)))
+                actor.m_body = self.m_b2dWorld.CreateStaticBody(position=self.convertScreenToWorld(actor.m_position),
+                                                                shapes=polygonShape(box=(actor.m_size[0]*0.5/settings.B2D_PPM, actor.m_size[1]*0.5/settings.B2D_PPM)))
             else:
-                actor.m_body = self.m_b2dWorld.CreateDynamicBody(position=(actor.m_position[0]/self.PPM, actor.m_position[1]/self.PPM),
+                actor.m_body = self.m_b2dWorld.CreateDynamicBody(position=self.convertScreenToWorld(actor.m_position),
                                                                  angle=actor.m_angle)
-                fixture = actor.m_body.CreatePolygonFixture(box=(actor.m_size[0]*0.5/self.PPM, actor.m_size[1]*0.5/self.PPM),
+                fixture = actor.m_body.CreatePolygonFixture(box=(actor.m_size[0]*0.5/settings.B2D_PPM, actor.m_size[1]*0.5/settings.B2D_PPM),
                                                             density=1, friction=0.3)
         return actor
 
     def init(self):
+        actorGround = self.addActor(ActorB2D((400, 580), (800, 40)))
+        self.m_groundBody = actorGround.m_body
 
+    def setupWorld(self):
         # circle shape
-        shape = b2CircleShape(radius=50/self.PPM)
+        shape = b2CircleShape(radius=50/settings.B2D_PPM)
 
         # fixture
         fixture = b2FixtureDef()
@@ -66,26 +71,36 @@ class SimulationB2D(SimulationBase):
 
         # body definition
         bodyDef = b2BodyDef()
-        bodyDef.position.Set((300)/self.PPM, (300)/self.PPM)
+        bodyDef.position.Set((300)/settings.B2D_PPM, (300)/settings.B2D_PPM)
         bodyDef.type = b2_dynamicBody
         bodyDef.fixedRotation = False
 
         circle = self.addActor(ActorB2D((300, 300), (50, 50)), bodyDef = bodyDef, fixture = fixture)
 
-        actorGround = self.addActor(ActorB2D((400, 40), (400, 20)))
-        box = self.addActor(ActorB2D((200, 300), (40, 20)), False)
-        self.m_groundBody = actorGround.m_body
+        box = self.addActor(ActorB2D((100, 400), (40, 20)), False)
+
+        #j = self.m_b2dWorld.CreateRevoluteJoint(bodyA=box.m_body,
+        #                                        bodyB=circle.m_body,
+        #                                        localAnchorA=(0, 5),
+        #                                        localAnchorB=(0, 0),
+        #                                        enableMotor=False,
+        #                                        maxMotorTorque=1000,
+        #                                        enableLimit=True,
+        #                                        lowerAngle=0,
+        #                                        upperAngle=1)
 
         j = self.m_b2dWorld.CreateRevoluteJoint(bodyA=box.m_body,
                                                 bodyB=circle.m_body,
                                                 localAnchorA=(0, 5),
-                                                # center of tire
                                                 localAnchorB=(0, 0),
-                                                enableMotor=False,
+                                                enableMotor=True,
                                                 maxMotorTorque=1000,
-                                                enableLimit=True,
+                                                motorSpeed=1, #rad/s
+                                                enableLimit=False,
                                                 lowerAngle=0,
                                                 upperAngle=1)
+
+        self.m_joints.append(j)
 
     def update(self, dt):
         self.m_b2dWorld.Step(dt/1000, 10, 10)
@@ -103,7 +118,7 @@ class SimulationB2D(SimulationBase):
         #        # We take the body's transform and multiply it with each
         #        # vertex, and then convert from meters to pixels with the scale
         #        # factor.
-        #        vertices = [(actor.m_body.transform * v) * self.PPM for v in shape.vertices]
+        #        vertices = [(actor.m_body.transform * v) * settings.B2D_PPM for v in shape.vertices]
 
         #        # But wait! It's upside-down! Pygame and Box2D orient their
         #        # axes in different ways. Box2D is just like how you learned
@@ -172,12 +187,11 @@ class SimulationB2D(SimulationBase):
             self.mouseJoint = None
 
     def convertScreenToWorld(self, pos):
-        return pos[0]/self.PPM, (settings.APP_HEIGHT - pos[1])/self.PPM
+        return pos[0]/settings.B2D_PPM, (settings.APP_HEIGHT - pos[1])/settings.B2D_PPM
 
     def free(self):
-        for actor in self.m_actorManager.m_actors:
-            self.m_b2dWorld.DestroyBody(actor.m_body)
-
+        [self.m_b2dWorld.DestroyJoint(joint) for joint in self.m_joints]
+        [self.m_b2dWorld.DestroyBody(actor.m_body) for actor in self.m_actorManager.m_actors]
         self.m_b2dWorld = None
         self.m_debugDraw = None
         return super().free()
