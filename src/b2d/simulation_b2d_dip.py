@@ -5,7 +5,6 @@ import settings, pygame
 
 class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height):
-        self.box = None
         self.m_keyboardInputsEnabled = False
         SimulationB2D.__init__(self, container, width, height)
 
@@ -14,61 +13,73 @@ class SimulationB2DDIP(SimulationB2D):
     #    self.m_systems = [NNDIPSystem(self, genome, config) for genome in genomes]
 
     def setupWorld(self):
+        DIP(self)
 
-        def createSimpleBox(screenBoxPosition, screenBoxSize):
-            screenBoxWidth = screenBoxSize[0]
-            screenBoxHeight = screenBoxSize[1]
+    #def addNNDIPSystemToWorld(self, world):
+    #    pass
 
-            boxWidth = screenBoxWidth/settings.B2D_PPM
-            boxHeight = screenBoxHeight/settings.B2D_PPM
+class NNDIPSystem(object):
+    """ Description of the class """
+    def __init__(self, simulation, genome, config):
+        pass
 
-            boxPosition = self.convertScreenToWorld(screenBoxPosition)
+class DIP(object):
+    def __init__(self, simulation):
+        self.m_simulation = simulation
+        self.box = self.createSimpleBox((400, 550), (40, 20))
+        barA = self.createSimpleBox((400, 490), (10, 100))
+        barB = self.createSimpleBox((400, 390), (10, 100))
 
-            shape = b2PolygonShape()
-            shape.SetAsBox(boxWidth / 2, boxHeight / 2)
+        j1 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
+                                                       bodyB=barA.m_body,
+                                                       localAnchorA=(0, 0),
+                                                       localAnchorB=(0, -50/settings.B2D_PPM),
+                                                       enableMotor=False,
+                                                       maxMotorTorque=1000,
+                                                       enableLimit=False,
+                                                       lowerAngle=0,
+                                                       upperAngle=0)
+        j2 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=barA.m_body,
+                                                       bodyB=barB.m_body,
+                                                       localAnchorA=(0, 50/settings.B2D_PPM),
+                                                       localAnchorB=(0, -50/settings.B2D_PPM),
+                                                       enableMotor=False,
+                                                       maxMotorTorque=1000,
+                                                       enableLimit=False,
+                                                       lowerAngle=0,
+                                                       upperAngle=0)
+        simulation.m_joints.append(j1)
+        simulation.m_joints.append(j2)
 
-            fixture = b2FixtureDef()
-            fixture.density = 1
-            fixture.friction = 0.0
-            fixture.shape = shape
-            fixture.filter = b2Filter(
-                groupIndex=0,
-                categoryBits=0x0002,    # I am...
-                maskBits=0x0001         # I collide with...
-                )
+    def createSimpleBox(self, screenBoxPosition, screenBoxSize):
+        screenBoxWidth = screenBoxSize[0]
+        screenBoxHeight = screenBoxSize[1]
 
-            # body definition
-            bodyDef = b2BodyDef()
-            bodyDef.position.Set(boxPosition[0], boxPosition[1])
-            bodyDef.type = b2_dynamicBody
-            bodyDef.fixedRotation = False
+        boxWidth = screenBoxWidth/settings.B2D_PPM
+        boxHeight = screenBoxHeight/settings.B2D_PPM
 
-            return self.addActor(ActorB2D(screenBoxPosition, (screenBoxWidth, screenBoxHeight)), bodyDef = bodyDef, fixture = fixture)
+        boxPosition = self.m_simulation.convertScreenToWorld(screenBoxPosition)
 
-        self.box = createSimpleBox((400, 550), (40, 20))
-        barA = createSimpleBox((400, 490), (10, 100))
-        barB = createSimpleBox((400, 390), (10, 100))
+        shape = b2PolygonShape()
+        shape.SetAsBox(boxWidth / 2, boxHeight / 2)
 
-        j1 = self.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
-                                                bodyB=barA.m_body,
-                                                localAnchorA=(0, 0),
-                                                localAnchorB=(0, -50/settings.B2D_PPM),
-                                                enableMotor=False,
-                                                maxMotorTorque=1000,
-                                                enableLimit=False,
-                                                lowerAngle=0,
-                                                upperAngle=0)
-        j2 = self.m_b2dWorld.CreateRevoluteJoint(bodyA=barA.m_body,
-                                                bodyB=barB.m_body,
-                                                localAnchorA=(0, 50/settings.B2D_PPM),
-                                                localAnchorB=(0, -50/settings.B2D_PPM),
-                                                enableMotor=False,
-                                                maxMotorTorque=1000,
-                                                enableLimit=False,
-                                                lowerAngle=0,
-                                                upperAngle=0)
-        self.m_joints.append(j1)
-        self.m_joints.append(j2)
+        fixture = b2FixtureDef()
+        fixture.density = 1
+        fixture.friction = 0.0
+        fixture.shape = shape
+        fixture.filter = b2Filter(
+            groupIndex=0,
+            categoryBits=0x0002,    # I am...
+            maskBits=0x0001         # I collide with...
+            )
+
+        # body definition
+        bodyDef = b2BodyDef()
+        bodyDef.position.Set(boxPosition[0], boxPosition[1])
+        bodyDef.type = b2_dynamicBody
+        bodyDef.fixedRotation = False
+
+        return self.m_simulation.addActor(ActorB2D(screenBoxPosition, (screenBoxWidth, screenBoxHeight)), bodyDef = bodyDef, fixture = fixture)
 
     def onKeyPress(self, event):
         if event == pygame.K_q:
@@ -89,10 +100,3 @@ class SimulationB2DDIP(SimulationB2D):
             f = self.box.m_body.GetWorldVector(localVector=(10.0, 0.0))
             p = self.box.m_body.GetWorldPoint(localPoint=(0.0, 0.0))
             self.box.m_body.ApplyLinearImpulse(f, p, True)
-
-    def addDIPSystemToWorld(self, world):
-        pass
-
-class NNDIPSystem(object):
-    """ Description of the class """
-    pass
