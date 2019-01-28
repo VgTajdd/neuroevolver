@@ -8,6 +8,8 @@ class SimulationBase():
         self.m_actorManager = SimulationActorManager(self, container)
         self.m_container = container
         self.m_debugContainer = []
+        self.m_mouseInputsEnabled = True
+        self.m_keyboardInputsEnabled = True
 
     def onKeyPress(self, event):
         pass

@@ -18,14 +18,14 @@ class ScreenManager():
         self.m_currentScreenType = ScreenType.DEFAULT
 
     def draw(self, screen):
-        return self.m_currentScreen.draw(screen);
+        return self.m_currentScreen.draw(screen)
 
     def gotoScreen(self, screenType, params = None):
         if self.m_currentScreen != None:
             self.m_currentScreen.free()
             self.m_currentScreen = None
         if screenType == ScreenType.MAIN_MENU:
-            self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.GREY_BLUE)
+            self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.BLACK)
         elif screenType == ScreenType.META_MAP:
             self.m_currentScreen = Metamap(self.m_width, self.m_height, colors.LIGHT_GRAY)
         elif screenType == ScreenType.SETTINGS:

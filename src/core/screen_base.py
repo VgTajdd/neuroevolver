@@ -39,7 +39,7 @@ class ScreenBase(pygame.sprite.LayeredDirty):
     def draw(self, screen):
         screen.fill(self.m_color)
         return super().draw(screen) #same as down but it doesn't need 'self'
-        #return pygame.sprite.LayeredDirty.draw(self, screen);
+        #return pygame.sprite.LayeredDirty.draw(self, screen)
 
     def updateTime(self, dt):
         [control.updateTime(dt) for control in self.m_controls]

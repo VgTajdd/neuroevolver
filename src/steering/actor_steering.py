@@ -43,7 +43,7 @@ class ActorSteering(SimulationActor):
 
             # Debug ###########################################################
             self.m_acceleration.scale_to_length(100)
-            vec = self.m_position + self.m_acceleration;
+            vec = self.m_position + self.m_acceleration
             self.addDebugShape(DebugDrawing.line(colors.GREEN, self.m_position, vec))
             ###################################################################
 
@@ -66,4 +66,4 @@ class ActorSteering(SimulationActor):
         self.m_imageDirection = None
         self.m_behaviour.free()
         self.m_behaviour = None
-        super().free();
+        super().free()

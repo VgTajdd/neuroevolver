@@ -39,8 +39,8 @@ class SimulationB2D(SimulationBase):
     def addActor(self, actor, static = True, bodyDef = None, fixture = None):
         actor = super().addActor(actor)
         if bodyDef and fixture:
-            actor.m_body = self.m_b2dWorld.CreateBody(bodyDef);
-            actor.m_body.CreateFixture(fixture);
+            actor.m_body = self.m_b2dWorld.CreateBody(bodyDef)
+            actor.m_body.CreateFixture(fixture)
         else:
             if static:
                 # box is defined by a vector from it's center to a corner, this way,
@@ -67,7 +67,7 @@ class SimulationB2D(SimulationBase):
         fixture.density = 1
         fixture.friction = 0.3
         fixture.shape = shape
-        #fixture.userData = new UserDataInfo(name, bRadius * 2, bRadius * 2);
+        #fixture.userData = new UserDataInfo(name, bRadius * 2, bRadius * 2)
 
         # body definition
         bodyDef = b2BodyDef()

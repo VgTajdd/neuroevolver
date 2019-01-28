@@ -17,6 +17,7 @@ class Application(object):
 
     def play(self):
         self.m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
+        #self.m_screenManager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.B2D})
         self.onLoop()
 
     def onLoop(self):
