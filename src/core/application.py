@@ -75,6 +75,16 @@ class Application(object):
         self.m_screenManager.gotoScreen(ScreenType.SIMULATION, params)
         self.onLoop()
 
+    def trainNeatDIP(self, genomes, config, currentStep):
+        params = {}
+        params['isTraining'] = True
+        params['currentStep'] = currentStep
+        params['genomes'] = genomes
+        params['config'] = config
+        params['simulationType'] = SimulationType.NEAT_B2D_DIP
+        self.m_screenManager.gotoScreen(ScreenType.SIMULATION, params)
+        self.onLoop()
+
     def trainNeatDycicle(self, genomes, config, currentStep):
         params = {}
         params['isTraining'] = True

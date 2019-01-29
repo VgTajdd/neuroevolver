@@ -43,6 +43,20 @@ def main():
         winner = p.run(eval_genomes_neat_dycicle, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_dycicle.pkl', 'wb'))
 
+    elif args.trainMode and args.trainMode.upper() == "NEATDIP":
+        trainingCurrentStep = 0
+
+        config = neat.Config(
+            neat.DefaultGenome,
+            neat.DefaultReproduction,
+            neat.DefaultSpeciesSet,
+            neat.DefaultStagnation,
+            'config_neat_dip')
+        p = neat.Population(config)
+        p.add_reporter(neat.StdOutReporter(True))
+        winner = p.run(eval_genomes_neat_dip, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
+        pickle.dump(winner, open('winner_neat_dip.pkl', 'wb'))
+
     app = Application()
     app.play()
 
@@ -52,6 +66,13 @@ def eval_genomes_neat_ip(genomes, config):
     global trainingCurrentStep
     trainingCurrentStep += 1
     app.trainNeatIP(genomes, config, trainingCurrentStep)
+
+def eval_genomes_neat_dip(genomes, config):
+    idx, genomes = zip(*genomes)
+    app = Application()
+    global trainingCurrentStep
+    trainingCurrentStep += 1
+    app.trainNeatDIP(genomes, config, trainingCurrentStep)
 
 def eval_genomes_neat_dycicle(genomes, config):
     idx, genomes = zip(*genomes)

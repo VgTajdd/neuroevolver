@@ -192,6 +192,8 @@ class SimulationB2D(SimulationBase):
     def free(self):
         [self.m_b2dWorld.DestroyJoint(joint) for joint in self.m_joints]
         [self.m_b2dWorld.DestroyBody(actor.m_body) for actor in self.m_actorManager.m_actors]
+        self.m_joints.clear()
+        self.m_joints = None
         self.m_b2dWorld = None
         self.m_debugDraw = None
         return super().free()
