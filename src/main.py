@@ -15,36 +15,35 @@ def main():
 
     global trainingCurrentStep
 
-    #if args.trainMode and args.trainMode.upper() == "NEATIP":
-    #    trainingCurrentStep = 0
+    if args.trainMode and args.trainMode.upper() == "NEATIP":
+        trainingCurrentStep = 0
 
-    #    config = neat.Config(
-    #        neat.DefaultGenome,
-    #        neat.DefaultReproduction,
-    #        neat.DefaultSpeciesSet,
-    #        neat.DefaultStagnation,
-    #        'config_neat_ip')
-    #    p = neat.Population(config)
-    #    p.add_reporter(neat.StdOutReporter(True))
-    #    winner = p.run(eval_genomes_neat_ip, n = settings.NEATIP_TRAINING_STEPS)
-    #    pickle.dump(winner, open('winner_neat_ip.pkl', 'wb'))
+        config = neat.Config(
+            neat.DefaultGenome,
+            neat.DefaultReproduction,
+            neat.DefaultSpeciesSet,
+            neat.DefaultStagnation,
+            'config_neat_ip')
+        p = neat.Population(config)
+        p.add_reporter(neat.StdOutReporter(True))
+        winner = p.run(eval_genomes_neat_ip, n = settings.NEATIP_TRAINING_STEPS)
+        pickle.dump(winner, open('winner_neat_ip.pkl', 'wb'))
 
-    #elif args.trainMode and args.trainMode.upper() == "NEAT_DYCICLE":
-    #    trainingCurrentStep = 0
+    elif args.trainMode and args.trainMode.upper() == "NEAT_DYCICLE":
+        trainingCurrentStep = 0
 
-    #    config = neat.Config(
-    #        neat.DefaultGenome,
-    #        neat.DefaultReproduction,
-    #        neat.DefaultSpeciesSet,
-    #        neat.DefaultStagnation,
-    #        'config_neat_dycicle')
-    #    p = neat.Population(config)
-    #    p.add_reporter(neat.StdOutReporter(True))
-    #    winner = p.run(eval_genomes_neat_dycicle, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
-    #    pickle.dump(winner, open('winner_neat_dycicle.pkl', 'wb'))
+        config = neat.Config(
+            neat.DefaultGenome,
+            neat.DefaultReproduction,
+            neat.DefaultSpeciesSet,
+            neat.DefaultStagnation,
+            'config_neat_dycicle')
+        p = neat.Population(config)
+        p.add_reporter(neat.StdOutReporter(True))
+        winner = p.run(eval_genomes_neat_dycicle, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
+        pickle.dump(winner, open('winner_neat_dycicle.pkl', 'wb'))
 
-    #elif args.trainMode and args.trainMode.upper() == "NEATDIP":
-    if True:
+    elif args.trainMode and args.trainMode.upper() == "NEATDIP":
         trainingCurrentStep = 0
 
         config = neat.Config(

@@ -1,6 +1,6 @@
 from b2d.actor_b2d import ActorB2D
 from b2d.simulation_b2d import SimulationB2D
-from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2CircleShape, b2FixtureDef, b2BodyDef, b2PolygonShape, b2Filter
+from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2CircleShape, b2FixtureDef, b2BodyDef, b2PolygonShape, b2Filter, b2_pi
 import settings
 import pygame
 import neat
@@ -47,6 +47,16 @@ class SimulationB2DDIP(SimulationB2D):
     def setupWorld(self):
         pass
 
+    def init(self):
+        actorGround = self.addActor(ActorB2D((400, 580), (800, 40)))
+        actorGroundTop = self.addActor(ActorB2D((400, 520), (800, 40)))
+        self.m_groundBody = actorGround.m_body
+
+        actorGround.m_body.fixtures[0].filterData.maskBits=settings.B2D_CAT_BITS_CAR
+        actorGround.m_body.fixtures[0].filterData.categoryBits=settings.B2D_CAT_BITS_GROUND
+        actorGroundTop.m_body.fixtures[0].filterData.maskBits=settings.B2D_CAT_BITS_CAR
+        actorGroundTop.m_body.fixtures[0].filterData.categoryBits=settings.B2D_CAT_BITS_GROUND
+
 class NNDIPSystem(object):
     """ Description of the class """
     def __init__(self, simulation, genome, config):
@@ -71,14 +81,15 @@ class NNDIPSystem(object):
         if self.m_simulationRef.m_isTraining:
             self.m_traveledDistance += abs(self.m_dip.box.m_speed[0]) * dt
 
-            validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEATIP_LIMIT_ANGLE
+            validAngle1 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
+            validAngle2 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barB.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
             validPosition = 0 < self.m_dip.box.m_position.x < settings.APP_WIDTH
-            validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
+            validTime = self.m_timeAlive < settings.NEAT_DIP_MAX_TIME_ALIVE * 1000
 
-            if not (validAngle and validPosition and validTime):
+            if not (validAngle1 and validAngle2 and validPosition and validTime):
                 deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
-                print('fitness: ' + str(self.m_timeAlive) + ' ' + str(-self.m_traveledDistance/5) + ' ' + str(-deltaX*5) + ' ' + str(self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5))
-                self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5)
+                self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
+                print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
                 self.m_isAlive = False
                 return
 
@@ -97,7 +108,7 @@ class NNDIPSystem(object):
         output = self.m_neuralNetwork.activate(input)
 
         # Obtain Prediction
-        f = self.m_dip.box.m_body.GetWorldVector(localVector=(output[0]/10, 0.0))
+        f = self.m_dip.box.m_body.GetWorldVector(localVector=(output[0], 0.0))
         p = self.m_dip.box.m_body.GetWorldPoint(localPoint=(0.0, 0.0))
         self.m_dip.box.m_body.ApplyLinearImpulse(f, p, True)
 
@@ -111,9 +122,10 @@ class NNDIPSystem(object):
 class DIP(object):
     def __init__(self, simulation):
         self.m_simulation = simulation
-        self.box = self.createSimpleBox((400, 550), (40, 20))
-        self.barA = self.createSimpleBox((400, 490), (10, 100))
-        self.barB = self.createSimpleBox((400, 390), (10, 100))
+        self.box = self.createSimpleBox((400, 550), (40, 20), False)
+        self.barA = self.createSimpleBox((400, 490), (10, 100), True)
+        self.barB = self.createSimpleBox((400, 390), (10, 100), True)
+        self.barB.m_body.angle = 10 * b2_pi/180
 
         self.j1 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
                                                        bodyB=self.barA.m_body,
@@ -136,7 +148,7 @@ class DIP(object):
         simulation.m_joints.append(self.j1)
         simulation.m_joints.append(self.j2)
 
-    def createSimpleBox(self, screenBoxPosition, screenBoxSize):
+    def createSimpleBox(self, screenBoxPosition, screenBoxSize, isBar):
         screenBoxWidth = screenBoxSize[0]
         screenBoxHeight = screenBoxSize[1]
 
@@ -152,10 +164,12 @@ class DIP(object):
         fixture.density = 1
         fixture.friction = 0.0
         fixture.shape = shape
+        catBits = settings.B2D_CAT_BITS_CAR
+        if isBar: catBits = settings.B2D_CAT_BITS_BAR
         fixture.filter = b2Filter(
             groupIndex=0,
-            categoryBits=0x0002,    # I am...
-            maskBits=0x0001         # I collide with...
+            categoryBits=catBits,                   # I am...
+            maskBits=settings.B2D_CAT_BITS_GROUND   # I collide with...
             )
 
         # body definition
