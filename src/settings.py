@@ -35,3 +35,8 @@ B2D_PPM = 20 # pixels per meter
 
 # General var.
 OBJ_SURFACE = None
+
+# NEAT Double inverted pendulum Training.
+NEAT_DIP_TRAINING_STEPS = 50 # 15
+NEAT_DIP_EVENT_END_TRAINING_STEP = pygame.USEREVENT + 2
+NEAT_DIP_MAX_TIME_ALIVE = 15

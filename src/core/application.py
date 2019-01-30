@@ -29,7 +29,10 @@ class Application(object):
             # limits updates to settings.APP_FPS(=60) frames per second (FPS)
             self.clock.tick(settings.APP_FPS)
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or event.type == settings.NEATIP_EVENT_END_TRAINING_STEP or event.type == settings.NEAT_DYCICLE_EVENT_END_TRAINING_STEP:
+                if event.type == pygame.QUIT \
+                    or event.type == settings.NEATIP_EVENT_END_TRAINING_STEP \
+                    or event.type == settings.NEAT_DYCICLE_EVENT_END_TRAINING_STEP \
+                    or event.type == settings.NEAT_DIP_EVENT_END_TRAINING_STEP:
                     is_running = False
                 if event.type == pygame.KEYDOWN:
                     self.m_screenManager.onKeyPress(event.key)

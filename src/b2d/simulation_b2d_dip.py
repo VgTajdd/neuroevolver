@@ -12,7 +12,7 @@ class SimulationB2DDIP(SimulationB2D):
         SimulationB2D.__init__(self, container, width, height)
         self.m_isTraining = False
         if 'genomes' in params and 'config' in params:
-            self.init(params['genomes'], params['config'])
+            self.initParams(params['genomes'], params['config'])
             self.m_isTraining = True
         else:
             config = neat.Config(
@@ -22,10 +22,9 @@ class SimulationB2DDIP(SimulationB2D):
                 neat.DefaultStagnation,
                 'config_neat_dip')
             genome = pickle.load(open('winner_neat_dip.pkl', 'rb'))
-            self.init([genome], config)
+            self.initParams([genome], config)
 
-    def init(self, genomes, config):
-        super().init()
+    def initParams(self, genomes, config):
         self.m_systems = [NNDIPSystem(self, genome, config) for genome in genomes]
 
     def update(self, dt):
@@ -40,7 +39,7 @@ class SimulationB2DDIP(SimulationB2D):
             system.update(dt)
 
         if len(self.m_systems) == 0:
-            my_event = pygame.event.Event(settings.NEATIP_EVENT_END_TRAINING_STEP, message="Bad cat!")
+            my_event = pygame.event.Event(settings.NEAT_DIP_EVENT_END_TRAINING_STEP, message="Bad cat!")
             pygame.event.post(my_event)
 
         super().update(dt)
@@ -70,41 +69,41 @@ class NNDIPSystem(object):
             return
 
         if self.m_simulationRef.m_isTraining:
-            #self.m_traveledDistance += abs(self.m_invertedPendulum.m_speedM) * dt
+            self.m_traveledDistance += abs(self.m_dip.box.m_speed[0]) * dt
 
-            #validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEATIP_LIMIT_ANGLE
-            #validPosition = 0 < self.m_invertedPendulum.m_position.x < settings.APP_WIDTH
-            #validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
+            validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEATIP_LIMIT_ANGLE
+            validPosition = 0 < self.m_dip.box.m_position.x < settings.APP_WIDTH
+            validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle and validPosition and validTime):
-                #deltaX = abs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
-                #print('fitness: ' + str(self.m_timeAlive) + ' ' + str(-self.m_traveledDistance/5) + ' ' + str(-deltaX*5) + ' ' + str(self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5))
-                #self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5)
+                deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
+                print('fitness: ' + str(self.m_timeAlive) + ' ' + str(-self.m_traveledDistance/5) + ' ' + str(-deltaX*5) + ' ' + str(self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5))
+                self.m_genome.fitness = max(0,self.m_timeAlive - self.m_traveledDistance/5 - deltaX*5)
                 self.m_isAlive = False
                 return
 
-        #inputAngle = ((self.m_invertedPendulum.m_angle + 180) % 360) - 180 # [-180,180]
+        inputAngle1 = ((self.m_dip.barA.m_angle + 180) % 360) - 180 # [-180,180]
+        inputAngle2 = ((self.m_dip.barB.m_angle + 180) % 360) - 180 # [-180,180]
 
-         # Setup the input layer
-        #input = (inputAngle,
-        #         self.m_invertedPendulum.m_angularVelocity,
-        #         settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x,
-        #         self.m_invertedPendulum.m_speedM)
+        # Setup the input layer
+        input = (inputAngle1,
+                 self.m_dip.barA.m_rotSpeed,
+                 inputAngle2,
+                 self.m_dip.barB.m_rotSpeed,
+                 settings.APP_WIDTH/2 - self.m_dip.box.m_position.x,
+                 self.m_dip.box.m_speed[0])
 
         # Feed the neural network information
-        #output = self.m_neuralNetwork.activate(input)
+        output = self.m_neuralNetwork.activate(input)
 
         # Obtain Prediction
-        #self.m_invertedPendulum.u = output[0]
-        #f = self.box.m_body.GetWorldVector(localVector=(output[0], 0.0))
-        #p = self.box.m_body.GetWorldPoint(localPoint=(0.0, 0.0))
-        #self.box.m_body.ApplyLinearImpulse(f, p, True)
+        f = self.m_dip.box.m_body.GetWorldVector(localVector=(output[0]/10, 0.0))
+        p = self.m_dip.box.m_body.GetWorldPoint(localPoint=(0.0, 0.0))
+        self.m_dip.box.m_body.ApplyLinearImpulse(f, p, True)
 
         self.m_timeAlive += dt
 
     def free(self):
-        #self.m_invertedPendulum.removeFromSimulation(self.m_simulationRef)
-        #self.m_invertedPendulum = None
         self.m_dip.free()
         self.m_dip = None
         self.m_simulationRef = None
@@ -117,7 +116,7 @@ class DIP(object):
         self.barB = self.createSimpleBox((400, 390), (10, 100))
 
         self.j1 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
-                                                       bodyB=barA.m_body,
+                                                       bodyB=self.barA.m_body,
                                                        localAnchorA=(0, 0),
                                                        localAnchorB=(0, -50/settings.B2D_PPM),
                                                        enableMotor=False,
@@ -125,8 +124,8 @@ class DIP(object):
                                                        enableLimit=False,
                                                        lowerAngle=0,
                                                        upperAngle=0)
-        self.j2 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=barA.m_body,
-                                                       bodyB=barB.m_body,
+        self.j2 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.barA.m_body,
+                                                       bodyB=self.barB.m_body,
                                                        localAnchorA=(0, 50/settings.B2D_PPM),
                                                        localAnchorB=(0, -50/settings.B2D_PPM),
                                                        enableMotor=False,
@@ -190,8 +189,11 @@ class DIP(object):
     def free(self):
         self.m_simulation.m_b2dWorld.DestroyJoint(self.j1)
         self.m_simulation.m_b2dWorld.DestroyJoint(self.j2)
-        self.m_simulation.remove(j1)
-        self.m_simulation.remove(j2)
-        self.m_b2dWorld.DestroyBody(self.box)
-        self.m_b2dWorld.DestroyBody(self.barA)
-        self.m_b2dWorld.DestroyBody(self.barB)
+        self.m_simulation.m_joints.remove(self.j1)
+        self.m_simulation.m_joints.remove(self.j2)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.box.m_body)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.barA.m_body)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.barB.m_body)
+        self.m_simulation.removeActor(self.box)
+        self.m_simulation.removeActor(self.barA)
+        self.m_simulation.removeActor(self.barB)
