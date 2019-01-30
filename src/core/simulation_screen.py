@@ -1,6 +1,6 @@
 import pygame
 from core.screen_base import ScreenBase
-from enums import ScreenType
+from enums import ScreenType, SimulationType
 from core.simulation_base import SimulationBase
 from core.hud_base import HudBase
 from core.debug_drawing import DebugDrawing
@@ -10,9 +10,9 @@ class SimulationScreen(ScreenBase):
     def __init__(self, width, height, color):
         self.m_simulation = None
         self.m_hud = None
+        self.m_debugContainer = []
         ScreenBase.__init__(self, width, height, color)
         self.m_type = ScreenType.SIMULATION
-        self.m_debugContainer = []
 
     def setManager(self, manager):
         self.m_hud.setManager(manager)
