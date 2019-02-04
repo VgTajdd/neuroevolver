@@ -125,7 +125,7 @@ class DIP(object):
         self.box = self.createSimpleBox((400, 550), (40, 20), False)
         self.barA = self.createSimpleBox((400, 490), (10, 100), True)
         self.barB = self.createSimpleBox((400, 390), (10, 100), True)
-        self.barB.m_body.angle = 10 * b2_pi/180
+        self.barB.m_body.angle = 20 * b2_pi/180
 
         self.j1 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
                                                        bodyB=self.barA.m_body,

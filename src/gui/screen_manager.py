@@ -48,7 +48,8 @@ class ScreenManager():
             elif simulationType is SimulationType.NEAT_DYCICLE:
                 self.m_currentScreen = SimulationScreenNeatDycicle(self.m_width, self.m_height, colors.GRAY, params)
             elif simulationType is SimulationType.B2D \
-              or simulationType is SimulationType.NEAT_B2D_DIP:
+              or simulationType is SimulationType.NEAT_B2D_DIP \
+              or simulationType is SimulationType.NEAT_B2D_WALKER:
                 self.m_currentScreen = SimulationScreenB2D(self.m_width, self.m_height, colors.GRAY, params)
         else:
             self.m_currentScreen = SimulationScreen(self.m_width, self.m_height, colors.BEIGE)

@@ -102,8 +102,8 @@ class NNDycicleSystem(object):
         output = self.m_neuralNetwork.activate(input)
 
         # Obtain Prediction
-        self.m_dycicle.m_speedL = 100 * output[0]
-        self.m_dycicle.m_speedR = 100 * output[1]
+        self.m_dycicle.m_speedL = 150 * output[0]
+        self.m_dycicle.m_speedR = 150 * output[1]
 
         self.m_timeAlive += dt
 
