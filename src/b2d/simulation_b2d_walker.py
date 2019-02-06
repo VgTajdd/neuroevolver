@@ -1,6 +1,6 @@
 from b2d.actor_b2d import ActorB2D
 from b2d.simulation_b2d import SimulationB2D
-from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2CircleShape, b2FixtureDef, b2BodyDef, b2PolygonShape, b2Filter, b2_pi
+from Box2D import b2_pi
 import settings
 import pygame
 import neat
@@ -10,6 +10,9 @@ class SimulationB2DWalker(SimulationB2D):
     def __init__(self, container, width, height, params):
         #self.m_keyboardInputsEnabled = False
         SimulationB2D.__init__(self, container, width, height)
+
+        Walker(self);
+
         #self.m_isTraining = False
         #if 'genomes' in params and 'config' in params:
         #    self.initParams(params['genomes'], params['config'])
@@ -49,72 +52,69 @@ class SimulationB2DWalker(SimulationB2D):
 
     def init(self):
         actorGround = self.addActor(ActorB2D((400, 580), (800, 40)))
-        #actorGroundTop = self.addActor(ActorB2D((400, 520), (800, 40)))
         self.m_groundBody = actorGround.m_body
 
-        #actorGround.m_body.fixtures[0].filterData.maskBits=settings.B2D_CAT_BITS_CAR
-        #actorGround.m_body.fixtures[0].filterData.categoryBits=settings.B2D_CAT_BITS_GROUND
-        #actorGroundTop.m_body.fixtures[0].filterData.maskBits=settings.B2D_CAT_BITS_CAR
-        #actorGroundTop.m_body.fixtures[0].filterData.categoryBits=settings.B2D_CAT_BITS_GROUND
+class Walker(object):
+    def __init__(self, simulation):
+        self.m_simulation = simulation
+        self.leftLeg = WalkerLeg(simulation)
+        self.rightLeg = WalkerLeg(simulation)
+        self.body = self.m_simulation.createSimpleBox((400, 325), (30, 30), settings.B2D_CAT_BITS_CAR)
 
-class NNDIPSystem(object):
-    """ Description of the class """
-    def __init__(self, simulation, genome, config):
-        self.m_simulationRef = simulation
+        self.jL = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.body.m_body,
+                                                       bodyB=self.leftLeg.upper.m_body,
+                                                       localAnchorA=(0, 0),
+                                                       localAnchorB=(0, 25/settings.B2D_PPM),
+                                                       enableMotor=False,
+                                                       maxMotorTorque=1000,
+                                                       enableLimit=True,
+                                                       lowerAngle=-10*b2_pi/180.0,
+                                                       upperAngle=10*b2_pi/180.0)
+        simulation.m_joints.append(self.jL)
 
-        self.m_isAlive = True
-
-        # Added double inverted pendulum.
-        self.m_dip = DIP(simulation)
-
-        self.m_neuralNetwork = neat.nn.FeedForwardNetwork.create(genome, config)
-        self.m_genome = genome
-
-        self.m_timeAlive = 0
-        self.m_traveledDistance = 0
-
-    def update(self, dt):
-
-        if not self.m_isAlive:
-            return
-
-        if self.m_simulationRef.m_isTraining:
-            self.m_traveledDistance += abs(self.m_dip.box.m_speed[0]) * dt
-
-            validAngle1 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
-            validAngle2 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barB.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
-            validPosition = 0 < self.m_dip.box.m_position.x < settings.APP_WIDTH
-            validTime = self.m_timeAlive < settings.NEAT_DIP_MAX_TIME_ALIVE * 1000
-
-            if not (validAngle1 and validAngle2 and validPosition and validTime):
-                deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
-                self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
-                print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
-                self.m_isAlive = False
-                return
-
-        inputAngle1 = ((self.m_dip.barA.m_angle + 180) % 360) - 180 # [-180,180]
-        inputAngle2 = ((self.m_dip.barB.m_angle + 180) % 360) - 180 # [-180,180]
-
-        # Setup the input layer
-        input = (inputAngle1,
-                 self.m_dip.barA.m_rotSpeed,
-                 inputAngle2,
-                 self.m_dip.barB.m_rotSpeed,
-                 settings.APP_WIDTH/2 - self.m_dip.box.m_position.x,
-                 self.m_dip.box.m_speed[0])
-
-        # Feed the neural network information
-        output = self.m_neuralNetwork.activate(input)
-
-        # Obtain Prediction
-        f = self.m_dip.box.m_body.GetWorldVector(localVector=(output[0], 0.0))
-        p = self.m_dip.box.m_body.GetWorldPoint(localPoint=(0.0, 0.0))
-        self.m_dip.box.m_body.ApplyLinearImpulse(f, p, True)
-
-        self.m_timeAlive += dt
+        self.jR = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.body.m_body,
+                                                       bodyB=self.rightLeg.upper.m_body,
+                                                       localAnchorA=(0, 0),
+                                                       localAnchorB=(0, 25/settings.B2D_PPM),
+                                                       enableMotor=False,
+                                                       maxMotorTorque=1000,
+                                                       enableLimit=True,
+                                                       lowerAngle=-10*b2_pi/180.0,
+                                                       upperAngle=10*b2_pi/180.0)
+        simulation.m_joints.append(self.jR)
 
     def free(self):
-        self.m_dip.free()
-        self.m_dip = None
-        self.m_simulationRef = None
+        self.m_simulation.m_b2dWorld.DestroyJoint(self.jL)
+        self.m_simulation.m_joints.remove(self.jL)
+        self.m_simulation.m_b2dWorld.DestroyJoint(self.jR)
+        self.m_simulation.m_joints.remove(self.jR)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.body.m_body)
+        self.m_simulation.removeActor(self.body)
+        self.leftLeg.free()
+        self.leftLeg = None
+        self.rightLeg.free()
+        self.rightLeg = None
+
+class WalkerLeg(object):
+    def __init__(self, simulation):
+        self.m_simulation = simulation
+        self.upper = self.m_simulation.createSimpleBox((400, 300), (10, 50), settings.B2D_CAT_BITS_BAR)
+        self.lower = self.m_simulation.createSimpleBox((400, 250), (10, 50), settings.B2D_CAT_BITS_BAR)
+        self.j = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.upper.m_body,
+                                                       bodyB=self.lower.m_body,
+                                                       localAnchorA=(0, -25/settings.B2D_PPM),
+                                                       localAnchorB=(0, 25/settings.B2D_PPM),
+                                                       enableMotor=False,
+                                                       maxMotorTorque=1000,
+                                                       enableLimit=True,
+                                                       lowerAngle=0,
+                                                       upperAngle=10*b2_pi/180.0)
+        simulation.m_joints.append(self.j)
+
+    def free(self):
+        self.m_simulation.m_b2dWorld.DestroyJoint(self.j)
+        self.m_simulation.m_joints.remove(self.j)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.upper.m_body)
+        self.m_simulation.removeActor(self.upper)
+        self.m_simulation.m_b2dWorld.DestroyBody(self.lower.m_body)
+        self.m_simulation.removeActor(self.lower)

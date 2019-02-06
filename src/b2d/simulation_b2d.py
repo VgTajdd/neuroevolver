@@ -3,7 +3,7 @@ from core.debug_drawing import DebugDrawing
 from b2d.debug_draw_extended import DebugDrawExtended
 from b2d.actor_b2d import ActorB2D
 import Box2D
-from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2CircleShape, b2FixtureDef, b2BodyDef
+from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2CircleShape, b2FixtureDef, b2BodyDef, b2PolygonShape, b2Filter
 from Box2D.b2 import world, polygonShape
 import settings
 import core.colors as colors
@@ -197,6 +197,36 @@ class SimulationB2D(SimulationBase):
         self.m_b2dWorld = None
         self.m_debugDraw = None
         return super().free()
+
+    def createSimpleBox(self, screenBoxPosition, screenBoxSize, categoryBits, maskBits = settings.B2D_CAT_BITS_GROUND):
+        screenBoxWidth = screenBoxSize[0]
+        screenBoxHeight = screenBoxSize[1]
+
+        boxWidth = screenBoxWidth/settings.B2D_PPM
+        boxHeight = screenBoxHeight/settings.B2D_PPM
+
+        boxPosition = self.convertScreenToWorld(screenBoxPosition)
+
+        shape = b2PolygonShape()
+        shape.SetAsBox(boxWidth / 2, boxHeight / 2)
+
+        fixture = b2FixtureDef()
+        fixture.density = 1
+        fixture.friction = 0.0
+        fixture.shape = shape
+        fixture.filter = b2Filter(
+            groupIndex=0,
+            categoryBits=categoryBits,  # I am...
+            maskBits=maskBits           # I collide with...
+            )
+
+        # body definition
+        bodyDef = b2BodyDef()
+        bodyDef.position.Set(boxPosition[0], boxPosition[1])
+        bodyDef.type = b2_dynamicBody
+        bodyDef.fixedRotation = False
+
+        return self.addActor(ActorB2D(screenBoxPosition, (screenBoxWidth, screenBoxHeight)), bodyDef = bodyDef, fixture = fixture)
 
 class fwQueryCallback(b2QueryCallback):
     def __init__(self, p):
