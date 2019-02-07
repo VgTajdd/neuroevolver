@@ -122,9 +122,9 @@ class NNDIPSystem(object):
 class DIP(object):
     def __init__(self, simulation):
         self.m_simulation = simulation
-        self.box = self.createSimpleBox((400, 550), (40, 20), False)
-        self.barA = self.createSimpleBox((400, 490), (10, 100), True)
-        self.barB = self.createSimpleBox((400, 390), (10, 100), True)
+        self.box = self.m_simulation.createSimpleBox((400, 550), (40, 20), settings.B2D_CAT_BITS_CAR)
+        self.barA = self.m_simulation.createSimpleBox((400, 490), (10, 100), settings.B2D_CAT_BITS_BAR)
+        self.barB = self.m_simulation.createSimpleBox((400, 390), (10, 100), settings.B2D_CAT_BITS_BAR)
         self.barB.m_body.angle = 20 * b2_pi/180
 
         self.j1 = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.box.m_body,
@@ -147,38 +147,6 @@ class DIP(object):
                                                        upperAngle=0)
         simulation.m_joints.append(self.j1)
         simulation.m_joints.append(self.j2)
-
-    def createSimpleBox(self, screenBoxPosition, screenBoxSize, isBar):
-        screenBoxWidth = screenBoxSize[0]
-        screenBoxHeight = screenBoxSize[1]
-
-        boxWidth = screenBoxWidth/settings.B2D_PPM
-        boxHeight = screenBoxHeight/settings.B2D_PPM
-
-        boxPosition = self.m_simulation.convertScreenToWorld(screenBoxPosition)
-
-        shape = b2PolygonShape()
-        shape.SetAsBox(boxWidth / 2, boxHeight / 2)
-
-        fixture = b2FixtureDef()
-        fixture.density = 1
-        fixture.friction = 0.0
-        fixture.shape = shape
-        catBits = settings.B2D_CAT_BITS_CAR
-        if isBar: catBits = settings.B2D_CAT_BITS_BAR
-        fixture.filter = b2Filter(
-            groupIndex=0,
-            categoryBits=catBits,                   # I am...
-            maskBits=settings.B2D_CAT_BITS_GROUND   # I collide with...
-            )
-
-        # body definition
-        bodyDef = b2BodyDef()
-        bodyDef.position.Set(boxPosition[0], boxPosition[1])
-        bodyDef.type = b2_dynamicBody
-        bodyDef.fixedRotation = False
-
-        return self.m_simulation.addActor(ActorB2D(screenBoxPosition, (screenBoxWidth, screenBoxHeight)), bodyDef = bodyDef, fixture = fixture)
 
     def onKeyPress(self, event):
         if event == pygame.K_q:

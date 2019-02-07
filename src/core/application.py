@@ -32,7 +32,8 @@ class Application(object):
                 if event.type == pygame.QUIT \
                     or event.type == settings.NEATIP_EVENT_END_TRAINING_STEP \
                     or event.type == settings.NEAT_DYCICLE_EVENT_END_TRAINING_STEP \
-                    or event.type == settings.NEAT_DIP_EVENT_END_TRAINING_STEP:
+                    or event.type == settings.NEAT_DIP_EVENT_END_TRAINING_STEP \
+                    or event.type == settings.NEAT_WALKER_EVENT_END_TRAINING_STEP:
                     is_running = False
                 if event.type == pygame.KEYDOWN:
                     self.m_screenManager.onKeyPress(event.key)
@@ -95,5 +96,15 @@ class Application(object):
         params['genomes'] = genomes
         params['config'] = config
         params['simulationType'] = SimulationType.NEAT_DYCICLE
+        self.m_screenManager.gotoScreen(ScreenType.SIMULATION, params)
+        self.onLoop()
+
+    def trainNeatWalker(self, genomes, config, currentStep):
+        params = {}
+        params['isTraining'] = True
+        params['currentStep'] = currentStep
+        params['genomes'] = genomes
+        params['config'] = config
+        params['simulationType'] = SimulationType.NEAT_B2D_WALKER
         self.m_screenManager.gotoScreen(ScreenType.SIMULATION, params)
         self.onLoop()
