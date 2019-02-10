@@ -5,18 +5,21 @@ import settings
 import pygame
 import neat
 import pickle
+import math
 
 class SimulationB2DWalker(SimulationB2D):
     def __init__(self, container, width, height, params):
-        self.m_keyboardInputsEnabled = False
         SimulationB2D.__init__(self, container, width, height)
+        self.m_keyboardInputsEnabled = False
+        self.m_mouseInputsEnabled = True
 
-        #self.walker = Walker(self);
+        #self.walker = Walker(self)
 
         self.m_isTraining = False
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
             self.m_isTraining = True
+            self.m_mouseInputsEnabled = False
         else:
             config = neat.Config(
                 neat.DefaultGenome,
@@ -47,10 +50,15 @@ class SimulationB2DWalker(SimulationB2D):
 
         #print(self.walker.body.m_angle)
         #print(self.walker.jL.angle * 180/b2_pi)
+        #self.walker.update(dt)
         super().update(dt)
 
     def setupWorld(self):
         pass
+
+    def onMouseDown(self, event):
+        #self.walker.changeFeet()
+        super().onMouseDown(event)
 
     def init(self):
         actorGround = self.addActor(ActorB2D((400, 580), (800, 40)))
@@ -64,7 +72,7 @@ class NNWalkerSystem(object):
 
         self.m_isAlive = True
 
-        # Added double inverted pendulum.
+        # Added walker.
         self.m_walker = Walker(simulation)
 
         self.m_neuralNetwork = neat.nn.FeedForwardNetwork.create(genome, config)
@@ -78,6 +86,8 @@ class NNWalkerSystem(object):
         if not self.m_isAlive:
             return
 
+        self.m_walker.update(dt)
+
         inputAngleL = (((self.m_walker.jL.angle * 180/b2_pi) + 180) % 360) - 180 # [-180,180]
         inputAngleR = (((self.m_walker.jR.angle * 180/b2_pi) + 180) % 360) - 180 # [-180,180]
         inputAngleB = ((self.m_walker.body.m_angle + 180) % 360) - 180 # [-180,180]
@@ -86,11 +96,11 @@ class NNWalkerSystem(object):
             self.m_traveledDistance = self.m_walker.body.m_position.x - 100
 
             validTime = self.m_timeAlive < settings.NEAT_WALKER_MAX_TIME_ALIVE * 1000
-            validAngle = abs(inputAngleB) < 45
+            validAngle = abs(inputAngleB) < 70
 
             if not (validAngle and validTime):
                 self.m_isAlive = False
-                self.m_genome.fitness = max(0.0, self.m_traveledDistance)
+                self.m_genome.fitness = max(0.0, self.m_walker.maxDistance)
                 print('fitness: ' + str(self.m_genome.fitness))
                 return
 
@@ -98,17 +108,19 @@ class NNWalkerSystem(object):
         inputAngleR = (((self.m_walker.jR.angle * 180/b2_pi) + 180) % 360) - 180 # [-180,180]
         inputAngleB = ((self.m_walker.body.m_angle + 180) % 360) - 180 # [-180,180]
 
-        # Setup the input layer
-        input = (inputAngleL,
-                 inputAngleR,
-                 inputAngleB)
+        # Setup the input layer.
+        input = (abs(self.m_walker.lfootY-self.m_walker.rfootY),)
+        #input = (abs(inputAngleL/180-inputAngleR/180),)
+        #input = (inputAngleL/180,
+        #         inputAngleR/180,
+        #         inputAngleB/180)
 
-        # Feed the neural network information
+        # Feed the neural network information.
         output = self.m_neuralNetwork.activate(input)
 
-        # Obtain Prediction
-        self.m_walker.jL.motorSpeed = output[0]
-        self.m_walker.jR.motorSpeed = output[1]
+        # Obtain Prediction.
+        if output[0] > 0.5:
+            self.m_walker.changeFeet()
 
         self.m_timeAlive += dt
 
@@ -150,6 +162,59 @@ class Walker(object):
                                                        lowerAngle=-20*b2_pi/180.0,
                                                        upperAngle=20*b2_pi/180.0)
         simulation.m_joints.append(self.jR)
+
+        self.jL.motorSpeed = -1 # This makes walker move up the left leg.
+        self.leftLeg.j.lowerAngle = -20*b2_pi/180.0
+        self.leftLeg.j.upperAngle = 20*b2_pi/180.0
+
+        self.jR.motorSpeed = 1 # This makes walker move up the left leg.
+        self.rightLeg.j.lowerAngle = 0*b2_pi/180.0
+        self.rightLeg.j.upperAngle = 0*b2_pi/180.0
+
+        self.m_left = True
+        self.m_steps = 1
+        self.m_stepScore = 0
+        self.m_timeStep = 0
+
+        self.lfootX = self.leftLeg.lower.m_position.x + 25*math.sin(math.pi*self.leftLeg.lower.m_angle/180.0)
+        self.lfootY = self.leftLeg.lower.m_position.y + 25*math.cos(math.pi*self.leftLeg.lower.m_angle/180.0)
+        self.rfootX = self.rightLeg.lower.m_position.x + 25*math.sin(math.pi*self.rightLeg.lower.m_angle/180.0)
+        self.rfootY = self.rightLeg.lower.m_position.y + 25*math.cos(math.pi*self.rightLeg.lower.m_angle/180.0)
+
+    def update(self, dt):
+        self.m_timeStep += dt
+        #print(self.leftLeg.lower.m_position, self.leftLeg.lower.m_angle)
+        #print(self.leftLeg.lower.m_position.y + math.cos(math.pi*self.leftLeg.lower.m_angle/180.0))
+        self.lfootX = self.leftLeg.lower.m_position.x + 25*math.sin(math.pi*self.leftLeg.lower.m_angle/180.0)
+        self.lfootY = self.leftLeg.lower.m_position.y + 25*math.cos(math.pi*self.leftLeg.lower.m_angle/180.0)
+        self.rfootX = self.rightLeg.lower.m_position.x + 25*math.sin(math.pi*self.rightLeg.lower.m_angle/180.0)
+        self.rfootY = self.rightLeg.lower.m_position.y + 25*math.cos(math.pi*self.rightLeg.lower.m_angle/180.0)
+        self.maxDistance = max(self.lfootX, self.rfootX)
+        #print(self.maxDistance)
+
+    def changeFeet(self):
+        self.m_left = not self.m_left
+        self.m_steps += 1
+
+        self.m_stepScore += pow(self.m_timeStep/1000.0,2)
+        self.m_timeStep = 0
+
+        if self.m_left:
+            self.jL.motorSpeed = -1 # This makes walker move up the left leg.
+            self.leftLeg.j.lowerAngle = -20*b2_pi/180.0
+            self.leftLeg.j.upperAngle = 20*b2_pi/180.0
+
+            self.jR.motorSpeed = 1 # This makes walker move down the right leg.
+            self.rightLeg.j.lowerAngle = 0*b2_pi/180.0
+            self.rightLeg.j.upperAngle = 0*b2_pi/180.0
+        else:
+            self.jR.motorSpeed = -1
+            self.rightLeg.j.lowerAngle = -20*b2_pi/180.0
+            self.rightLeg.j.upperAngle = 20*b2_pi/180.0
+
+            self.jL.motorSpeed = 1
+            self.leftLeg.j.lowerAngle = 0*b2_pi/180.0
+            self.leftLeg.j.upperAngle = 0*b2_pi/180.0
 
     def free(self):
         self.m_simulation.m_b2dWorld.DestroyJoint(self.jL)

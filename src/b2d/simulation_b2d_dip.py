@@ -8,8 +8,8 @@ import pickle
 
 class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height, params):
-        self.m_keyboardInputsEnabled = False
         SimulationB2D.__init__(self, container, width, height)
+        self.m_keyboardInputsEnabled = False
         self.m_isTraining = False
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
