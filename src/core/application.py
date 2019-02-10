@@ -16,8 +16,8 @@ class Application(object):
         self.m_screenManager = ScreenManager(settings.APP_WIDTH, settings.APP_HEIGHT)
 
     def play(self):
-        #self.m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
-        self.m_screenManager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_WALKER})
+        self.m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
+        #self.m_screenManager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_WALKER})
         self.onLoop()
 
     def onLoop(self):

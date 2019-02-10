@@ -6,12 +6,15 @@
     <ProjectGuid>{87a71500-9797-4444-8407-4685e6d781df}</ProjectGuid>
     <ProjectHome />
     <StartupFile>main.py</StartupFile>
-    <SearchPath />
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId>MSBuild|venv|$(MSBuildProjectFullPath)</InterpreterId>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <Environment>PATH=%PATH%;C:\graphviz-2.38\release\bin</Environment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
@@ -75,6 +78,10 @@
     <Compile Include="neat_ip\simulation_neat_ip.py" />
     <Compile Include="neat_ip\simulation_screen_neat_ip.py" />
     <Compile Include="neat_ip\__init__.py" />
+    <Compile Include="neat_utils\visualize.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="neat_utils\__init__.py" />
     <Compile Include="physics\inverted_pendulum.py" />
     <Compile Include="physics\__init__.py">
       <SubType>Code</SubType>
@@ -103,6 +110,7 @@
     <Folder Include="neat_ip\" />
     <Folder Include="neat_dycicle\" />
     <Folder Include="b2d\" />
+    <Folder Include="neat_utils\" />
     <Folder Include="physics\" />
     <Folder Include="steering" />
   </ItemGroup>

@@ -3,6 +3,7 @@ import argparse
 import neat
 import pickle
 import settings
+import neat_utils.visualize
 
 trainingCurrentStep = 0
 
@@ -28,6 +29,7 @@ def main():
         p.add_reporter(neat.StdOutReporter(True))
         winner = p.run(eval_genomes_neat_ip, n = settings.NEATIP_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_ip.pkl', 'wb'))
+        neat_utils.visualize.draw_net(config, genome, False, filename="net_neat_ip", fmt="png")
 
     elif args.trainMode and args.trainMode.upper() == "NEAT_DYCICLE":
         trainingCurrentStep = 0
@@ -42,6 +44,7 @@ def main():
         p.add_reporter(neat.StdOutReporter(True))
         winner = p.run(eval_genomes_neat_dycicle, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_dycicle.pkl', 'wb'))
+        neat_utils.visualize.draw_net(config, genome, False, filename="net_neat_dycicle", fmt="png")
 
     elif args.trainMode and args.trainMode.upper() == "NEATDIP":
         trainingCurrentStep = 0
@@ -56,9 +59,9 @@ def main():
         p.add_reporter(neat.StdOutReporter(True))
         winner = p.run(eval_genomes_neat_dip, n = settings.NEAT_DIP_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_dip.pkl', 'wb'))
+        neat_utils.visualize.draw_net(config, genome, False, filename="net_neat_dip", fmt="png")
 
     elif args.trainMode and args.trainMode.upper() == "NEAT_WALKER":
-    #if True:
         trainingCurrentStep = 0
 
         config = neat.Config(
@@ -71,6 +74,7 @@ def main():
         p.add_reporter(neat.StdOutReporter(True))
         winner = p.run(eval_genomes_neat_walker, n = settings.NEAT_WALKER_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_walker.pkl', 'wb'))
+        neat_utils.visualize.draw_net(config, genome, False, filename="net_neat_walker", fmt="png")
 
     app = Application()
     app.play()
