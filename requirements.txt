@@ -1,4 +1,5 @@
 box2d-py==2.3.8
+graphviz==0.10.1
 neat-python==0.92
 numpy==1.15.4
 pygame==1.9.4
