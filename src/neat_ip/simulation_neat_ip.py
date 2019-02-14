@@ -62,7 +62,6 @@ class NNIPSystem(object):
         self.m_traveledDistance = 0
 
     def update(self, dt):
-        print(dt)
         if not self.m_isAlive:
             return
 

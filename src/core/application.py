@@ -69,6 +69,11 @@ class Application(object):
         #pygame.quit()
         #sys.exit()
 
+        if len(settings.TRAIN_MODE) != 0:
+            tm = settings.TRAIN_MODE
+            settings.TRAIN_MODE = ''
+            settings.TRAIN_CALLBACK(tm)
+
     def trainNeatIP(self, genomes, config, currentStep):
         params = {}
         params['isTraining'] = True

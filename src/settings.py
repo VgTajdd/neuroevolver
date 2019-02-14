@@ -1,6 +1,7 @@
 # General var.
 OBJ_SURFACE = None
 TRAIN_CALLBACK = None
+TRAIN_MODE = ''
 
 # Debug
 SHOW_DEBUG_SHAPES = True

@@ -6,8 +6,9 @@ class ScreenType(IntEnum):
     META_MAP = 2
     META_MAP_DEMOS = 3
     META_MAP_SIMULATIONS = 4
-    SETTINGS = 5
-    SIMULATION = 6
+    META_MAP_TRAININGS = 5
+    SETTINGS = 6
+    SIMULATION = 7
 
 class SimulationType(IntEnum):
     NONE = 0
