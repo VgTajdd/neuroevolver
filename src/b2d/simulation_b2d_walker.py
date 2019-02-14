@@ -109,11 +109,15 @@ class NNWalkerSystem(object):
         inputAngleB = ((self.m_walker.body.m_angle + 180) % 360) - 180 # [-180,180]
 
         # Setup the input layer.
-        input = (abs(self.m_walker.lfootY-self.m_walker.rfootY),)
+        #input = (abs(self.m_walker.lfootY-self.m_walker.rfootY),)
         #input = (abs(inputAngleL/180-inputAngleR/180),)
         #input = (inputAngleL/180,
         #         inputAngleR/180,
         #         inputAngleB/180)
+
+        input = (abs(self.m_walker.lfootY-self.m_walker.rfootY),
+                 self.m_walker.lfootY,
+                 self.m_walker.rfootY)
 
         # Feed the neural network information.
         output = self.m_neuralNetwork.activate(input)
@@ -136,10 +140,10 @@ class Walker(object):
         self.rightLeg = WalkerLeg(simulation)
         self.leftLeg.lower.m_body.fixtures[0].friction = 0.3
         self.rightLeg.lower.m_body.fixtures[0].friction = 0.3
-        self.leftLeg.lower.m_body.fixtures[0].density = 10
-        self.rightLeg.lower.m_body.fixtures[0].density = 10
+        self.leftLeg.lower.m_body.fixtures[0].density = 1
+        self.rightLeg.lower.m_body.fixtures[0].density = 1
         self.body = self.m_simulation.createSimpleBox((100, 525), (30, 30), settings.B2D_CAT_BITS_CAR)
-        self.body.m_body.fixtures[0].density = 20
+        self.body.m_body.fixtures[0].density = 1
 
         self.jL = simulation.m_b2dWorld.CreateRevoluteJoint(bodyA=self.body.m_body,
                                                        bodyB=self.leftLeg.upper.m_body,
@@ -163,13 +167,13 @@ class Walker(object):
                                                        upperAngle=20*b2_pi/180.0)
         simulation.m_joints.append(self.jR)
 
-        self.jL.motorSpeed = -1 # This makes walker move up the left leg.
-        self.leftLeg.j.lowerAngle = -20*b2_pi/180.0
-        self.leftLeg.j.upperAngle = 20*b2_pi/180.0
+        #self.jL.motorSpeed = -1 # This makes walker move up the left leg.
+        #self.leftLeg.j.lowerAngle = -20*b2_pi/180.0
+        #self.leftLeg.j.upperAngle = 20*b2_pi/180.0
 
-        self.jR.motorSpeed = 1 # This makes walker move up the left leg.
-        self.rightLeg.j.lowerAngle = 0*b2_pi/180.0
-        self.rightLeg.j.upperAngle = 0*b2_pi/180.0
+        #self.jR.motorSpeed = 1 # This makes walker move up the left leg.
+        #self.rightLeg.j.lowerAngle = 0*b2_pi/180.0
+        #self.rightLeg.j.upperAngle = 0*b2_pi/180.0
 
         self.m_left = True
         self.m_steps = 1

@@ -48,6 +48,8 @@ class MetamapDemos(ScreenBase):
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)
 
+import settings
+
 class MetamapSimulation(ScreenBase):
     def __init__(self, width, height, color):
         ScreenBase.__init__(self, width, height, color)
@@ -73,6 +75,7 @@ class MetamapSimulation(ScreenBase):
 
     def gotoNeatWalker(self):
         self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_WALKER})
+        #settings.TRAIN_CALLBACK('neat_walker')
 
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)

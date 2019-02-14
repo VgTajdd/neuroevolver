@@ -1,3 +1,7 @@
+# General var.
+OBJ_SURFACE = None
+TRAIN_CALLBACK = None
+
 # Debug
 SHOW_DEBUG_SHAPES = True
 SHOW_ACTOR_RECT = False
@@ -35,9 +39,6 @@ B2D_PPM = 20 # pixels per meter
 B2D_CAT_BITS_GROUND = 0x0001
 B2D_CAT_BITS_CAR = 0x0002
 B2D_CAT_BITS_BAR = 0x0004
-
-# General var.
-OBJ_SURFACE = None
 
 # NEAT Double inverted pendulum Training.
 NEAT_DIP_TRAINING_STEPS = 100 # 15
