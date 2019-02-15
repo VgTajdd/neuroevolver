@@ -5,7 +5,6 @@ import pickle
 import pygame
 import settings
 import math
-import copy
 
 class SimulationNeatIP(SimulationBase):
     def __init__(self, container, width, height, params):
@@ -25,7 +24,7 @@ class SimulationNeatIP(SimulationBase):
             self.init([genome], config)
 
     def init(self, genomes, config):
-        self.m_systems = [NNIPSystem(self, copy.deepcopy(genome), config) for genome in genomes]
+        self.m_systems = [NNIPSystem(self, genome, config) for genome in genomes]
 
     def update(self, dt):
         if len(self.m_systems) == 0:

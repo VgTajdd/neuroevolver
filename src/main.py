@@ -94,7 +94,7 @@ def eval_genomes_neat_walker(genomes, config):
     global trainingCurrentStep
     trainingCurrentStep += 1
     app.trainNeatWalker(genomes, config, trainingCurrentStep)
-    #neat_utils.visualize.draw_net(config, genomes[0], False, filename="net_neat_walker", fmt="png")
+    neat_utils.visualize.draw_net(config, genomes[0], False, filename="net_neat_walker", fmt="png")
 
 if __name__ == "__main__":
     main()
