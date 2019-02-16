@@ -9,6 +9,6 @@ call "%CURRENT_DIR%/../../venv/Scripts/activate.bat"
 :: Python use this path as reference for relative paths. e.g. "assets/x.png"
 cd /d "%CURRENT_DIR%/src"
 
-call python main.py --train neatip
+call python main.py --train neat_ip
 call deactivate
 endlocal

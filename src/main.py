@@ -27,11 +27,11 @@ def train(mode):
     global trainingCurrentStep
     trainingCurrentStep = 0
 
-    if mode.upper() == "NEATIP":
+    if mode.upper() == "NEAT_IP":
         config = createNeatConfig('config_neat_ip')
         p = neat.Population(config)
         p.add_reporter(neat.StdOutReporter(True))
-        winner = p.run(eval_genomes_neat_ip, n = settings.NEATIP_TRAINING_STEPS)
+        winner = p.run(eval_genomes_neat_ip, n = settings.NEAT_IP_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_ip.pkl', 'wb'))
         neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_ip", fmt="png")
 
@@ -43,7 +43,7 @@ def train(mode):
         pickle.dump(winner, open('winner_neat_dycicle.pkl', 'wb'))
         neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_dycicle", fmt="png")
 
-    elif mode.upper() == "NEATDIP":
+    elif mode.upper() == "NEAT_DIP":
         config = createNeatConfig('config_neat_dip')
         p = neat.Population(config)
         p.add_reporter(neat.StdOutReporter(True))
@@ -97,7 +97,7 @@ def eval_genomes_neat_walker(genomes, config):
     global trainingCurrentStep
     trainingCurrentStep += 1
     app.trainNeatWalker(genomes, config, trainingCurrentStep)
-    neat_utils.visualize.draw_net(config, genomes[0], False, filename="net_neat_walker", fmt="png")
+    #neat_utils.visualize.draw_net(config, genomes[0], False, filename="net_neat_walker", fmt="png")
 
 if __name__ == "__main__":
     main()

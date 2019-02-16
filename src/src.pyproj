@@ -44,6 +44,9 @@
     <Compile Include="core\application.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="core\utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="core\screen_base.py" />
     <Compile Include="core\simulation_base.py" />
     <Compile Include="core\simulation_screen.py" />
@@ -100,7 +103,11 @@
   <ItemGroup>
     <Content Include="assets\actor0.png" />
     <Content Include="assets\actor1.png" />
+    <Content Include="assets\food.png" />
     <Content Include="assets\imageqt.png" />
+    <Content Include="assets\inverted_pendulum.PNG" />
+    <Content Include="assets\OpenSans-Regular.ttf" />
+    <Content Include="assets\poison.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets" />

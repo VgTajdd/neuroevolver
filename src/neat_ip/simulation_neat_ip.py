@@ -38,7 +38,7 @@ class SimulationNeatIP(SimulationBase):
             system.update(dt)
 
         if len(self.m_systems) == 0:
-            my_event = pygame.event.Event(settings.NEATIP_EVENT_END_TRAINING_STEP, message="Bad cat!")
+            my_event = pygame.event.Event(settings.NEAT_IP_EVENT_END_TRAINING_STEP, message="Bad cat!")
             pygame.event.post(my_event)
 
         super().update(dt)
@@ -52,7 +52,7 @@ class NNIPSystem(object):
         # Added inverted pendulum.
         self.m_invertedPendulum = InvertedPendulum((settings.APP_WIDTH/2, 400), (10, 100), rc = (5, 100), layer = 2)
         self.m_invertedPendulum.addToSimulation(simulation)
-        self.m_invertedPendulum.m_angle = settings.NEATIP_INITIAL_ANGLE
+        self.m_invertedPendulum.m_angle = settings.NEAT_IP_INITIAL_ANGLE
 
         self.m_neuralNetwork = neat.nn.FeedForwardNetwork.create(genome, config)
         self.m_genome = genome
@@ -67,9 +67,9 @@ class NNIPSystem(object):
         if self.m_simulationRef.m_isTraining:
             self.m_traveledDistance += abs(self.m_invertedPendulum.m_speedM) * dt
 
-            validAngle = -settings.NEATIP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEATIP_LIMIT_ANGLE
+            validAngle = -settings.NEAT_IP_LIMIT_ANGLE < self.m_invertedPendulum.m_angle < settings.NEAT_IP_LIMIT_ANGLE
             validPosition = 0 < self.m_invertedPendulum.m_position.x < settings.APP_WIDTH
-            validTime = self.m_timeAlive < settings.NEATIP_MAX_TIME_ALIVE * 1000
+            validTime = self.m_timeAlive < settings.NEAT_IP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle and validPosition and validTime):
                 deltaX = abs(settings.APP_WIDTH/2 - self.m_invertedPendulum.m_position.x)
