@@ -18,9 +18,9 @@ def main():
 
     if args.trainMode:
         train(args.trainMode)
-
-    app = Application()
-    app.play()
+    else:
+        app = Application()
+        app.play()
 
 def train(mode):
 
@@ -58,6 +58,9 @@ def train(mode):
         winner = p.run(eval_genomes_neat_walker, n = settings.NEAT_WALKER_TRAINING_STEPS)
         pickle.dump(winner, open('winner_neat_walker.pkl', 'wb'))
         neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_walker", fmt="png")
+
+    app = Application()
+    app.play()
 
 def createNeatConfig(filename):
     config = neat.Config(neat.DefaultGenome,
