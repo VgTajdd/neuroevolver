@@ -65,6 +65,7 @@ class MetamapSimulation(ScreenBase):
         self.addButton((400, 300), (200, 50), 'NEAT Dycicle', self.gotoNeatDycicle)
         self.addButton((400, 400), (200, 50), 'NEAT DIP', self.gotoNeatDIP)
         self.addButton((400, 500), (200, 50), 'NEAT Walker', self.gotoNeatWalker)
+        self.addButton((650, 200), (200, 50), 'NEAT TIP', self.gotoNeatTIP)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMetamap)
         self.addLabel((400, 100), (300, 50), 'Choose Simulation', alpha = 50)
@@ -77,6 +78,9 @@ class MetamapSimulation(ScreenBase):
 
     def gotoNeatDIP(self):
         self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_DIP})
+
+    def gotoNeatTIP(self):
+        self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_TIP})
 
     def gotoNeatWalker(self):
         self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_WALKER})
@@ -94,6 +98,7 @@ class MetamapTraining(ScreenBase):
         self.addButton((400, 300), (200, 50), 'Train NEAT Dycicle', self.gotoNeatDycicle)
         self.addButton((400, 400), (200, 50), 'Train NEAT DIP', self.gotoNeatDIP)
         self.addButton((400, 500), (200, 50), 'Train NEAT Walker', self.gotoNeatWalker)
+        self.addButton((650, 200), (200, 50), 'Train NEAT TIP', self.gotoNeatTIP)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMetamap)
         self.addLabel((400, 100), (300, 50), 'Choose Training', alpha = 50)
@@ -109,6 +114,10 @@ class MetamapTraining(ScreenBase):
     def gotoNeatDIP(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
         settings.TRAIN_MODE = 'neat_dip'
+
+    def gotoNeatTIP(self):
+        pygame.event.post(pygame.event.Event(pygame.QUIT))
+        settings.TRAIN_MODE = 'neat_tip'
 
     def gotoNeatWalker(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))

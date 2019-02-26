@@ -51,6 +51,14 @@ def train(mode):
         pickle.dump(winner, open('winner_neat_dip.pkl', 'wb'))
         neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_dip", fmt="png")
 
+    elif mode.upper() == "NEAT_TIP":
+        config = createNeatConfig('config_neat_tip')
+        p = neat.Population(config)
+        p.add_reporter(neat.StdOutReporter(True))
+        winner = p.run(eval_genomes_neat_tip, n = settings.NEAT_TIP_TRAINING_STEPS)
+        pickle.dump(winner, open('winner_neat_tip.pkl', 'wb'))
+        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_tip", fmt="png")
+
     elif mode.upper() == "NEAT_WALKER":
         config = createNeatConfig('config_neat_walker')
         p = neat.Population(config)
@@ -83,6 +91,13 @@ def eval_genomes_neat_dip(genomes, config):
     global trainingCurrentStep
     trainingCurrentStep += 1
     app.trainNeatDIP(genomes, config, trainingCurrentStep)
+
+def eval_genomes_neat_tip(genomes, config):
+    idx, genomes = zip(*genomes)
+    app = Application()
+    global trainingCurrentStep
+    trainingCurrentStep += 1
+    app.trainNeatTIP(genomes, config, trainingCurrentStep)
 
 def eval_genomes_neat_dycicle(genomes, config):
     idx, genomes = zip(*genomes)

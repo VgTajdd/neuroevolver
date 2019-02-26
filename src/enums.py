@@ -18,7 +18,8 @@ class SimulationType(IntEnum):
     NEAT_DYCICLE = 4
     B2D = 5
     NEAT_B2D_DIP = 6
-    NEAT_B2D_WALKER = 7
+    NEAT_B2D_TIP = 7
+    NEAT_B2D_WALKER = 8
 
 class SteeringBehaviourType(IntEnum):
     STATIC = 0
