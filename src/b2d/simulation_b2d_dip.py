@@ -10,10 +10,11 @@ class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height, params):
         SimulationB2D.__init__(self, container, width, height)
         self.m_keyboardInputsEnabled = False
-        self.m_isTraining = False
+        self.m_isTraining = 'isTraining' in params and params['isTraining']
+        self.m_trainingProgress = 0
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
-            self.m_isTraining = True
+            self.m_trainingProgress = params['currentStep'] / settings.NEAT_TIP_TRAINING_STEPS
         else:
             config = neat.Config(
                 neat.DefaultGenome,
@@ -87,8 +88,11 @@ class NNDIPSystem(object):
             validTime = self.m_timeAlive < settings.NEAT_DIP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle1 and validAngle2 and validPosition and validTime):
-                deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
-                self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
+                if self.m_simulationRef.m_trainingProgress < 0.5:
+                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
+                else:
+                    deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
+                    self.m_genome.fitness = max(0.0, self.m_timeAlive - deltaX - self.m_traveledDistance/1000)
                 print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
                 self.m_isAlive = False
                 return
