@@ -92,7 +92,7 @@ class NNDIPSystem(object):
                     self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
                 else:
                     deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
-                    self.m_genome.fitness = max(0.0, self.m_timeAlive - deltaX - self.m_traveledDistance/1000)
+                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/100)
                 print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
                 self.m_isAlive = False
                 return
