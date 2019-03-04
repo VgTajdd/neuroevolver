@@ -74,10 +74,26 @@ class NNDIPSystem(object):
         self.m_timeAlive = 0
         self.m_traveledDistance = 0
 
+        self.m_angle1Errors = []
+        self.m_angle2Errors = []
+        self.m_carErrors = []
+        self.m_timeToEvalErrors = 100
+
     def update(self, dt):
 
         if not self.m_isAlive:
             return
+
+        inputAngle1 = ((self.m_dip.barA.m_angle + 180) % 360) - 180 # [-180,180]
+        inputAngle2 = ((self.m_dip.barB.m_angle + 180) % 360) - 180 # [-180,180]
+
+        self.m_timeToEvalErrors += dt
+
+        if self.m_timeToEvalErrors > 100:
+            self.m_timeToEvalErrors -= 100
+            self.m_angle1Errors.append(abs(inputAngle1))
+            self.m_angle2Errors.append(abs(inputAngle2))
+            self.m_carErrors.append(abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x))
 
         if self.m_simulationRef.m_isTraining:
             self.m_traveledDistance += abs(self.m_dip.box.m_speed[0]) * dt
@@ -88,17 +104,31 @@ class NNDIPSystem(object):
             validTime = self.m_timeAlive < settings.NEAT_DIP_MAX_TIME_ALIVE * 1000
 
             if not (validAngle1 and validAngle2 and validPosition and validTime):
-                if self.m_simulationRef.m_trainingProgress < 0.5:
-                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
+            #    if self.m_simulationRef.m_trainingProgress < 0.5:
+            #        self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)
+            #    else:
+            #        deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
+            #        self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/100)
+            #    print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
+
+                numberOfPoints = len(self.m_carErrors)
+                if numberOfPoints != 0:
+                    angle1Error = sum(self.m_angle1Errors) / len(self.m_angle1Errors)
+                    angle2Error = sum(self.m_angle2Errors) / len(self.m_angle2Errors)
+                    carError = sum(self.m_carErrors) / len(self.m_carErrors)
+                    #self.m_genome.fitness = self.m_timeAlive*self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_1
+                    #self.m_genome.fitness = self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_2
+                    #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)/(angle1Error+angle2Error+carError) # fitness_3
+                    #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - 10*(angle1Error+angle2Error+carError) ) # fitness_4 mas tiempo(a todos?)
+                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - pow(angle1Error*angle2Error*carError,(1.0/3.0) ) ) # fitness_5
+                    print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(angle1Error)+ "\t" + str(angle2Error)+ "\t" + str(carError))
                 else:
-                    deltaX = abs(settings.APP_WIDTH/2 - self.m_dip.box.m_position.x)
-                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/100)
-                print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(self.m_traveledDistance/1000))
+                    self.m_genome.fitness = 0
                 self.m_isAlive = False
                 return
 
-        inputAngle1 = ((self.m_dip.barA.m_angle + 180) % 360) - 180 # [-180,180]
-        inputAngle2 = ((self.m_dip.barB.m_angle + 180) % 360) - 180 # [-180,180]
+        #inputAngle1 = ((self.m_dip.barA.m_angle + 180) % 360) - 180 # [-180,180]
+        #inputAngle2 = ((self.m_dip.barB.m_angle + 180) % 360) - 180 # [-180,180]
 
         # Setup the input layer
         input = (inputAngle1,
