@@ -5,6 +5,7 @@ import settings
 import pygame
 import neat
 import pickle
+from core.utils import loadPickle
 
 class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height, params):
@@ -12,6 +13,7 @@ class SimulationB2DDIP(SimulationB2D):
         self.m_keyboardInputsEnabled = False
         self.m_isTraining = 'isTraining' in params and params['isTraining']
         self.m_trainingProgress = 0
+        self.m_systems = []
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
             self.m_trainingProgress = params['currentStep'] / settings.NEAT_TIP_TRAINING_STEPS
@@ -22,8 +24,9 @@ class SimulationB2DDIP(SimulationB2D):
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
                 'config_neat_dip')
-            genome = pickle.load(open('winner_neat_dip.pkl', 'rb'))
-            self.initParams([genome], config)
+            genome = loadPickle('winner_neat_dip.pkl')
+            if genome:
+                self.initParams([genome], config)
 
     def initParams(self, genomes, config):
         self.m_systems = [NNDIPSystem(self, genome, config) for genome in genomes]
@@ -140,6 +143,8 @@ class NNDIPSystem(object):
 
         # Feed the neural network information
         output = self.m_neuralNetwork.activate(input)
+        if output[0] > 100: output[0] = 100
+        elif output[0] < -100: output[0] = -100
 
         # Obtain Prediction
         f = self.m_dip.box.m_body.GetWorldVector(localVector=(output[0]/10, 0.0))
