@@ -4,7 +4,7 @@ import neat
 import pickle
 import settings
 import neat_utils.visualize
-from core.utils import savePickle
+from core.utils import savePickle, getPathWithoutExtension
 
 trainingCurrentStep = 0
 
@@ -23,66 +23,33 @@ def main():
         app = Application()
         app.play()
 
+def trainMode(fileNameConfig, steps_number, eval_genomes):
+    config = createNeatConfig(fileNameConfig)
+    p = neat.Population(config)
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    winner = p.run(eval_genomes, n = steps_number)
+    filename = savePickle(winner, 'winner_neat.pkl')
+    path = getPathWithoutExtension(filename)
+    neat_utils.visualize.draw_net(config, winner, False, filename=path, fmt="png")
+    neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename=path+".svg")
+
 def train(mode):
 
     global trainingCurrentStep
     trainingCurrentStep = 0
 
     if mode.upper() == "NEAT_IP":
-        config = createNeatConfig('config_neat_ip')
-        p = neat.Population(config)
-        p.add_reporter(neat.StdOutReporter(True))
-        stats = neat.StatisticsReporter()
-        p.add_reporter(stats)
-        winner = p.run(eval_genomes_neat_ip, n = settings.NEAT_IP_TRAINING_STEPS)
-        savePickle(winner, 'winner_neat_ip.pkl')
-        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_ip", fmt="png")
-        neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename='avg_fitness_ip.svg')
-
+        trainMode('config_neat_ip', settings.NEAT_IP_TRAINING_STEPS, eval_genomes_neat_ip)
     elif mode.upper() == "NEAT_DYCICLE":
-        config = createNeatConfig('config_neat_dycicle')
-        p = neat.Population(config)
-        p.add_reporter(neat.StdOutReporter(True))
-        stats = neat.StatisticsReporter()
-        p.add_reporter(stats)
-        winner = p.run(eval_genomes_neat_dycicle, n = settings.NEAT_DYCICLE_TRAINING_STEPS)
-        savePickle(winner, 'winner_neat_dycicle.pkl')
-        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_dycicle", fmt="png")
-        neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename='avg_fitness_dycicle.svg')
-
+        trainMode('config_neat_dycicle', settings.NEAT_DYCICLE_TRAINING_STEPS, eval_genomes_neat_dycicle)
     elif mode.upper() == "NEAT_DIP":
-        config = createNeatConfig('config_neat_dip')
-        p = neat.Population(config)
-        p.add_reporter(neat.StdOutReporter(True))
-        stats = neat.StatisticsReporter()
-        p.add_reporter(stats)
-        winner = p.run(eval_genomes_neat_dip, n = settings.NEAT_DIP_TRAINING_STEPS)
-        savePickle(winner, 'winner_neat_dip.pkl')
-        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_dip", fmt="png")
-        neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename='avg_fitness_dip.svg')
-
+        trainMode('config_neat_dip', settings.NEAT_DIP_TRAINING_STEPS, eval_genomes_neat_dip)
     elif mode.upper() == "NEAT_TIP":
-        config = createNeatConfig('config_neat_tip')
-        p = neat.Population(config)
-        p.add_reporter(neat.StdOutReporter(True))
-        stats = neat.StatisticsReporter()
-        p.add_reporter(stats)
-        winner = p.run(eval_genomes_neat_tip, n = settings.NEAT_TIP_TRAINING_STEPS)
-        savePickle(winner, 'winner_neat_tip.pkl')
-        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_tip", fmt="png")
-        neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename='avg_fitness_tip.svg')
-
+        trainMode('config_neat_tip', settings.NEAT_TIP_TRAINING_STEPS, eval_genomes_neat_tip)
     elif mode.upper() == "NEAT_WALKER":
-        config = createNeatConfig('config_neat_walker')
-        p = neat.Population(config)
-        p.add_reporter(neat.StdOutReporter(True))
-        stats = neat.StatisticsReporter()
-        p.add_reporter(stats)
-        winner = p.run(eval_genomes_neat_walker, n = settings.NEAT_WALKER_TRAINING_STEPS)
-        savePickle(winner, 'winner_neat_walker.pkl')
-        neat_utils.visualize.draw_net(config, winner, False, filename="net_neat_walker", fmt="png")
-        neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename='avg_fitness_walker.svg')
-
+        trainMode('config_neat_walker', settings.NEAT_WALKER_TRAINING_STEPS, eval_genomes_neat_walker)
     app = Application()
     app.play()
 

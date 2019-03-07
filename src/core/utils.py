@@ -19,6 +19,14 @@ def existsDir(path):
         return True
     return False
 
+def getPathWithoutExtension(path):
+    my_file = Path(path)
+    res = path
+    if my_file.is_file():
+        suffix = my_file.suffix
+        res = str(path).replace(suffix,'')
+    return res
+
 def getImageSize(path):
     image = pygame.image.load(path)
     rect = image.get_rect()
@@ -36,7 +44,11 @@ def loadPickle(defaultPath):
 def savePickle(obj, defaultPath):
     Tk().withdraw()
     filename = asksaveasfilename(filetypes=[("Pkl files", "*.pkl")])
+    file_path = Path(filename)
+    file_path = file_path.with_suffix('.pkl')
+    filename = file_path.as_posix()
     if len(filename) == 0:
         filename = defaultPath
     if filename:
         pickle.dump(obj, open(filename, 'wb'))
+    return filename
