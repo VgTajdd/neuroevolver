@@ -82,9 +82,9 @@ class NNTIPSystem(object):
         if self.m_simulationRef.m_isTraining:
             self.m_traveledDistance += abs(self.m_dip.box.m_speed[0]) * dt
 
-            validAngle1 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
-            validAngle2 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barB.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
-            validAngle3 = -settings.NEAT_DIP_LIMIT_ANGLE < self.m_dip.barC.m_angle < settings.NEAT_DIP_LIMIT_ANGLE
+            validAngle1 = -settings.NEAT_TIP_LIMIT_ANGLE < self.m_dip.barA.m_angle < settings.NEAT_TIP_LIMIT_ANGLE
+            validAngle2 = -settings.NEAT_TIP_LIMIT_ANGLE < self.m_dip.barB.m_angle < settings.NEAT_TIP_LIMIT_ANGLE
+            validAngle3 = -settings.NEAT_TIP_LIMIT_ANGLE < self.m_dip.barC.m_angle < settings.NEAT_TIP_LIMIT_ANGLE
             validPosition = 0 < self.m_dip.box.m_position.x < settings.APP_WIDTH
             validTime = self.m_timeAlive < settings.NEAT_TIP_MAX_TIME_ALIVE * 1000
 

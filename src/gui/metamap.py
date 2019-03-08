@@ -105,23 +105,23 @@ class MetamapTraining(ScreenBase):
 
     def gotoNeatIP(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
-        settings.TRAIN_MODE = 'neat_ip'
+        settings.TRAIN_MODE = settings.NEAT_IP_KEY
 
     def gotoNeatDycicle(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
-        settings.TRAIN_MODE = 'neat_dycicle'
+        settings.TRAIN_MODE = settings.NEAT_DYCICLE_KEY
 
     def gotoNeatDIP(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
-        settings.TRAIN_MODE = 'neat_dip'
+        settings.TRAIN_MODE = settings.NEAT_DIP_KEY
 
     def gotoNeatTIP(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
-        settings.TRAIN_MODE = 'neat_tip'
+        settings.TRAIN_MODE = settings.NEAT_TIP_KEY
 
     def gotoNeatWalker(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))
-        settings.TRAIN_MODE = 'neat_walker'
+        settings.TRAIN_MODE = settings.NEAT_WALKER_KEY
 
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)

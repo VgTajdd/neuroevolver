@@ -40,15 +40,15 @@ def train(mode):
     global trainingCurrentStep
     trainingCurrentStep = 0
 
-    if mode.upper() == "NEAT_IP":
+    if mode == settings.NEAT_IP_KEY:
         trainMode('config_neat_ip', settings.NEAT_IP_TRAINING_STEPS, eval_genomes_neat_ip)
-    elif mode.upper() == "NEAT_DYCICLE":
+    elif mode == settings.NEAT_DYCICLE_KEY:
         trainMode('config_neat_dycicle', settings.NEAT_DYCICLE_TRAINING_STEPS, eval_genomes_neat_dycicle)
-    elif mode.upper() == "NEAT_DIP":
+    elif mode == settings.NEAT_DIP_KEY:
         trainMode('config_neat_dip', settings.NEAT_DIP_TRAINING_STEPS, eval_genomes_neat_dip)
-    elif mode.upper() == "NEAT_TIP":
+    elif mode == settings.NEAT_TIP_KEY:
         trainMode('config_neat_tip', settings.NEAT_TIP_TRAINING_STEPS, eval_genomes_neat_tip)
-    elif mode.upper() == "NEAT_WALKER":
+    elif mode == settings.NEAT_WALKER_KEY:
         trainMode('config_neat_walker', settings.NEAT_WALKER_TRAINING_STEPS, eval_genomes_neat_walker)
     app = Application()
     app.play()
