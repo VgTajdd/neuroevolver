@@ -4,8 +4,6 @@ from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2Ci
 import settings
 import pygame
 import neat
-import pickle
-from core.utils import loadPickle
 
 class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height, params):
@@ -24,7 +22,7 @@ class SimulationB2DDIP(SimulationB2D):
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
                 'config_neat_dip')
-            genome = loadPickle('winner_neat_dip.pkl')
+            genome = params['genome'] #loadPickle('winner_neat_dip.pkl')
             if genome:
                 self.initParams([genome], config)
 
@@ -119,11 +117,11 @@ class NNDIPSystem(object):
                     angle1Error = sum(self.m_angle1Errors) / len(self.m_angle1Errors)
                     angle2Error = sum(self.m_angle2Errors) / len(self.m_angle2Errors)
                     carError = sum(self.m_carErrors) / len(self.m_carErrors)
-                    self.m_genome.fitness = self.m_timeAlive*self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_1
+                    #self.m_genome.fitness = self.m_timeAlive*self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_1
                     #self.m_genome.fitness = self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_2
                     #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)/(angle1Error+angle2Error+carError) # fitness_3
                     #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - 10*(angle1Error+angle2Error+carError) ) # fitness_4
-                    #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - pow(angle1Error*angle2Error*carError,(1.0/3.0) ) ) # fitness_5
+                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - pow(angle1Error*angle2Error*carError,(1.0/3.0) ) ) # fitness_5
                     print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(angle1Error)+ "\t" + str(angle2Error)+ "\t" + str(carError))
                 else:
                     self.m_genome.fitness = 0

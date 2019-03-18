@@ -5,6 +5,7 @@ from b2d.simulation_b2d_walker import SimulationB2DWalker
 from b2d.simulation_b2d_tip import SimulationB2DTIP
 from b2d.hud_b2d import HudB2D, HudB2DNEATDIP, HudB2DNEATWalker, HudB2DNEATTIP
 from enums import SimulationType
+from core.utils import loadPickle
 
 class SimulationScreenB2D(SimulationScreen):
     def __init__(self, width, height, color, params):
@@ -12,6 +13,11 @@ class SimulationScreenB2D(SimulationScreen):
         self.m_simulationType = SimulationType.B2D
         if self.params and self.params['simulationType']:
             self.m_simulationType = self.params['simulationType']
+            if self.m_simulationType is SimulationType.NEAT_B2D_DIP:
+                if not 'isTraining' in self.params or not self.params['isTraining']:
+                    pickleBundle = loadPickle('winner_neat_dip.pkl')
+                    self.params['genomePath'] = pickleBundle[0]
+                    self.params['genome'] = pickleBundle[1]
         SimulationScreen.__init__(self, width, height, color)
 
     def createSimulation(self):

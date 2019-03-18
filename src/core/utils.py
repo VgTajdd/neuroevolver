@@ -38,8 +38,8 @@ def loadPickle(defaultPath):
     if len(filename) == 0:
         filename = defaultPath
     if filename:
-        return pickle.load(open(filename, 'rb'))
-    return None
+        return filename, pickle.load(open(filename, 'rb'))
+    return filename, None
 
 def savePickle(obj, defaultPath):
     Tk().withdraw()

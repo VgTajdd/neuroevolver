@@ -1,6 +1,6 @@
 from core.hud_base import HudBase
-from enums import ScreenType
-import core.utils
+from enums import ScreenType, SimulationType
+from core.utils import getPathWithoutExtension, existsFile, getImageSize
 import settings
 
 class HudB2D(HudBase):
@@ -27,11 +27,21 @@ class HudB2DNEATDIP(HudB2D):
             self.addLabel((75, 45), (150, 30),
                           str(self.params['currentStep']) + "/" + str(settings.NEAT_DIP_TRAINING_STEPS))
         else:
-            imgPath = 'net_neat_dip.png'
-            if core.utils.existsFile(imgPath):
-                size = core.utils.getImageSize(imgPath)
-                self.addImage(((size[0]/2) + 30, (size[1]/2) + 30), size, imgPath)
+            imgPath = self.params['genomePath']
+            imgPath = getPathWithoutExtension(imgPath) + '.png'
+            if existsFile(imgPath):
+                size = getImageSize(imgPath)
+                w, h = size
+                if size[0] > 450:
+                    w = 450
+                if size[1] > 450:
+                    h = 450
+                self.addImage(((w/2) + 30, (h/2) + 30), (w, h), imgPath)
             self.addButton((770, 15), (60, 30), 'Back', self.gotoMetamap, alpha = 200)
+            self.addButton((670, 15), (60, 30), 'Reset', self.resetDIP, alpha = 200)
+
+    def resetDIP(self):
+        self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_DIP})
 
 class HudB2DNEATTIP(HudB2D):
     def __init__(self, width, height, params):
@@ -46,8 +56,8 @@ class HudB2DNEATTIP(HudB2D):
                           str(self.params['currentStep']) + "/" + str(settings.NEAT_TIP_TRAINING_STEPS))
         else:
             imgPath = 'net_neat_tip.png'
-            if core.utils.existsFile(imgPath):
-                size = core.utils.getImageSize(imgPath)
+            if existsFile(imgPath):
+                size = getImageSize(imgPath)
                 self.addImage(((size[0]/2) + 30, (size[1]/2) + 30), size, imgPath)
             self.addButton((770, 15), (60, 30), 'Back', self.gotoMetamap, alpha = 200)
 
@@ -64,7 +74,7 @@ class HudB2DNEATWalker(HudB2D):
                           str(self.params['currentStep']) + "/" + str(settings.NEAT_WALKER_TRAINING_STEPS))
         else:
             imgPath = 'net_neat_walker.png'
-            if core.utils.existsFile(imgPath):
-                size = core.utils.getImageSize(imgPath)
+            if existsFile(imgPath):
+                size = getImageSize(imgPath)
                 self.addImage(((size[0]/2) + 30, (size[1]/2) + 30), size, imgPath)
             self.addButton((770, 15), (60, 30), 'Back', self.gotoMetamap, alpha = 200)
