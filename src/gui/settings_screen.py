@@ -1,5 +1,6 @@
 from core.screen_base import ScreenBase
 from enums import ScreenType, SimulationType
+import core.colors as colors
 import settings
 
 class SettingsScreen(ScreenBase):
@@ -14,9 +15,9 @@ class SettingsScreen(ScreenBase):
         if settings.SHOW_DEBUG_SHAPES: textDebugSim = 'SimulationDebugOn'
         textDebugAct = 'ActorsDebugOff'
         if settings.SHOW_ACTOR_RECT: textDebugAct = 'ActorsDebugOn'
-        self.m_debugSimulation = self.addButton((400, 200), (200, 50), textDebugSim, self.toggleDebugSimulation)
-        self.m_debugActors = self.addButton((400, 300), (200, 50), textDebugAct, self.toggleDebugActors)
-        self.addButton((400, 400), (200, 50), 'Back', self.gotoMainMenu)
+        self.m_debugSimulation = self.addButton((400, 200), (200, 50), textDebugSim, self.toggleDebugSimulation, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.m_debugActors = self.addButton((400, 300), (200, 50), textDebugAct, self.toggleDebugActors, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 400), (200, 50), 'Back', self.gotoMainMenu, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addLabel((400, 100), (300, 50), 'Settings', alpha = 50)
 
     def toggleDebugSimulation(self):

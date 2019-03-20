@@ -1,13 +1,14 @@
 from core.actor import Actor
 from pygame.font import Font
 import core.colors as colors
+import pygame
 
 class Control(Actor):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, textColor = colors.BLACK):
         Actor.__init__(self, pos, size, color, imagePath, alpha, layer)
         self.m_mouseEventsEnabled = False
         self.m_text = ''
-        self.m_textColor = colors.BLACK
+        self.m_textColor = textColor
 
     def mouseEventsEnabled(self):
         return self.m_mouseEventsEnabled
@@ -51,17 +52,26 @@ class Control(Actor):
         self._updateText()  # draws text in current surface.
 
 class Button(Control):
-    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
-        Control.__init__(self, pos, size, color, imagePath, alpha, layer)
+    def __init__(self, pos, size, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, textColor = colors.BLACK):
+        Control.__init__(self, pos, size, color, imagePath, alpha, layer, textColor)
         Control.setMouseEventsEnabled(self, True)
         self.m_isPressed = False
         self.m_callback = None
 
     def setPressed(self, pressed):
         self.m_isPressed = pressed
-        if pressed: self.m_color = colors.GREY_BLUE
-        else:       self.m_color = colors.WHITE
-        self.repaint()
+        if len(self.m_imagePath) == 0:
+            if pressed: self.m_color = colors.GREY_BLUE
+            else:       self.m_color = colors.WHITE
+            self.repaint()
+        else:
+            if pressed:
+                t_surface = pygame.Surface(self.m_size, pygame.SRCALPHA) # per-pixel alpha
+                t_surface.fill(colors.BLACK + (100,))
+                self.image.blit(t_surface, (0,0))
+            else:
+                self.repaint()
+        #self.repaint()
 
     def isPressed(self):
         return self.m_isPressed

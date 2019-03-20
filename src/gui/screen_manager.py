@@ -25,15 +25,15 @@ class ScreenManager():
             self.m_currentScreen.free()
             self.m_currentScreen = None
         if screenType == ScreenType.MAIN_MENU:
-            self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.BLACK)
+            self.m_currentScreen = MainMenu(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.META_MAP:
-            self.m_currentScreen = Metamap(self.m_width, self.m_height, colors.LIGHT_GRAY)
+            self.m_currentScreen = Metamap(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.META_MAP_DEMOS:
-            self.m_currentScreen = MetamapDemos(self.m_width, self.m_height, colors.LIGHT_GRAY)
+            self.m_currentScreen = MetamapDemos(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.META_MAP_SIMULATIONS:
-            self.m_currentScreen = MetamapSimulation(self.m_width, self.m_height, colors.LIGHT_GRAY)
+            self.m_currentScreen = MetamapSimulation(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.META_MAP_TRAININGS:
-            self.m_currentScreen = MetamapTraining(self.m_width, self.m_height, colors.LIGHT_GRAY)
+            self.m_currentScreen = MetamapTraining(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.SETTINGS:
             self.m_currentScreen = SettingsScreen(self.m_width, self.m_height, colors.GRAY)
         elif screenType == ScreenType.SIMULATION:

@@ -70,8 +70,8 @@ class ScreenBase(pygame.sprite.LayeredDirty):
             #control.dirty = 1
             pass
 
-    def addButton(self, pos, size, text, callback, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1):
-        btn = Button(pos, size, color = color, imagePath = imagePath, alpha = alpha, layer = layer)
+    def addButton(self, pos, size, text, callback, color = colors.WHITE, imagePath = '', alpha = 255, layer = 1, textColor = colors.BLACK):
+        btn = Button(pos, size, color = color, imagePath = imagePath, alpha = alpha, layer = layer, textColor = textColor)
         btn.setText(text)
         btn.setCallback(callback)
         self.addControl(btn)

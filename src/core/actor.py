@@ -42,10 +42,16 @@ class Actor(pygame.sprite.DirtySprite):
     def _updateImage(self):
         if self.m_imagePath:
             if self.m_supportAlpha:
-                self.image = pygame.image.load(self.m_imagePath).convert_alpha()
+                if self.m_imagePath in settings.IMAGES_ALPHA and settings.IMAGES_ALPHA[self.m_imagePath]:
+                    self.image = settings.IMAGES_ALPHA[self.m_imagePath].copy()
+                else:
+                    self.image = pygame.image.load(self.m_imagePath).convert_alpha()
                 self.image.fill((255, 255, 255, self.m_alpha), None, pygame.BLEND_RGBA_MULT)
             else:
-                self.image = pygame.image.load(self.m_imagePath).convert()
+                if self.m_imagePath in settings.IMAGES and settings.IMAGES[self.m_imagePath]:
+                    self.image = settings.IMAGES[self.m_imagePath].copy()
+                else:
+                    self.image = pygame.image.load(self.m_imagePath).convert()
             self.image = pygame.transform.smoothscale(self.image, self.m_size)
         else:
             if self.m_supportAlpha:

@@ -15,6 +15,8 @@ class Application(object):
 
         self.m_screenManager = ScreenManager(settings.APP_WIDTH, settings.APP_HEIGHT)
 
+        loadAssets()
+
     def play(self):
         self.m_screenManager.gotoScreen(ScreenType.MAIN_MENU)
         #self.m_screenManager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_B2D_WALKER})
@@ -124,3 +126,15 @@ class Application(object):
         params['simulationType'] = SimulationType.NEAT_B2D_WALKER
         self.m_screenManager.gotoScreen(ScreenType.SIMULATION, params)
         self.onLoop()
+
+def loadAssets():
+    if settings.ASSETS_LOADED:
+        return
+
+    def loadImage(path):
+        settings.IMAGES_ALPHA[path] = pygame.image.load(path).convert_alpha()
+        settings.IMAGES[path] = pygame.image.load(path).convert()
+
+    loadImage('assets/black_btn.png')
+
+    settings.ASSETS_LOADED = True
