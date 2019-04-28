@@ -17,7 +17,9 @@ class MainMenu(ScreenBase):
         #self.addControl(demoButton)
         self.addButton((650, 550), (200, 50), 'Selector', self.gotoMetamap, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addButton((150, 550), (200, 50), 'Settings', self.gotoSettings, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addLabel((400,300), (400, 100), "Genetic Algorithms and Neuroevolution", alpha = 255)
+        self.addLabel((400, 300), (400, 50), "Genetic Algorithms and Neuroevolution", alpha = 0)
+        self.addImage((400, 200), (363, 168), 'assets/main_menu_title.png')
+        self.addImage((400, 400), (128, 128), 'assets/brain.png')
 
     def gotoMetamap(self):
         self.m_manager.gotoScreen(ScreenType.META_MAP)

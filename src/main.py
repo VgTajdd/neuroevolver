@@ -23,7 +23,7 @@ def main():
         app = Application()
         app.play()
 
-def trainMode(fileNameConfig, steps_number, eval_genomes):
+def trainMode(fileNameConfig, steps_number, eval_genomes, node_names=None):
     config = createNeatConfig(fileNameConfig)
     p = neat.Population(config)
     p.add_reporter(neat.StdOutReporter(True))
@@ -32,7 +32,7 @@ def trainMode(fileNameConfig, steps_number, eval_genomes):
     winner = p.run(eval_genomes, n = steps_number)
     filename = savePickle(winner, 'winner_neat.pkl')
     path = getPathWithoutExtension(filename)
-    neat_utils.visualize.draw_net(config, winner, False, filename=path, fmt="png")
+    neat_utils.visualize.draw_net(config, winner, False, filename=path, fmt="png", node_names=node_names)
     neat_utils.visualize.plot_stats(stats, ylog=False, view=False, filename=path+".svg")
 
 def train(mode):
@@ -41,15 +41,16 @@ def train(mode):
     trainingCurrentStep = 0
 
     if mode == settings.NEAT_IP_KEY:
-        trainMode('config_neat_ip', settings.NEAT_IP_TRAINING_STEPS, eval_genomes_neat_ip)
+        trainMode('config_neat_ip', settings.NEAT_IP_EVOLVING_STEPS, eval_genomes_neat_ip)
     elif mode == settings.NEAT_DYCICLE_KEY:
-        trainMode('config_neat_dycicle', settings.NEAT_DYCICLE_TRAINING_STEPS, eval_genomes_neat_dycicle)
+        trainMode('config_neat_dycicle', settings.NEAT_DYCICLE_EVOLVING_STEPS, eval_genomes_neat_dycicle)
     elif mode == settings.NEAT_DIP_KEY:
-        trainMode('config_neat_dip', settings.NEAT_DIP_TRAINING_STEPS, eval_genomes_neat_dip)
+        node_names = {-1:'a1', -2: 'a*1',-3:'a2', -4: 'a*2',-5:'a0', -6: 'a*0', 0:'u'}
+        trainMode('config_neat_dip', settings.NEAT_DIP_EVOLVING_STEPS, eval_genomes_neat_dip, node_names)
     elif mode == settings.NEAT_TIP_KEY:
-        trainMode('config_neat_tip', settings.NEAT_TIP_TRAINING_STEPS, eval_genomes_neat_tip)
+        trainMode('config_neat_tip', settings.NEAT_TIP_EVOLVING_STEPS, eval_genomes_neat_tip)
     elif mode == settings.NEAT_WALKER_KEY:
-        trainMode('config_neat_walker', settings.NEAT_WALKER_TRAINING_STEPS, eval_genomes_neat_walker)
+        trainMode('config_neat_walker', settings.NEAT_WALKER_EVOLVING_STEPS, eval_genomes_neat_walker)
     app = Application()
     app.play()
 

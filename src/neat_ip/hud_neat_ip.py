@@ -13,7 +13,7 @@ class HudNeatIP(HudBase):
         self.addLabel((75, 15), (150, 30), 'NEAT Inv-pendulum')
         if 'isTraining' in self.params and self.params['isTraining']:
             self.addLabel((75, 45), (150, 30),
-                          str(self.params['currentStep']) + "/" + str(settings.NEAT_IP_TRAINING_STEPS))
+                          str(self.params['currentStep']) + "/" + str(settings.NEAT_IP_EVOLVING_STEPS))
         else:
             imgPath = 'net_neat_ip.png'
             if core.utils.existsFile(imgPath):

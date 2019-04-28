@@ -8,9 +8,9 @@ class Metamap(ScreenBase):
         self.m_type = ScreenType.META_MAP
 
     def init(self):
-        self.addButton((400, 200), (200, 50), 'Demos', self.gotoMetamapDemos, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 300), (200, 50), 'Simulations', self.gotoMetamapSimulations, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 400), (200, 50), 'Trainings', self.gotoMetamapTrainings, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 400), (200, 50), 'Demos', self.gotoMetamapDemos, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 200), (200, 50), 'Simulations', self.gotoMetamapSimulations, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 300), (200, 50), 'Evolutions', self.gotoMetamapTrainings, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMainMenu, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addLabel((400, 100), (300, 50), 'Choose Mode', alpha = 200)
@@ -38,7 +38,7 @@ class MetamapDemos(ScreenBase):
         self.addButton((400, 400), (200, 50), 'Food Poison GA', self.gotoFPSteering, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMetamap, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addLabel((400, 100), (300, 50), 'Choose Demo', alpha = 200)
+        self.addLabel((400, 100), (300, 50), 'Choose Demo', alpha = 255)
 
     def gotoSimpleSteering(self):
         self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.SIMPLE_STEERING})
@@ -62,14 +62,14 @@ class MetamapSimulation(ScreenBase):
         self.m_type = ScreenType.META_MAP_SIMULATIONS
 
     def init(self):
-        self.addButton((400, 200), (200, 50), 'NEAT Inv-Pendulum', self.gotoNeatIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 300), (200, 50), 'NEAT Dycicle', self.gotoNeatDycicle, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 400), (200, 50), 'NEAT DIP', self.gotoNeatDIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 500), (200, 50), 'NEAT Walker', self.gotoNeatWalker, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((650, 200), (200, 50), 'NEAT TIP', self.gotoNeatTIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 280), (200, 50), 'NEAT IP', self.gotoNeatIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 360), (200, 50), 'NEAT Dycicle', self.gotoNeatDycicle, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 200), (200, 50), 'NEAT DIP', self.gotoNeatDIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 440), (200, 50), 'NEAT Walker', self.gotoNeatWalker, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 520), (200, 50), 'NEAT TIP', self.gotoNeatTIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMetamap, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addLabel((400, 100), (300, 50), 'Choose Simulation', alpha = 200)
+        self.addLabel((400, 100), (300, 50), 'Choose Simulation', alpha = 255)
 
     def gotoNeatIP(self):
         self.m_manager.gotoScreen(ScreenType.SIMULATION, {'simulationType': SimulationType.NEAT_INVERTED_PENDULUM})
@@ -95,14 +95,14 @@ class MetamapTraining(ScreenBase):
         self.m_type = ScreenType.META_MAP_TRAININGS
 
     def init(self):
-        self.addButton((400, 200), (200, 50), 'Train NEAT Inv-Pendulum', self.gotoNeatIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 300), (200, 50), 'Train NEAT Dycicle', self.gotoNeatDycicle, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 400), (200, 50), 'Train NEAT DIP', self.gotoNeatDIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 500), (200, 50), 'Train NEAT Walker', self.gotoNeatWalker, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((650, 200), (200, 50), 'Train NEAT TIP', self.gotoNeatTIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 280), (200, 50), 'NEAT IP', self.gotoNeatIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 360), (200, 50), 'NEAT Dycicle', self.gotoNeatDycicle, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 200), (200, 50), 'NEAT DIP', self.gotoNeatDIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 440), (200, 50), 'NEAT Walker', self.gotoNeatWalker, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 520), (200, 50), 'NEAT TIP', self.gotoNeatTIP, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMetamap, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addLabel((400, 100), (300, 50), 'Choose Training', alpha = 200)
+        self.addLabel((400, 100), (300, 50), 'Choose Evolution', alpha = 255)
 
     def gotoNeatIP(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT))

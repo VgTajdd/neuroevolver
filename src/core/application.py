@@ -7,6 +7,11 @@ from enums import ScreenType, SimulationType
 class Application(object):
     def __init__(self):
         pygame.init() #pygame.font.init() is called here
+
+        icon = pygame.image.load('assets/brain.png')
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption('NEUROEVOLVER')
+
         self.screen = pygame.display.set_mode((settings.APP_WIDTH, settings.APP_HEIGHT), pygame.DOUBLEBUF)
         settings.OBJ_SURFACE = self.screen
 
@@ -32,11 +37,11 @@ class Application(object):
             self.clock.tick(settings.APP_FPS)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT \
-                    or event.type == settings.NEAT_IP_EVENT_END_TRAINING_STEP \
-                    or event.type == settings.NEAT_DYCICLE_EVENT_END_TRAINING_STEP \
-                    or event.type == settings.NEAT_DIP_EVENT_END_TRAINING_STEP \
-                    or event.type == settings.NEAT_WALKER_EVENT_END_TRAINING_STEP \
-                    or event.type == settings.NEAT_TIP_EVENT_END_TRAINING_STEP:
+                    or event.type == settings.NEAT_IP_EVENT_END_EVOLVING \
+                    or event.type == settings.NEAT_DYCICLE_EVENT_END_EVOLVING \
+                    or event.type == settings.NEAT_DIP_EVENT_END_EVOLVING \
+                    or event.type == settings.NEAT_WALKER_EVENT_END_EVOLVING \
+                    or event.type == settings.NEAT_TIP_EVENT_END_EVOLVING:
                     is_running = False
                 if event.type == pygame.KEYDOWN:
                     self.m_screenManager.onKeyPress(event.key)

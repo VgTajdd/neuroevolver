@@ -14,7 +14,7 @@ class SimulationB2DDIP(SimulationB2D):
         self.m_systems = []
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
-            self.m_trainingProgress = params['currentStep'] / settings.NEAT_TIP_TRAINING_STEPS
+            self.m_trainingProgress = params['currentStep'] / settings.NEAT_TIP_EVOLVING_STEPS
         else:
             config = neat.Config(
                 neat.DefaultGenome,
@@ -41,7 +41,7 @@ class SimulationB2DDIP(SimulationB2D):
             system.update(dt)
 
         if len(self.m_systems) == 0:
-            my_event = pygame.event.Event(settings.NEAT_DIP_EVENT_END_TRAINING_STEP, message="Bad cat!")
+            my_event = pygame.event.Event(settings.NEAT_DIP_EVENT_END_EVOLVING, message="Bad cat!")
             pygame.event.post(my_event)
 
         super().update(dt)

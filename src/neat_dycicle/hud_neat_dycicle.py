@@ -13,7 +13,7 @@ class HudNeatDycicle(HudBase):
         self.addLabel((75, 15), (150, 30), 'NEAT Dycicle')
         if 'isTraining' in self.params and self.params['isTraining']:
             self.addLabel((75, 45), (150, 30),
-                          str(self.params['currentStep']) + "/" + str(settings.NEAT_DYCICLE_TRAINING_STEPS))
+                          str(self.params['currentStep']) + "/" + str(settings.NEAT_DYCICLE_EVOLVING_STEPS))
         else:
             imgPath = 'net_neat_dycicle.png'
             if core.utils.existsFile(imgPath):

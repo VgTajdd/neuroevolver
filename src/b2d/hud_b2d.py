@@ -25,7 +25,7 @@ class HudB2DNEATDIP(HudB2D):
         self.addLabel((75, 15), (150, 30), 'NEAT DIP')
         if 'isTraining' in self.params and self.params['isTraining']:
             self.addLabel((75, 45), (150, 30),
-                          str(self.params['currentStep']) + "/" + str(settings.NEAT_DIP_TRAINING_STEPS))
+                          str(self.params['currentStep']) + "/" + str(settings.NEAT_DIP_EVOLVING_STEPS))
         else:
             imgPath = self.params['genomePath']
             imgPath = getPathWithoutExtension(imgPath) + '.png'
@@ -53,7 +53,7 @@ class HudB2DNEATTIP(HudB2D):
         self.addLabel((75, 15), (150, 30), 'NEAT TIP')
         if 'isTraining' in self.params and self.params['isTraining']:
             self.addLabel((75, 45), (150, 30),
-                          str(self.params['currentStep']) + "/" + str(settings.NEAT_TIP_TRAINING_STEPS))
+                          str(self.params['currentStep']) + "/" + str(settings.NEAT_TIP_EVOLVING_STEPS))
         else:
             imgPath = 'net_neat_tip.png'
             if existsFile(imgPath):
@@ -71,7 +71,7 @@ class HudB2DNEATWalker(HudB2D):
         self.addLabel((75, 15), (150, 30), 'NEAT Walker')
         if 'isTraining' in self.params and self.params['isTraining']:
             self.addLabel((75, 45), (150, 30),
-                          str(self.params['currentStep']) + "/" + str(settings.NEAT_WALKER_TRAINING_STEPS))
+                          str(self.params['currentStep']) + "/" + str(settings.NEAT_WALKER_EVOLVING_STEPS))
         else:
             imgPath = 'net_neat_walker.png'
             if existsFile(imgPath):

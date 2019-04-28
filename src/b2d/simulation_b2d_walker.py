@@ -45,7 +45,7 @@ class SimulationB2DWalker(SimulationB2D):
             system.update(dt)
 
         if len(self.m_systems) == 0:
-            my_event = pygame.event.Event(settings.NEAT_WALKER_EVENT_END_TRAINING_STEP, message="Bad cat!")
+            my_event = pygame.event.Event(settings.NEAT_WALKER_EVENT_END_EVOLVING, message="Bad cat!")
             pygame.event.post(my_event)
 
         #print(self.walker.body.m_angle)

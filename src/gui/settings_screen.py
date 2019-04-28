@@ -18,7 +18,7 @@ class SettingsScreen(ScreenBase):
         self.m_debugSimulation = self.addButton((400, 200), (200, 50), textDebugSim, self.toggleDebugSimulation, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.m_debugActors = self.addButton((400, 300), (200, 50), textDebugAct, self.toggleDebugActors, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addButton((400, 400), (200, 50), 'Back', self.gotoMainMenu, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addLabel((400, 100), (300, 50), 'Settings', alpha = 50)
+        self.addLabel((400, 100), (300, 50), 'Settings', alpha = 255)
 
     def toggleDebugSimulation(self):
         settings.SHOW_DEBUG_SHAPES = not settings.SHOW_DEBUG_SHAPES
