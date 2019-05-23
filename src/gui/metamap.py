@@ -10,7 +10,7 @@ class Metamap(ScreenBase):
     def init(self):
         self.addButton((400, 400), (200, 50), 'Demos', self.gotoMetamapDemos, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addButton((400, 200), (200, 50), 'Simulations', self.gotoMetamapSimulations, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
-        self.addButton((400, 300), (200, 50), 'Evolutions', self.gotoMetamapTrainings, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
+        self.addButton((400, 300), (200, 50), 'Evolver', self.gotoMetamapTrainings, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
 
         self.addButton((650, 550), (200, 50), 'Back', self.gotoMainMenu, imagePath = 'assets/black_btn.png', textColor = colors.WHITE)
         self.addLabel((400, 100), (300, 50), 'Choose Mode', alpha = 200)
