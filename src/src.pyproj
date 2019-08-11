@@ -106,7 +106,6 @@
     <Content Include="assets\actor1.png" />
     <Content Include="assets\food.png" />
     <Content Include="assets\imageqt.png" />
-    <Content Include="assets\inverted_pendulum.PNG" />
     <Content Include="assets\OpenSans-Regular.ttf" />
     <Content Include="assets\poison.png" />
   </ItemGroup>

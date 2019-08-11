@@ -4,6 +4,8 @@ from Box2D import b2AABB, b2Vec2, b2QueryCallback, b2_dynamicBody, b2Color, b2Ci
 import settings
 import pygame
 import neat
+import matplotlib.pyplot as plt
+from enums import DIPFitnessFunction
 
 class SimulationB2DDIP(SimulationB2D):
     def __init__(self, container, width, height, params):
@@ -12,6 +14,8 @@ class SimulationB2DDIP(SimulationB2D):
         self.m_isTraining = 'isTraining' in params and params['isTraining']
         self.m_trainingProgress = 0
         self.m_systems = []
+        if 'genomePath' in params:
+            self.m_genomePath = params['genomePath']
         if 'genomes' in params and 'config' in params:
             self.initParams(params['genomes'], params['config'])
             self.m_trainingProgress = params['currentStep'] / settings.NEAT_TIP_EVOLVING_STEPS
@@ -80,6 +84,13 @@ class NNDIPSystem(object):
         self.m_carErrors = []
         self.m_timeToEvalErrors = 100
 
+        # Capture plot vars.
+        self.m_savedImage = False # Flag to save image.
+        self.m_timeArray = []
+        self.m_a1Array = []
+        self.m_a2Array = []
+        self.m_xArray = []
+
     def update(self, dt):
 
         if not self.m_isAlive:
@@ -117,11 +128,19 @@ class NNDIPSystem(object):
                     angle1Error = sum(self.m_angle1Errors) / len(self.m_angle1Errors)
                     angle2Error = sum(self.m_angle2Errors) / len(self.m_angle2Errors)
                     carError = sum(self.m_carErrors) / len(self.m_carErrors)
-                    #self.m_genome.fitness = self.m_timeAlive*self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_1
-                    #self.m_genome.fitness = self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_2
-                    #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)/(angle1Error+angle2Error+carError) # fitness_3
-                    #self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - 10*(angle1Error+angle2Error+carError) ) # fitness_4
-                    self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - pow(angle1Error*angle2Error*carError,(1.0/3.0) ) ) # fitness_5
+
+                    fitnessFunction = DIPFitnessFunction.FUNCTION_5
+                    if fitnessFunction == DIPFitnessFunction.FUNCTION_1:
+                        self.m_genome.fitness = self.m_timeAlive*self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_1
+                    elif fitnessFunction == DIPFitnessFunction.FUNCTION_2:
+                        self.m_genome.fitness = self.m_timeAlive/(angle1Error+angle2Error+carError) # fitness_2
+                    elif fitnessFunction == DIPFitnessFunction.FUNCTION_3:
+                        self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000)/(angle1Error+angle2Error+carError) # fitness_3
+                    elif fitnessFunction == DIPFitnessFunction.FUNCTION_4:
+                        self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - 10*(angle1Error+angle2Error+carError) ) # fitness_4
+                    elif fitnessFunction == DIPFitnessFunction.FUNCTION_5:
+                        self.m_genome.fitness = max(0.0, self.m_timeAlive - self.m_traveledDistance/1000 - pow(angle1Error*angle2Error*carError,(1.0/3.0) ) ) # fitness_5
+
                     print('fitness: ' + str(self.m_genome.fitness) + "\t" + str(self.m_timeAlive) + "\t" + str(angle1Error)+ "\t" + str(angle2Error)+ "\t" + str(carError))
                 else:
                     self.m_genome.fitness = 0
@@ -147,6 +166,38 @@ class NNDIPSystem(object):
         self.m_dip.box.m_body.ApplyLinearImpulse(f, p, True)
 
         self.m_timeAlive += dt
+
+        if not self.m_simulationRef.m_isTraining:
+            if self.m_timeAlive >= 60000 and not self.m_savedImage:
+                self.m_savedImage = True
+                self.savePlotImage()
+            else:
+                #print(str(self.m_timeAlive/1000) +' - ' + str(inputAngle1))
+                self.m_timeArray.append(self.m_timeAlive/1000)
+                self.m_a1Array.append(inputAngle1)
+                self.m_a2Array.append(inputAngle2)
+                self.m_xArray.append(self.m_dip.box.m_position.x)
+
+    def savePlotImage(self):
+        #plt.plot(self.m_timeArray, self.m_a1Array)
+        listofzeros = [0] * len(self.m_timeArray)
+        listofvalues = [400] * len(self.m_timeArray)
+        plt.figure()
+        plt.subplot(311)
+        plt.plot(self.m_timeArray, listofzeros, 'r--', self.m_timeArray, self.m_a1Array)
+        plt.ylabel('angle 1')
+        #plt.xlabel('time(sec)')
+        plt.subplot(312)
+        plt.plot(self.m_timeArray, listofzeros, 'r--', self.m_timeArray, self.m_a2Array)
+        plt.ylabel('angle 2')
+        #plt.xlabel('time(sec)')
+        plt.subplot(313)
+        plt.plot(self.m_timeArray, listofvalues, 'r--', self.m_timeArray, self.m_xArray)
+        plt.ylabel('position')
+        plt.xlabel('time(sec)')
+        #plt.show()
+        plt.savefig(self.m_simulationRef.m_genomePath + '.png')
+        plt.close()
 
     def free(self):
         self.m_dip.free()

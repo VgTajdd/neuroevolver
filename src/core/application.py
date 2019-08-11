@@ -1,5 +1,4 @@
 import pygame
-import sys
 import settings
 from gui.screen_manager import ScreenManager
 from enums import ScreenType, SimulationType

@@ -38,3 +38,10 @@ class DebugShape(IntEnum):
     RECT = 1
     ELLIPSE = 2
     POLYGON = 3
+
+class DIPFitnessFunction(IntEnum):
+    FUNCTION_1 = 1
+    FUNCTION_2 = 2
+    FUNCTION_3 = 3
+    FUNCTION_4 = 4
+    FUNCTION_5 = 5

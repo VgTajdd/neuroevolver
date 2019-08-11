@@ -52,3 +52,19 @@ def savePickle(obj, defaultPath):
     if filename:
         pickle.dump(obj, open(filename, 'wb'))
     return filename
+
+import neat
+import neat_utils.visualize
+
+# Use this way:
+# generatePickleGraph(defaultPath='winner_neat_dip.pkl', configFile='config_neat_dip')
+def generatePickleGraph(defaultPath, configFile):
+    pickleBundle = loadPickle(defaultPath=defaultPaht)
+    config = neat.Config(neat.DefaultGenome,
+        neat.DefaultReproduction,
+        neat.DefaultSpeciesSet,
+        neat.DefaultStagnation,
+        'config_neat_dip')
+    path = getPathWithoutExtension(pickleBundle[0])
+    node_names = {-1:'a1', -2: 'a1\'',-3:'a2', -4: 'a2\'',-5:'a0', -6: 'a0\'', 0:'u'}
+    neat_utils.visualize.draw_net(config, pickleBundle[1], False, filename=path, fmt="png", node_names=node_names)
