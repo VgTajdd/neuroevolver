@@ -176,12 +176,12 @@ class NNDIPSystem(object):
                 self.m_timeArray.append(self.m_timeAlive/1000)
                 self.m_a1Array.append(inputAngle1)
                 self.m_a2Array.append(inputAngle2)
-                self.m_xArray.append(self.m_dip.box.m_position.x)
+                self.m_xArray.append((self.m_dip.box.m_position.x/settings.B2D_PPM)-20)
 
     def savePlotImage(self):
         #plt.plot(self.m_timeArray, self.m_a1Array)
         listofzeros = [0] * len(self.m_timeArray)
-        listofvalues = [400] * len(self.m_timeArray)
+        #listofvalues = [400] * len(self.m_timeArray)
         plt.figure()
         plt.subplot(311)
         plt.plot(self.m_timeArray, listofzeros, 'r--', self.m_timeArray, self.m_a1Array)
@@ -192,7 +192,7 @@ class NNDIPSystem(object):
         plt.ylabel('angle 2')
         #plt.xlabel('time(sec)')
         plt.subplot(313)
-        plt.plot(self.m_timeArray, listofvalues, 'r--', self.m_timeArray, self.m_xArray)
+        plt.plot(self.m_timeArray, listofzeros, 'r--', self.m_timeArray, self.m_xArray)
         plt.ylabel('position')
         plt.xlabel('time(sec)')
         #plt.show()
