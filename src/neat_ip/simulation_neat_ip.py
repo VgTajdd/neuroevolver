@@ -19,8 +19,8 @@ class SimulationNeatIP(SimulationBase):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config_neat_ip')
-            genome = pickle.load(open('winner_neat_ip.pkl', 'rb'))
+                '../config_files/config_neat_ip')
+            genome = pickle.load(open('../pkl_files/winner_neat_ip.pkl', 'rb'))
             self.init([genome], config)
 
     def init(self, genomes, config):

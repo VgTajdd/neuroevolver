@@ -15,7 +15,7 @@ class SimulationScreenB2D(SimulationScreen):
             self.m_simulationType = self.params['simulationType']
             if self.m_simulationType is SimulationType.NEAT_B2D_DIP:
                 if not 'isTraining' in self.params or not self.params['isTraining']:
-                    pickleBundle = loadPickle('winner_neat_dip.pkl')
+                    pickleBundle = loadPickle('../pkl_files/winner_neat_dip.pkl')
                     self.params['genomePath'] = pickleBundle[0]
                     self.params['genome'] = pickleBundle[1]
         SimulationScreen.__init__(self, width, height, color)

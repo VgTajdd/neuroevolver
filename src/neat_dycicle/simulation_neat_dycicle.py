@@ -23,8 +23,8 @@ class SimulationNeatDycicle(SimulationBase):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config_neat_dycicle')
-            genome = pickle.load(open('winner_neat_dycicle.pkl', 'rb'))
+                '../config_files/config_neat_dycicle')
+            genome = pickle.load(open('../pkl_files/winner_neat_dycicle.pkl', 'rb'))
             self.init([genome], config)
 
     def init(self, genomes, config):

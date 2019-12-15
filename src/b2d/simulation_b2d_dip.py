@@ -25,8 +25,8 @@ class SimulationB2DDIP(SimulationB2D):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config_neat_dip')
-            genome = params['genome'] #loadPickle('winner_neat_dip.pkl')
+                '../config_files/config_neat_dip')
+            genome = params['genome'] #loadPickle('../pkl_files/winner_neat_dip.pkl')
             if genome:
                 self.initParams([genome], config)
 

@@ -21,8 +21,8 @@ class SimulationB2DTIP(SimulationB2D):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config_neat_tip')
-            genome = pickle.load(open('winner_neat_tip.pkl', 'rb'))
+                '../config_files/config_neat_tip')
+            genome = pickle.load(open('../pkl_files/winner_neat_tip.pkl', 'rb'))
             self.initParams([genome], config)
 
     def initParams(self, genomes, config):

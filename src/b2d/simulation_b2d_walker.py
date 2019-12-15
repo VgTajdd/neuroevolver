@@ -26,8 +26,8 @@ class SimulationB2DWalker(SimulationB2D):
                 neat.DefaultReproduction,
                 neat.DefaultSpeciesSet,
                 neat.DefaultStagnation,
-                'config_neat_walker')
-            genome = pickle.load(open('winner_neat_walker.pkl', 'rb'))
+                '../config_files/config_neat_walker')
+            genome = pickle.load(open('../pkl_files/winner_neat_walker.pkl', 'rb'))
             self.initParams([genome], config)
 
     def initParams(self, genomes, config):
