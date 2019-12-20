@@ -21,32 +21,26 @@ endlocal
 
 There are 2 ways to install Box2d-py
 
-1-instalar box2d-py usando pip:
-    pip install box2d-py
+1. Using [pip](https://pip.pypa.io/en/stable/):
+```bash
+pip install box2d-py
+```
+2. Using ```setuptools```, go to directory of ```setup.py``` and use this commands (build and install):
+```bash
+python setup.py build
+python setup.py install
+```
+We won't install pgu, because it's only avialable for ```python 2.x```, but if you want to install this, follow the next instructions.
 
-2-instalar usando setuptools desde código(compilar e instalar):
-	(ir al directorio donde esta el setup.py)
-	python setup.py install
-	python setup.py build
-
-Instalar pgu(no se usará por ahora ya que solo esta para python 2.x)
-
-Descargar el código ya que no hay instalación por pip e instalar con setuptools:
-
-instalar usando setuptools desde código(compilar e instalar):
-	(ir al directorio donde esta el setup.py)
-	python setup.py install
-	python setup.py build
-
+- Download de source code, (pip is not avialable for this package).
+- Install by using ```setuptools```, go to directory of ```setup.py``` and use this commands (build and install):
+```bash
+python setup.py build
+python setup.py install
+```
 
 ## Usage
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
-```
+TODO
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
