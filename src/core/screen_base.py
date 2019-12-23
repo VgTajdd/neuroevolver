@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## screen_base.py                                                            ##
+## ========================================================================= ##
+
 import pygame
 from enums import ScreenType
 from core.control import Label

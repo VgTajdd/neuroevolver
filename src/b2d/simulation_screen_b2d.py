@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_screen_b2d.py                                                  ##
+## ========================================================================= ##
+
 from core.simulation_screen import SimulationScreen
 from b2d.simulation_b2d import SimulationB2D
 from b2d.simulation_b2d_dip import SimulationB2DDIP

@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## debug_draw_extended.py                                                    ##
+## ========================================================================= ##
+
 from Box2D import b2DrawExtended
 import pygame
 import settings
@@ -136,4 +142,3 @@ class DebugDrawExtended(b2DrawExtended):
             pygame.draw.polygon(
                 self.surface, (color / 2).bytes + [127], vertices, 0)
             pygame.draw.polygon(self.surface, color.bytes, vertices, 1)
-

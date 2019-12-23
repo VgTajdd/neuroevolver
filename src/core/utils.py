@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## utils.py                                                                  ##
+## ========================================================================= ##
+
 import pygame
 import pickle
 from pathlib import Path

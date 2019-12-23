@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_steering.py                                                    ##
+## ========================================================================= ##
+
 from core.simulation_base import SimulationBase
 from core.actor import DraggableActor
 from steering.actor_steering import ActorSteering

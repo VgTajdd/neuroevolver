@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_neat_dycicle.py                                                ##
+## ========================================================================= ##
+
 from core.simulation_base import SimulationBase
 from core.debug_drawing import DebugDrawing
 from neat_dycicle.dycicle import Dycicle

@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## settings_screen.py                                                        ##
+## ========================================================================= ##
+
 from core.screen_base import ScreenBase
 from enums import ScreenType, SimulationType
 import core.colors as colors

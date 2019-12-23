@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## visualize.py                                                              ##
+## ========================================================================= ##
+
 
 from __future__ import print_function
 

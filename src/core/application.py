@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## application.py                                                            ##
+## ========================================================================= ##
+
 import pygame
 import settings
 from gui.screen_manager import ScreenManager

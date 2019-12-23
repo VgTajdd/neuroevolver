@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## main_menu.py                                                              ##
+## ========================================================================= ##
+
 from core.screen_base import ScreenBase
 import core.colors as colors
 from enums import ScreenType

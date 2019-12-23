@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## metamap.py                                                                ##
+## ========================================================================= ##
+
 from core.screen_base import ScreenBase
 from enums import ScreenType
 from enums import SimulationType

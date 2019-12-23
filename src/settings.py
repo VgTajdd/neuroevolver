@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## settings.py                                                               ##
+## ========================================================================= ##
+
 # General vars.
 OBJ_SURFACE = None
 TRAIN_CALLBACK = None

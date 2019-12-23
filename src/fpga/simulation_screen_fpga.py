@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_screen_fpga.py                                                 ##
+## ========================================================================= ##
+
 from core.simulation_screen import SimulationScreen
 from fpga.hud_fpga import HudFPGA
 from fpga.simulation_fpga import SimulationFPGA

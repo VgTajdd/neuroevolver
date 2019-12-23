@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## hud_neat_dycicle.py                                                       ##
+## ========================================================================= ##
+
 from core.hud_base import HudBase
 from enums import ScreenType
 import core.utils

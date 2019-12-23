@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_screen_steering.py                                             ##
+## ========================================================================= ##
+
 from core.simulation_screen import SimulationScreen
 from steering.simulation_steering import SimulationSteering
 from steering.hud_steering import HudSteering

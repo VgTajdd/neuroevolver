@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_b2d.py                                                         ##
+## ========================================================================= ##
+
 from core.simulation_base import SimulationBase
 from core.debug_drawing import DebugDrawing
 from b2d.debug_draw_extended import DebugDrawExtended

@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## actor_b2d.py                                                              ##
+## ========================================================================= ##
+
 from core.actor import SimulationActor
 import core.colors as colors
 from Box2D import b2Vec2, b2_pi

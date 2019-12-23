@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## dycicle.py                                                                ##
+## ========================================================================= ##
+
 from core.actor import SimulationActor
 from core.debug_drawing import DebugDrawing
 from pygame.math import Vector2
@@ -41,4 +47,3 @@ class Dycicle(SimulationActor):
     def updateAntenna(self, index, angle_delta):
         self.m_antennas[index] = self.m_antennas[index].rotate(-angle_delta)
         self.addDebugShape(DebugDrawing.line(colors.GREEN, self.m_position, self.m_position + self.m_antennas[index]))
-

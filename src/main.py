@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## main.py                                                                   ##
+## ========================================================================= ##
+
 from core.application import Application
 import argparse
 import neat

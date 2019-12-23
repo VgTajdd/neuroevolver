@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## actor.py                                                                  ##
+## ========================================================================= ##
+
 import pygame
 import core.colors as colors
 from pygame.math import Vector2

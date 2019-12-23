@@ -1,3 +1,9 @@
+## ========================================================================= ##
+## Copyright (c) 2019 Agustin Durand Diaz.                                   ##
+## This code is licensed under the MIT license.                              ##
+## simulation_screen_neat_dycicle.py                                         ##
+## ========================================================================= ##
+
 from core.simulation_screen import SimulationScreen
 from neat_dycicle.hud_neat_dycicle import HudNeatDycicle
 from neat_dycicle.simulation_neat_dycicle import SimulationNeatDycicle
