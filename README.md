@@ -40,9 +40,20 @@ We won't install pgu, because it's only avialable for ```python 2.x```, but if y
 python setup.py build
 python setup.py install
 ```
+## Special considerations
+
+- fix the paths (in the bat files) for your global python installation
+- install virtualenv in your global python installation: pip install virtualenv
 
 ## Usage
-TODO
+
+Once you have all the dependecies installed follow this steps:
+
+- create_virtualenv.bat
+- install_requirements_in_venv.bat
+- run.bat
+
+At this point, if you prefer, you can use visual studio to make your changes.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
