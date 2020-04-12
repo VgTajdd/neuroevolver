@@ -1,7 +1,8 @@
 # NEUROEVOLVER
-NEUROEVOLVER is an application focused in neuroevolution using the algorithm NEAT.
+Software focused in neuroevolution using the algorithm NEAT.
 
 ![alt text](https://github.com/VgTajdd/neuroevolver/blob/master/neuroevolver.png)
+![alt text](https://github.com/VgTajdd/neuroevolver/blob/master/neuroevolver_reducido_train.gif)
 
 ## Pygame installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install pygame.
