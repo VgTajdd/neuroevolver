@@ -2,7 +2,7 @@
 
 ## NEW FEATURES
 
-- [ ] Create a laucher (GUI/CLI)
+- [ ] Create a launcher (GUI/CLI)
 
 ## TOOLS - TESTS - CI - DOC
 
@@ -13,4 +13,4 @@
 
 ## ADDITIONAL
 
-- [ ] Prepare a simplified version (without NEAT)
+- [ ] Prepare a simplified version (without NEAT package)
